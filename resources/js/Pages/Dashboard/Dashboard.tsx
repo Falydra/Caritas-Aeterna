@@ -6,6 +6,7 @@ import { RxCross2 } from "react-icons/rx";
 import { Transition } from "@headlessui/react";
 import { book_data } from "@/config/book_data";
 import { Books } from "@/types";
+import { Scheduler } from "@aldabil/react-scheduler";
 
 export default function Page() {
   const [selectedBooks, setSelectedBooks] = useState(false);
@@ -136,7 +137,25 @@ export default function Page() {
             ))}
           </div>
           <div className="flex flex-col w-full items-center justify-center h-full px-8">
-            <div className="h-[450px] w-full flex-1 rounded-xl bg-muted/50 self-center" />
+            <div className="h-[450px] w-full flex-1 rounded-xl bg-muted/50 self-center">
+            <Scheduler
+                view="month"
+                events={[
+                  {
+                    event_id: 1,
+                    title: "Event 1",
+                    start: new Date("2025/3/22 09:30"),
+                    end: new Date("2025/3/22 10:30"),
+                  },
+                  {
+                    event_id: 2,
+                    title: "Event 2",
+                    start: new Date("2025/3/24 10:00"),
+                    end: new Date("2025/3/24 11:00"),
+                  },
+                ]}
+              />
+            </div>
           </div>
         </div>
       )}
