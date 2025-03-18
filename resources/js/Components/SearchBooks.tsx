@@ -1,11 +1,11 @@
-import Authenticated from "@/Layouts/AuthenticatedLayout";
+// import Authenticated from "@/Layouts/AuthenticatedLayout";
 
-export default function SearchBooks() {
-    return (
-        <Authenticated>
-                <div>
+// export default function SearchBooks() {
+//     return (
+//         <Authenticated>
+//                 <div>
 
-                </div>
-        </Authenticated>
-    )
-}
+//                 </div>
+//         </Authenticated>
+//     )
+// }

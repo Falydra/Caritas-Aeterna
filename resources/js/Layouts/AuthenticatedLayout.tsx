@@ -21,7 +21,6 @@ import DonationHistory from "@/Components/DonationHistory";
 import SelectedBooks from "@/Components/SelectedBooks";
 import { SearchForm } from "@/Components/search-form";
 
-
 export default function Authenticated({
     header,
     children,
@@ -32,40 +31,39 @@ export default function Authenticated({
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
 
-    return(
+    return (
         <SidebarProvider>
-        <AppSidebar />
-        <SidebarInset>
-            <div className="flex flex-col items-start justify-center w-full h-full bg-primary-bg">
-                <header className="flex h-16 w-full items-center justify-between gap-2 border-b px-4">
-                    <div className="flex flex-row w-full items-center justify-start">
+            <AppSidebar onMenuItemClick={() => {}} />
+            <SidebarInset>
+                <div className="flex flex-col items-start justify-start w-full h-full bg-primary-bg">
+                    <header className="flex h-16 w-full items-center justify-between gap-2 border-b px-4">
+                        <div className="flex flex-row w-full items-center justify-start">
+                            <SidebarTrigger className="-ml-1" />
+                            <Separator orientation="vertical" className="mr-2 h-4 opacity-50" />
+                            <Breadcrumb>
+                                <BreadcrumbList>
+                                    <BreadcrumbItem className="hidden md:block">
+                                        <BreadcrumbLink href="#">
+                                            Dashboard
+                                        </BreadcrumbLink>
+                                    </BreadcrumbItem>
+                                    <BreadcrumbSeparator className="hidden md:block" />
+                                    <BreadcrumbItem>
+                                        <BreadcrumbPage className="hover:text-primary-accent cursor-pointer">Book Donations</BreadcrumbPage>
+                                    </BreadcrumbItem>
+                                </BreadcrumbList>
+                            </Breadcrumb>
+                        </div>
+                        <SearchForm className="self-center w-full " />
+                    </header>
+                    {children}
+                </div>
+                {/* <div className="flex flex-col overflow-y-auto h-full items-start justify-start"> */}
 
-                        <SidebarTrigger className="-ml-1" />
-                        <Separator orientation="vertical" className="mr-2 h-4 opacity-50" />
-                        <Breadcrumb>
-                            <BreadcrumbList>
-                                <BreadcrumbItem className="hidden md:block">
-                                    <BreadcrumbLink href="#">
-                                        Dashboard
-                                    </BreadcrumbLink>
-                                </BreadcrumbItem>
-                                <BreadcrumbSeparator className="hidden md:block" />
-                                <BreadcrumbItem>
-                                    <BreadcrumbPage>Book Donations</BreadcrumbPage>
-                                </BreadcrumbItem>
-                            </BreadcrumbList>
-                        </Breadcrumb>
-                    </div>
-                    <SearchForm className="self-center w-full " />
-                </header>
-                
-                {children}
-                
-            </div>
-            <div className="w-5/12 h-screen flex flex-col items-start justify-start border-l border-primary-fg">
-                {rightSidebarChildren}
-            </div>
-        </SidebarInset>
-    </SidebarProvider>
+
+                    {rightSidebarChildren}
+                {/* </div> */}
+            </SidebarInset>
+        </SidebarProvider>
     );
 }
