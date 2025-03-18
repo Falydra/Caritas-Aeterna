@@ -1,4 +1,3 @@
-// filepath: c:\Users\user hp2\Documents\Project\PKL\SiMiskin\SiMiskin\resources\js\Components\SelectedBooks.tsx
 import { useState } from "react";
 import DonationHistory from "@/Components/DonationHistory";
 import { Button } from "./ui/button";
