@@ -12,7 +12,7 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
 
     React.useImperativeHandle(ref, () => internalRef.current!);
 
-    // Set the indeterminate property on the DOM element if needed
+    
     React.useEffect(() => {
       if (internalRef.current) {
         internalRef.current.indeterminate = checked === "indeterminate";
@@ -29,7 +29,7 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
       <input
         type="checkbox"
         ref={internalRef}
-        // For rendering, if "indeterminate" is passed, use false
+  
         checked={checked === "indeterminate" ? false : checked}
         onChange={handleChange}
         {...props}
@@ -39,3 +39,6 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
 );
 
 Checkbox.displayName = "Checkbox";
+
+
+export default Checkbox;
