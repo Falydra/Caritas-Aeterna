@@ -1,7 +1,8 @@
 export interface User {
-    id: number;
-    name: string;
-    email: string;
+    id?: number;
+    name?: string;
+    email?: string;
+    
     email_verified_at?: string;
 }
 
@@ -39,3 +40,25 @@ export type Books = {
     image: string;
     status?: string;
 };
+
+
+export type Donation = {
+    user?: User;
+    amount: number;
+    username: string;
+}
+
+
+export type PersonInCharge = {
+    user: User;
+    organization?: string;
+    isVerivied?: boolean;
+    donationLimit?: number;
+    donation_title?: string;
+}
+
+export type NominalDonation = {
+    id: number;
+    nominal: number;
+    
+}

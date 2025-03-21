@@ -46,6 +46,13 @@ export function AppSidebar({
         Inertia.visit(url);
     };
 
+    const handleLogout = (e: React.MouseEvent) => {
+        e.preventDefault();
+        Inertia.visit(route("logout"));
+    }
+
+    
+
     return (
         <Sidebar {...props}>
             <SidebarHeader>
@@ -86,11 +93,13 @@ export function AppSidebar({
                     </SidebarGroupContent>
                 </SidebarGroup>
                 <Link
-                    href={route("welcome")}
+                    href={route("logout")}
+                    method="post"
                     className="flex flex-row gap-2 items-center justify-center px-4 w-full h-16 hover:bg-red-500 cursor-pointer bg-primary-bg"
                 >
+                    {}
                     <IoIosLogOut className="w-6 h-6 text-primary-fg" />
-                    <a className="text-primary-fg">Logout</a>
+                    <span className="text-primary-fg">Logout</span>
                 </Link>
             </SidebarContent>
             <SidebarRail />
