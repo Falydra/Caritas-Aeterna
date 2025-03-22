@@ -13,6 +13,7 @@ import {
     SidebarMenuItem,
 } from "@/Components/ui/sidebar";
 import { Inertia } from "@inertiajs/inertia";
+import { Link } from "@inertiajs/react";
 
 export function VersionSwitcher({
     versions,
@@ -27,22 +28,26 @@ export function VersionSwitcher({
     return (
         <SidebarMenu>
             <SidebarMenuItem>
-                <SidebarMenuButton
-                    size="lg"
-                    className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-                    onClick={()  => Inertia.get('/')}
-                >
-                    <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary-fg text-sidebar-primary-foreground" >
-                        <IoPersonOutline />
-                    </div>
-                    <div className="flex flex-col gap-0.5 leading-none">
-                        <span className="font-semibold">
-                            Oriesy
-                        </span>
-                        <span className="">Universitas Diponegro</span>
-                    </div>
-                  
-                </SidebarMenuButton>
+                <Link href={route("welcome")}>
+                
+                    <SidebarMenuButton
+                        size="lg"
+                        className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                        
+                    >
+                        
+                        <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary-fg text-sidebar-primary-foreground" >
+                            <IoPersonOutline />
+                        </div>
+                        <div className="flex flex-col gap-0.5 leading-none">
+                            <span className="font-semibold">
+                                Oriesy
+                            </span>
+                            <span className="">Universitas Diponegro</span>
+                        </div>
+                    
+                    </SidebarMenuButton>
+                </Link>
             </SidebarMenuItem>
         </SidebarMenu>
     );

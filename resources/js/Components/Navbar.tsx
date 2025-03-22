@@ -33,12 +33,12 @@ export default function Navbar(user: User) {
                         ) : (
                             <div className="flex w-full items-end justify-end px-4">
                             
-                            <div
+                            <Link
                             className="w-12 h-12 flex items-center aspect-square justify-center rounded-full bg-primary-bg cursor-pointer text-primary-fg"
-                            onClick={() => Inertia.get('dashboard')}
+                            href={route("dashboard")}
                             >
                             <IoPersonOutline className="w-5 h-5" />
-                            </div>
+                            </Link>
 
                             </div>
                         )}

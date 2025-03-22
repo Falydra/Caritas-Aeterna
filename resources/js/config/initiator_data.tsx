@@ -1,6 +1,6 @@
-import { PersonInCharge } from "@/types";
+import { InitiatorDonation } from "@/types";
 
-const initiator_data: PersonInCharge[] = [
+const initiator_data: InitiatorDonation[] = [
     {
         user: {
             id: 1,
@@ -22,6 +22,5 @@ const initiator_data: PersonInCharge[] = [
         organization: "Organisasi Papua Merdeka",
     },
 ];
-
 
 export default initiator_data;

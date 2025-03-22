@@ -2,7 +2,7 @@ export interface User {
     id?: number;
     name?: string;
     email?: string;
-    
+
     email_verified_at?: string;
 }
 
@@ -41,24 +41,21 @@ export type Books = {
     status?: string;
 };
 
-
 export type Donation = {
     user?: User;
     amount: number;
     username: string;
-}
+};
 
-
-export type PersonInCharge = {
+export type InitiatorDonation = {
     user: User;
     organization?: string;
-    isVerivied?: boolean;
+    isVerified?: boolean;
     donationLimit?: number;
     donation_title?: string;
-}
+};
 
 export type NominalDonation = {
     id: number;
     nominal: number;
-    
-}
+};

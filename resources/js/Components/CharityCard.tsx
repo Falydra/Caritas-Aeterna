@@ -10,7 +10,7 @@ import {
 } from "@/Components/ui/card"
 import { IoPersonOutline } from "react-icons/io5";
 import ProgressBar from "@ramonak/react-progress-bar";
-import { usePage } from "@inertiajs/react"
+import { Link, usePage } from "@inertiajs/react"
 import donation_data from "@/config/donation_data"
 import { IoIosArrowForward } from "react-icons/io";
 import initiator_data from "@/config/initiator_data";
@@ -143,7 +143,12 @@ export function CardWithForm() {
                   </Button>
                 </div>
                 <div className="mt-auto flex flex-row items-center justify-between">
-                  <Button className="hover:bg-primary-fg bg-primary-accent">Bantuan</Button>
+                  <Button className="hover:bg-primary-fg bg-primary-accent">
+                    <a href="https://sites.google.com/view/termsandpolicy-donasipenggalan?usp=sharing">
+                    
+                      Bantuan
+                    </a>
+                    </Button>
                   <Button onClick={() => setIsModalEnableCharity(false)}>Cancel</Button>
                 </div>
               </div>
