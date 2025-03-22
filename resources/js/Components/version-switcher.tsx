@@ -12,6 +12,7 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from "@/Components/ui/sidebar";
+import { Inertia } from "@inertiajs/inertia";
 
 export function VersionSwitcher({
     versions,
@@ -29,8 +30,9 @@ export function VersionSwitcher({
                 <SidebarMenuButton
                     size="lg"
                     className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                    onClick={()  => Inertia.get('/')}
                 >
-                    <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary-fg text-sidebar-primary-foreground">
+                    <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary-fg text-sidebar-primary-foreground" >
                         <IoPersonOutline />
                     </div>
                     <div className="flex flex-col gap-0.5 leading-none">
