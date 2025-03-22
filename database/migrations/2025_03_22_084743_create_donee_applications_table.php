@@ -12,9 +12,13 @@ return new class extends Migration {
     public function up(): void {
         Schema::create('donee_applications', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained(User::class)->onDelete('cascade');
+            $table->foreignId('user_id')->constrained(
+                table: 'users', indexName: 'donee_applications_user_id'
+            )->onDelete('cascade');
             $table->unsignedTinyInteger('status');
-            $table->foreignId('approved_by')->constrained(User::class)->onDelete('cascade');
+            $table->foreignId('approved_by')->constrained(
+                table: 'users', indexName: 'donee_applications_approved_by_user_id'
+            )->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }
