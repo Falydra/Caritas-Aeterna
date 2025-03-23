@@ -75,3 +75,10 @@ export type UserRoles = {
 }
 
 
+export type News = {
+    id: number;
+    title: string;
+    description: string;
+    image: string;
+}
+
