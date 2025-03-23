@@ -10,8 +10,10 @@ export type PageProps<
     T extends Record<string, unknown> = Record<string, unknown>
 > = T & {
     auth: {
-        user: User;
+        user?: User;
+        roles?: UserRoles;
     };
+    
 };
 
 export interface AddToCartProps {
@@ -59,3 +61,17 @@ export type NominalDonation = {
     id: number;
     nominal: number;
 };
+
+
+export type Roles = {
+    id: number;
+    name: string;
+}
+
+export type UserRoles = {
+    id: number;
+    user: User;
+    role: Roles;
+}
+
+
