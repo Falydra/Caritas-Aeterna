@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
 import { Button } from './ui/button';
 import { Link } from 'react-scroll';
+import { FaChevronDown } from "react-icons/fa6";
+import { FaChevronUp } from "react-icons/fa";
 
 export default function Hero() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -37,7 +39,9 @@ export default function Hero() {
             onClick={() => setDropdownOpen(!dropdownOpen)}
             className="px-4 text-white rounded focus:outline-none"
           >
-            Options
+            Layanan
+            {dropdownOpen ? <FaChevronUp className="inline ml-2" /> : <FaChevronDown className="inline ml-2" />}
+
           </Button>
        
           <div
