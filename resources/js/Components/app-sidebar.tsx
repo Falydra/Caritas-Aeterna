@@ -64,6 +64,16 @@ export function AppSidebar({
             </SidebarHeader>
             <SidebarContent>
                 <SidebarGroup>
+                    <SidebarGroupLabel>Dashboard</SidebarGroupLabel>
+                        {/* <SidebarMenuItem> */}
+                            <SidebarMenuButton
+                                asChild
+                                isActive={activeItem === "Dashboard"}
+                                onClick={() => handleMenuItemClick("Dashboard", route("dashboard"))}
+                            >
+                                <a href={route("dashboard")}>Dashboard</a>
+                            </SidebarMenuButton>
+                        {/* </SidebarMenuItem> */}
                     <SidebarGroupLabel>Main Menu</SidebarGroupLabel>
                     <SidebarGroupContent>
                         <SidebarMenu>

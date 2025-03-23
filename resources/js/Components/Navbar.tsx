@@ -1,10 +1,29 @@
-import { User } from "@/types";
 import { Inertia } from "@inertiajs/inertia";
 import { Link, usePage } from "@inertiajs/react";
 import { IoPersonOutline } from "react-icons/io5";
 
-export default function Navbar(user: User) {
+export default function Navbar() {
     const {auth} = usePage().props;
+
+
+    const dashboardIdentifier =
+    auth.roles?.role.name === "super-admin"
+    ?"/dashboard/super-admin"
+    : auth.roles?.role.name === "admin"
+    ? "/dashboard/admin"
+    : auth.roles?.role.name === "donor"
+    ? "/dashboard"
+    : auth.roles?.role.name === "donee"
+    ? "/dashboard"
+    : "/";
+
+    // console.log("Role:" , auth.roles?.role);
+
+
+    // console.log(auth.user);
+    console.log(auth.roles?.role.name);
+
+    
     return (
         <div className="w-full fixed h-[60px] bg-primary-fg top-0 left-0 z-20 ">
                 <div className="flex-row flex w-full h-[60px] backdrop-blur-sm z-15 text-primary-bg   items-center justify-center top-0 left-0 sticky">
@@ -35,7 +54,7 @@ export default function Navbar(user: User) {
                             
                             <Link
                             className="w-12 h-12 flex items-center aspect-square justify-center rounded-full bg-primary-bg cursor-pointer text-primary-fg"
-                            href={route("dashboard")}
+                            href={dashboardIdentifier}
                             >
                             <IoPersonOutline className="w-5 h-5" />
                             </Link>
