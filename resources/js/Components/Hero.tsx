@@ -50,10 +50,10 @@ export default function Hero() {
             `}
           >
             <div className="py-1">
-              <Link to="charity" smooth delay={200} className="block px-4 py-2 text-sm hover:bg-primary-accent cursor-pointer">
+              <Link to="charity" smooth delay={100} className="block px-4 py-2 text-sm hover:bg-primary-accent cursor-pointer" onClick={() => setDropdownOpen(false)}>
                 Penggalangan Dana
               </Link>
-              <Link to="news" smooth delay={200} className="block px-4 py-2 text-sm hover:bg-primary-accent cursor-pointer">
+              <Link to="news" smooth delay={100} className="block px-4 py-2 text-sm hover:bg-primary-accent cursor-pointer" onClick={() => setDropdownOpen(false)}>
                 Program Donasi 
               </Link>
             </div>

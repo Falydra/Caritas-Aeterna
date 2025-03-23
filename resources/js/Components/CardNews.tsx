@@ -3,8 +3,8 @@ import { Link } from "@inertiajs/react"
 import { IoIosArrowForward } from "react-icons/io";
 export default function CardNews() {
     return (
-        <div className="flex flex-col items-center w-full min-h-screen justify-start">
-            <div className="flex flex-row w-full h-screen items-center justify-center gap-4 px-8">
+        <div className="flex flex-col items-start w-full h-4/5 justify-start px-8">
+            <div className="flex flex-row w-full h-screen items-center justify-center gap-4 ">
                 {card_news_data.map((news, index) => 
                     index < 3 && (
                         <div key={index} className="w-4/12 h-4/5 flex flex-col items-center justify-start bg-primary-fg hover:scale-105 transition-transform duration-500 ease-in-out rounded-2xl">
