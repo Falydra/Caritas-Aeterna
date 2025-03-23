@@ -2,7 +2,7 @@ import { Button } from "./ui/button";
 
 export default function Layanan() {
     return (
-        <div className="flex relative flex-col items-center w-full min-h-screen justify-start gap-4 py-16">
+        <div className="flex relative flex-col items-center w-full min-h-screen justify-start gap-4 px-8 py-16">
             <h1 className="text-primary-fg text-2xl font-bold">
                 Layanan Lainnya
             </h1>
