@@ -12,7 +12,7 @@ export default function CardNews() {
                             <h1 className="text-xl font-bold text-primary-bg px-4 pt-4">
                                 {news.title}
                             </h1>
-                            <p className="text-sm text-primary-bg px-4">
+                            <p className="text-sm text-primary-bg px-4 text-justify">
                                 {news.description}
                             </p>
                         </div>
