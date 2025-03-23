@@ -7,12 +7,15 @@ import { PropsWithChildren } from "react";
 
 export default function Guest({ children }: PropsWithChildren) {
     return (
-        <div className="flex h-screen w-full items-center flex-col bg-primary-bg pt-6 sm:justify-center sm:pt-0">
+        <div className="flex min-h-screen w-full items-center overflow-y-hidden flex-col bg-primary-bg pt-6 sm:justify-center sm:pt-0">
             <Navbar />
-            <div className="w-full h-screen overflow-y-auto bg-primary-bg shadow-md">
+
+            <div>
+
                 {children}
             </div>
-            {/* <Footer />   */}
+            
+            <Footer />  
 
         </div>
     );
