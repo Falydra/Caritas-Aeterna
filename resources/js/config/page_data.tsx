@@ -29,12 +29,6 @@ export const PageData = {
     mainPage: {
         items: [
             {
-                title: "Dashboard",
-                url: "/dashboard",
-                isActive: true,
-                route: "dashboard",
-            },
-            {
                 title: "Books",
                 url: "/dashboard",
                 isActive: false,
