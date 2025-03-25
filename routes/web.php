@@ -56,6 +56,9 @@ Route::get('/dashboard/super-admin', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('super-admin.dashboard');
 
+Route::fallback(function () {
+        return Inertia::render('404');
+})->name('fallback');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
