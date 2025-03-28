@@ -3,6 +3,7 @@ import Guest from "@/Layouts/GuestLayout";
 import Charity from "@/Components/Charity";
 import News from "@/Components/News";
 import Layanan from "@/Components/LayananLain";
+import CharityNews from "@/Components/CharityNews";
 
 export default function Welcome() {
     return (
@@ -10,6 +11,7 @@ export default function Welcome() {
             <Hero />
             <Charity/>
             <News/>
+            <CharityNews/>
             <Layanan/>
 
         </Guest>

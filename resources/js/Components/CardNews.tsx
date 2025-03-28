@@ -3,7 +3,7 @@ import { Link } from "@inertiajs/react"
 import { IoIosArrowForward } from "react-icons/io";
 export default function CardNews() {
     return (
-        <div className="flex flex-col items-start w-full h-4/5 justify-start px-8">
+        <div className="flex flex-col items-start w-full h-full justify-start px-8">
             <div className="flex flex-row w-full h-screen items-center justify-center gap-4 ">
                 {card_news_data.map((news, index) => 
                     index < 3 && (
@@ -19,10 +19,10 @@ export default function CardNews() {
                     )
                 )}
             </div>
-            <div className="flex flex-row w-full h-1/6 items-center justify-center gap-4 px-8">
-                <Link href="/news" className="text-primary-fg w-full flex flex-row  items-center justify-end font-semibold hover:text-primary-accent">
+            <div className="flex flex-row w-full h-1/6 items-center justify-end gap-4 ">
+                <Link href="/news" className="text-primary-fg self-end flex flex-row  items-center justify-end font-semibold hover:text-primary-accent">
                     Lihat Berita Lainnya
-                    <IoIosArrowForward className="text-primary-fg"/>
+                    <IoIosArrowForward/>
                 </Link>
 
             </div>
