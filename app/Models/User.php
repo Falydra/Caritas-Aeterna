@@ -3,7 +3,10 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Enums\RoleEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -11,13 +14,19 @@ class User extends Authenticatable {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
+    protected $table = 'users';
+
+    protected $guraded = [
+        'type'
+    ];
+
     /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
      */
     protected $fillable = [
-        'name',
+        'username',
         'email',
         'password',
     ];
@@ -45,20 +54,67 @@ class User extends Authenticatable {
     }
 
     /**
-     * Many to many relationship w/ roles
+     * Create a new instance of the given model.
+     *
+     * @param  array  $attributes
+     * @param  bool  $exists
+     * @return static
      */
-    public function roles() {
-        return $this->belongsToMany(Role::class);
-    }
+    public function newInstance($attributes = [], $exists = false) {
+        // This method just provides a convenient way for us to generate fresh model
+        // instances of this current model. It is particularly useful during the
+        // hydration of new objects via the Eloquent query builder instances.
+        $model = is_null($attributes['type'] ?? null) ?
+            new static($attributes) :
+            new $attributes['type']($attributes);
 
-    public function doneeApplication() {
-        return $this->hasOne(DoneeApplication::class);
+        $model->exists = $exists;
+
+        $model->setConnection(
+            $this->getConnectionName()
+        );
+
+        $model->setTable($this->getTable());
+
+        $model->mergeCasts($this->casts);
+
+        $model->fill((array) $attributes);
+
+        return $model;
     }
 
     /**
-     * helper to check if user has roles
+     * Create a new model instance that is existing.
+     *
+     * @param  array  $attributes
+     * @param  string|null  $connection
+     * @return static
      */
-    public function hasRole($role) {
-        return $this->roles()->where('name', $role)->exists();
+    public function newFromBuilder($attributes = [], $connection = null) {
+        $attributes = (array)$attributes;
+
+        $model = $this->newInstance([
+            'type' => $attributes['type'] ?? null
+        ], true);
+
+        $model->setRawAttributes($attributes, true);
+
+        $model->setConnection($connection ?: $this->getConnectionName());
+
+        $model->fireModelEvent('retrieved', false);
+
+        return $model;
+    }
+
+    public function userProfile(): HasOne {
+        return $this->hasOne(UserProfile::class, 'user_id');
+    }
+
+    public function userIdentity(): HasOne {
+        return $this->hasOne(UserIdentity::class, 'user_id');
+    }
+
+    public function isAdmin(): bool {
+        return static::class == Admin::class || static::class == SuperAdmin::class;
     }
 }
