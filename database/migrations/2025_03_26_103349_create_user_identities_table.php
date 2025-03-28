@@ -9,9 +9,14 @@ return new class extends Migration {
      * Run the migrations.
      */
     public function up(): void {
-        Schema::create('roles', function (Blueprint $table) {
+        Schema::create('user_identities', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
+            $table->foreignId('user_id')->constrained(
+                table: 'users', indexName: 'user_identity_user_id'
+            );
+            $table->string('nik', 16);
+            $table->string('id_card_image');
+            $table->timestamp('verified_at');
             $table->timestamps();
         });
     }
@@ -20,6 +25,6 @@ return new class extends Migration {
      * Reverse the migrations.
      */
     public function down(): void {
-        Schema::dropIfExists('roles');
+        Schema::dropIfExists('user_identities');
     }
 };
