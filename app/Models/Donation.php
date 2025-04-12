@@ -2,55 +2,36 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-
-use App\Enums\RoleEnum;
-use App\Exceptions\InvalidUserTypeException;
+use App\Models\UserIdentity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class User extends Authenticatable {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
-
-    protected $table = 'users';
+class Donation extends Model {
+    protected $table = 'donations';
 
     protected $guarded = [
-        'type',
+        'type'
     ];
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
     protected $fillable = [
-        'email',
-        'password',
-        'username',
+        'title',
+        'type',
+        'type_attributes',
+        'description',
+        'header_image',
+        'status',
+        'reviewed_by',
+        'reviewed_at',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
-
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array {
+    public function casts(): array {
         return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            'type_attributes' => 'array',
+            'created_at' =>'datetime',
+            'updated_at' => 'datetime',
+            'reviewed_at' => 'datetime'
         ];
     }
 
@@ -108,15 +89,15 @@ class User extends Authenticatable {
         return $model;
     }
 
-    public function userProfile(): HasOne {
-        return $this->hasOne(UserProfile::class, 'user_id');
+    public function initiator(): BelongsTo {
+        return $this->belongsTo(Donee::class);
     }
 
-    public function userIdentity(): HasOne {
-        return $this->hasOne(UserIdentity::class, 'user_id');
+    public function reviewer(): BelongsTo {
+        return $this->belongsTo(Admin::class);
     }
 
-    public function isAdmin(): bool {
-        return static::class == Admin::class || static::class == SuperAdmin::class;
+    public function donors(): BelongsToMany {
+        return $this->belongsToMany(Donor::class, 'donor_donation')->withPivot('verified_at');
     }
 }
