@@ -2,18 +2,18 @@
 
 namespace App\Models;
 
-use App\Traits\UserChild;
+use App\Traits\DonationChild;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Donee extends User {
-    use UserChild;
+class Fundraiser extends Donation {
+    use DonationChild;
 
     protected $guarded = [
         'type',
     ];
 
-    public function donations(): HasMany {
-        return $this->hasMany(Donation::class, 'initiator_id');
+    public function funds(): HasMany {
+        return $this->hasMany(Fund::class);
     }
 }

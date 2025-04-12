@@ -13,7 +13,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('user_identity_id')->constrained(
                 table: 'user_identities', indexName: 'address_user_identity_id'
-            );
+            )->onDelete('cascade');
             $table->string('address_detail');
             $table->string('rt', 3);
             $table->string('rw', 3);
