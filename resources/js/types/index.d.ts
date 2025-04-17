@@ -2,6 +2,7 @@ export interface User {
     id?: number;
     name?: string;
     email?: string;
+    role: stirng;
 
     email_verified_at?: string;
 }
@@ -11,9 +12,10 @@ export type PageProps<
 > = T & {
     auth: {
         user?: User;
-        roles?: UserRoles;
+        roles?: string;
+        // roles?: UserRoles;
     };
-    
+
 };
 
 export interface AddToCartProps {

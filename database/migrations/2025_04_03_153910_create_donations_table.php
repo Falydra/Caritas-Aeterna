@@ -17,9 +17,9 @@ return new class extends Migration {
             )->onDelete('cascade');
             $table->string('type');
             $table->json('type_attributes');
-            $table->string('title', 128);
-            $table->string('description');
-            $table->string('header_image');
+            $table->string('title', 255);
+            $table->text('description');
+            $table->string('header_image')->nullable();
             $table->enum(
                 'status',
                 array_column(DonationStatusEnum::cases(), 'value'))

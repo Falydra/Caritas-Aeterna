@@ -1,28 +1,31 @@
 <?php
 
 
+use Inertia\Inertia;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Application;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Donation\DonationController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\SuperAdmin\DashboardController;
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
-use App\Http\Controllers\CartController;
+
+use function PHPUnit\Framework\isEmpty;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
-
     $user = auth()->user();
-    $roleModel = $user? $user->roles()->withPivot('id')->first() : null;
-    $role = $roleModel? [
-        'id' => $roleModel->pivot->id,
-        'name' => $user,
-        'role' => $roleModel,
-    ] : null;
+    // $roleModel = $user? $user->roles()->withPivot('id')->first() : null;
+    // $role = $roleModel? [
+    //     'id' => $roleModel->pivot->id,
+    //     'name' => $user,
+    //     'role' => $user->role(),
+    // ] : null;
+    $role = $user ? $user->roleName() : "";
     return Inertia::render('Welcome', [
         'auth' => [
-
-                'user' => $user,
-                'roles' => $role,
+            'user' => $user,
+            'roles' => $role,
         ],
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
@@ -37,7 +40,7 @@ Route::get('/dashboard', function () {
 
 
 Route::get('/dashboard/cart', function () {
-    return Inertia::render('Dashboard/Cart'); 
+    return Inertia::render('Dashboard/Cart');
 })->middleware(['auth', 'verified'])->name('cart');
 
 Route::get('/dashboard/payment', function () {
@@ -57,7 +60,7 @@ Route::get('/dashboard/super-admin', [DashboardController::class, 'index'])
     ->name('super-admin.dashboard');
 
 Route::fallback(function () {
-        return Inertia::render('404');
+    return Inertia::render('404');
 })->name('fallback');
 
 Route::middleware('auth')->group(function () {
@@ -66,4 +69,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+Route::get('/donations', [DonationController::class, 'index'])->name('donations.index');
+// Route::get('/donations/{donation}', [DonationController::class, 'show'])->name('donation.show');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/donations/create', [DonationController::class, 'create'])->name('donations.create');
+    Route::post('/donations', [DonationController::class, 'store'])->name('donations.store');
+});
+
+require __DIR__ . '/auth.php';

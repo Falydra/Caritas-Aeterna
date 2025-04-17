@@ -5,11 +5,12 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Enums\RoleEnum;
-use App\Exceptions\InvalidUserTypeException;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Str;
 use Illuminate\Notifications\Notifiable;
+use App\Exceptions\InvalidUserTypeException;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -118,5 +119,16 @@ class User extends Authenticatable {
 
     public function isAdmin(): bool {
         return static::class == Admin::class || static::class == SuperAdmin::class;
+    }
+
+    public function role(): string {
+        return static::class;
+    }
+
+    public function roleName(): string {
+        $role = $this->role();
+        $slice = Str::afterLast($role, "\\");
+        $slice = Str::lower($slice);
+        return $slice;
     }
 }
