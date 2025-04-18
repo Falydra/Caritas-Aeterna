@@ -7,23 +7,22 @@ export default function Navbar() {
 
 
     const dashboardIdentifier =
-    auth.roles?.role.name === "super-admin"
+    auth.roles === "super-admin"
     ?"/dashboard/super-admin"
-    : auth.roles?.role.name === "admin"
+    : auth.roles === "admin"
     ? "/dashboard/admin"
-    : auth.roles?.role.name === "donor"
+    : auth.roles === "donor"
     ? "/dashboard"
-    : auth.roles?.role.name === "donee"
+    : auth.roles === "donee"
     ? "/dashboard"
     : "/";
 
-    // console.log("Role:" , auth.roles?.role);
+    console.log(auth.user);
+    console.log(auth);
+    if (auth.roles) {
+        console.log("Role:" , auth.roles);
+    }
 
-
-    // console.log(auth.user);
-    console.log(auth.roles?.role.name);
-
-    
     return (
         <div className="w-full fixed h-[60px] bg-primary-fg top-0 left-0 z-20 ">
                 <div className="flex-row flex w-full h-[60px] backdrop-blur-sm z-15 text-primary-bg   items-center justify-center top-0 left-0 sticky">
@@ -32,7 +31,7 @@ export default function Navbar() {
                             {/* <img src="images/Screenshot_2025-01-02_195749-removebg-preview.png" className="w-auto flex h-16" /> */}
                         </div>
                         <div className="flex w-full items-center justify-around ">
-                        
+
                         <h1>
                             Home
                         </h1>
@@ -51,7 +50,7 @@ export default function Navbar() {
                             </div>
                         ) : (
                             <div className="flex w-full items-end justify-end px-4">
-                            
+
                             <Link
                             className="w-12 h-12 flex items-center aspect-square justify-center rounded-full bg-primary-bg cursor-pointer text-primary-fg"
                             href={dashboardIdentifier}
