@@ -53,7 +53,7 @@ Route::get('/dashboard/donors', function () {
 
 Route::get('/dashboard/admin', [AdminDashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
-    ->name('admin.dashboard');
+->name('admin.dashboard');
 
 Route::get('/dashboard/super-admin', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
@@ -69,11 +69,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/donations', [DonationController::class, 'index'])->name('donations.index');
-// Route::get('/donations/{donation}', [DonationController::class, 'show'])->name('donation.show');
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/donations/create', [DonationController::class, 'create'])->name('donations.create');
     Route::post('/donations', [DonationController::class, 'store'])->name('donations.store');
 });
+Route::get('/donations', [DonationController::class, 'index'])->name('donations.index');
+Route::get('/donations/{donation}', [DonationController::class, 'show'])->name('donations.show');
 
 require __DIR__ . '/auth.php';

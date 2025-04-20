@@ -19,7 +19,8 @@ class Donation extends Model {
         'title',
         'type',
         'type_attributes',
-        'description',
+        'text_descriptions',
+        'image_descriptions',
         'header_image',
         'status',
         'reviewed_by',
@@ -29,6 +30,8 @@ class Donation extends Model {
     public function casts(): array {
         return [
             'type_attributes' => 'array',
+            'text_descriptions' => 'array',
+            'image_descriptions' => 'array',
             'created_at' =>'datetime',
             'updated_at' => 'datetime',
             'reviewed_at' => 'datetime'

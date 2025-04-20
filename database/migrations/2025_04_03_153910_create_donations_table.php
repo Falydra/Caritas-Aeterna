@@ -18,8 +18,9 @@ return new class extends Migration {
             $table->string('type');
             $table->json('type_attributes');
             $table->string('title', 255);
-            $table->text('description');
             $table->string('header_image')->nullable();
+            $table->json('text_descriptions');
+            $table->json('image_descriptions');
             $table->enum(
                 'status',
                 array_column(DonationStatusEnum::cases(), 'value'))

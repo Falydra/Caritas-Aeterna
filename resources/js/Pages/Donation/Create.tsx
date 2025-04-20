@@ -1,39 +1,101 @@
-import { useState, useEffect } from "react";
+import React, { useState } from "react";
+import DynamicTextDescription from "./DynamicTextDescription";
+import AddTextDescriptionButton from "./AddTextDescriptionButton";
+import AddImageDescriptionButton from "./AddImageDescriptionButton";
+import DynamicImageDescription from "./DynamicImageDescription";
 import { router, usePage } from "@inertiajs/react";
 import { PageProps, User } from "@/types";
-import { Inertia } from "@inertiajs/inertia";
 
-export default function CreateDonationForm() {
+export default function CreateDonation() {
+    // donation data
     const [data, setData] = useState({
         type: "",
         title: "",
-        description: "",
-        header_image: "",
     });
 
-    // fundraiser attribute
-    const [fundraiser, setFundraiser] = useState({
-        targetFund: 0,
+    // header image
+    const [headerImage, setHeaderImage] = useState<File | null>(null);
+    const [previewImage, setPreviewImage] = useState("");
+    const handleHeaderImageUpload = (
+        e: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        const file = e.target.files?.[0];
+
+        if (file) {
+            setHeaderImage(file);
+            setPreviewImage(URL.createObjectURL(file));
+        }
+    };
+
+    // fundraiser attributes
+    const [fundraiserAttr, setFundraiserAttr] = useState({
+        target_fund: "",
     });
 
-    // product donation attribute
-    const [productDonation, setProductDonation] = useState({
-        item_amount: "",
-    });
-    const [existingBook, setExistingBook] = useState([]);
-    const [newBook, setNewBook] = useState({
-        title: "",
-        isbn: "",
-        authors: [],
-        published_year: "",
-        synopsis: "",
-        price: "",
+    // product donation attributes
+    const [productDonationAttr, setProductDonationAttr] = useState({
+        product_amount: "",
     });
 
-    useEffect(() => {
-        console.log("Data:", data);
-    }, [data]);
+    // handle type change
+    const handleTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setData({ ...data, type: e.target.value });
+        if (e.target.value === "fundraiser") {
+            setFundraiserAttr({
+                ...fundraiserAttr,
+                target_fund: "10000000",
+            });
+        } else {
+            setProductDonationAttr({
+                ...productDonationAttr,
+                product_amount: "10",
+            });
+        }
+    };
 
+    // const [descriptions, setDescriptions] = useState([{ value: "" }]);
+    const [descriptions, setDescriptions] = useState<
+        { value: string | File }[]
+    >([{ value: "" }]);
+
+    // update text description field
+    const handleTextDescriptionChange = (
+        index: any,
+        e: React.ChangeEvent<HTMLTextAreaElement>
+    ) => {
+        const values = [...descriptions];
+        values[index].value = e.target.value;
+        setDescriptions(values);
+    };
+
+    // upadate image description field
+    const handleImageDescriptionChange = (
+        index: any,
+        e: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        const values = [...descriptions];
+        values[index].value = e.target.value;
+        setDescriptions(values);
+    };
+
+    // add new text description
+    const handleAddTextDescription = () => {
+        setDescriptions([...descriptions, { value: "" }]);
+    };
+
+    // add new image description
+    const handleAddImageDescription = (file: File) => {
+        setDescriptions((prev) => [...prev, { value: file }]);
+    };
+
+    // remove input fields
+    const handleRemoveFields = (index: any) => {
+        const newDescriptions = [...descriptions];
+        newDescriptions.splice(index, 1);
+        setDescriptions(newDescriptions);
+    };
+
+    // handle submit
     interface CreateDonationProps extends PageProps {
         auth: {
             user: User;
@@ -41,20 +103,47 @@ export default function CreateDonationForm() {
         };
         donationStoreUrl: string;
     }
-
     const { auth, donationStoreUrl } = usePage<CreateDonationProps>().props;
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
+    const handleSubmit = async () => {
+        const payload = new FormData();
 
-        const payload = {
-            type: data.type,
-            title: data.title,
-            description: data.description,
-            header_image: data.header_image,
-        };
+        payload.append("data[type]", data.type);
+        payload.append("data[title]", data.title);
 
-        const res = await router.post(donationStoreUrl, payload, {
+        if (headerImage) {
+            payload.append("data[header_image]", headerImage);
+        }
+
+        // append descriptions
+        descriptions.forEach((description, index) => {
+            if (typeof description.value === "string") {
+                payload.append(
+                    "data[text_descriptions][" + index + "]",
+                    description.value
+                );
+            } else if (description.value instanceof File) {
+                payload.append(
+                    "data[image_descriptions][" + index + "]",
+                    description.value
+                );
+            }
+        });
+
+        // append type attributes
+        if (data.type === "fundraiser") {
+            payload.append(
+                "data[type_attributes][target_fund]",
+                fundraiserAttr.target_fund.toString()
+            );
+        } else {
+            payload.append(
+                "data[type_attributes][product_amount]",
+                productDonationAttr.product_amount.toString()
+            );
+        }
+
+        await router.post(donationStoreUrl, payload, {
             onSuccess: () => {
                 console.log("Success");
             },
@@ -65,81 +154,100 @@ export default function CreateDonationForm() {
     };
 
     return (
-        <div className="flex flex-col gap-8 m-8">
-            <form
-                onSubmit={handleSubmit}
-                className="flex flex-col gap-4 capitalize w-1/4"
-            >
-                <h1 className="w-full text-center text-3xl">
-                    Buat Donasi Baru
-                </h1>
-                <label htmlFor="title" className="flex flex-col gap-1">
-                    judul:
+        <div className="bg-foreground w-full min-h-screen flex flex-col p-4 gap-4">
+            <h2 className="text-background text-2xl font-bold mx-auto">
+                Buat Donasi Baru
+            </h2>
+
+            <div className="flex flex-col w-full gap-8 text-background">
+                <label htmlFor="type" className="flex flex-col">
+                    Jenis Donasi
+                    <select
+                        name="type"
+                        className="capitalize p-2"
+                        onChange={handleTypeChange}
+                    >
+                        <option value="" disabled selected>
+                            --- Pilih Jenis Donasi ---
+                        </option>
+                        <option value="fundraiser">Fundraiser</option>
+                        <option value="product_donation">Donasi Produk</option>
+                    </select>
+                </label>
+                <label htmlFor="title" className="flex flex-col">
+                    Judul
                     <input
+                        className="capitalize p-2"
                         type="text"
                         name="title"
                         id="title"
+                        placeholder="panjang maksimal 255 karakter"
                         value={data.title}
                         onChange={(e) =>
                             setData({ ...data, title: e.target.value })
                         }
-                        className="text-black p-2"
                     />
                 </label>
-                <label htmlFor="description" className="flex flex-col gap-1">
-                    deskripsi:
-                    <textarea
-                        name="description"
-                        id="description"
-                        cols={50}
-                        rows={5}
-                        placeholder="Deskripsi maksimal 2048 karakter"
-                        className="text-black p-2"
-                        value={data.description}
-                        onChange={(e) =>
-                            setData({ ...data, description: e.target.value })
-                        }
-                    ></textarea>
-                </label>
-                <label htmlFor="header_image" className="flex flex-col gap-1">
-                    gambar:
+                <label htmlFor="header_image" className="flex flex-col">
+                    Header Image
                     <input
-                        type="text"
-                        name="header_image"
-                        id="header_image"
-                        value={data.header_image}
-                        onChange={(e) =>
-                            setData({ ...data, header_image: e.target.value })
-                        }
-                        className="text-black p-2"
+                        type="file"
+                        name="header"
+                        id="header"
+                        accept="image/*"
+                        onChange={handleHeaderImageUpload}
                     />
+                    {previewImage && (
+                        <img
+                            src={previewImage}
+                            alt="header_image"
+                            className="mx-auto w-1/2"
+                        />
+                    )}
                 </label>
-                <label htmlFor="type" className="flex flex-col gap-1">
-                    jenis:
-                    <select
-                        name="type"
-                        id="type"
-                        className="text-black p-2"
-                        value={data.type}
-                        onChange={(e) =>
-                            setData({ ...data, type: e.target.value })
-                        }
-                        required
+                {descriptions.map((inputField, index) =>
+                    typeof inputField.value === "string" ? (
+                        <DynamicTextDescription
+                            key={index}
+                            index={index}
+                            value={inputField.value}
+                            onChange={handleTextDescriptionChange}
+                            onRemove={handleRemoveFields}
+                        ></DynamicTextDescription>
+                    ) : inputField.value instanceof File ? (
+                        <DynamicImageDescription
+                            key={index}
+                            index={index}
+                            url={URL.createObjectURL(inputField.value)}
+                            onChange={handleImageDescriptionChange}
+                            onRemove={handleRemoveFields}
+                        ></DynamicImageDescription>
+                    ) : (
+                        <div key={index}></div>
+                    )
+                )}
+
+                <div className="flex flex-row gap-4 mx-auto">
+                    <AddTextDescriptionButton
+                        onClick={handleAddTextDescription}
+                    ></AddTextDescriptionButton>
+                    <AddImageDescriptionButton
+                        onFileSelected={handleAddImageDescription}
+                    ></AddImageDescriptionButton>
+                </div>
+
+                <div className="flex flex-row gap-2 mx-auto w-full">
+                    <button className="p-2 w-full bg-white text-red-500 font-black border border-red-500 hover:bg-red-500 hover:text-white active:bg-red-600 transition-colors duration-100">
+                        Kembali
+                    </button>
+                    <button
+                        className="p-2 w-full bg-white text-green-500 font-black border border-green-500 hover:bg-green-500 hover:text-white active:bg-green-600 transition-colors duration-100"
+                        onClick={handleSubmit}
                     >
-                        <option value="" disabled selected>
-                            --- pilih jenis donasi ----
-                        </option>
-                        <option value="fundraiser">donasi uang</option>
-                        <option value="product_donation">donasi barang</option>
-                    </select>
-                </label>
-                <button
-                    type="submit"
-                    className="bg-white text-black active:bg-gray-300 p-2 duration-150 transition-colors"
-                >
-                    Submit
-                </button>
-            </form>
+                        Konfirmasi
+                    </button>
+                </div>
+            </div>
         </div>
     );
 }
