@@ -8,6 +8,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Donation\DonationController;
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\BookController;
 use App\Http\Controllers\SuperAdmin\DashboardController;
 
 use function PHPUnit\Framework\isEmpty;
@@ -76,4 +77,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::get('/donations', [DonationController::class, 'index'])->name('donations.index');
 Route::get('/donations/{donation}', [DonationController::class, 'show'])->name('donations.show');
 
+Route::get('/books', [BookController::class, 'index'])->name('books.index');
+Route::middleware(['auth', 'verified'])->group(function() {
+    Route::get('books/create', [BookController::class, 'create'])->name('books.create');
+    Route::post('books', [BookController::class, 'store'])->name('books.store');
+});
 require __DIR__ . '/auth.php';

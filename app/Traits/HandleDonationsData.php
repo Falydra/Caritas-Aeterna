@@ -1,0 +1,39 @@
+<?php
+
+namespace App\Traits;
+
+use App\Models\Fundraiser;
+use App\Models\ProductDonation;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
+
+trait HandleDonationsData {
+    protected function storeImage(
+        string $donation_title,
+        UploadedFile $file,
+        string &$filepath
+    ) {
+        $storePath = 'image/donations/' . $donation_title;
+        $filename = $file->hashName();
+        $path = $file->storeAs($storePath, $filename, 'public');
+        $filepath = Storage::url($path);
+    }
+
+    protected function formatTypeAttributes(string &$type, array $target, array &$typeAttr) {
+        if ($type === "fundraiser") {
+            $type = Fundraiser::class;
+            $typeAttr = [
+                'target_fund' => $target['target_fund'],
+                'current_fund' => 0
+            ];
+        }
+
+        if ($type === "product_donation") {
+            $type = ProductDonation::class;
+            $typeAttr = [
+                'product_amount' => $target['product_amount'],
+                'fulfilled_product_amount' => 0
+            ];
+        }
+    }
+}

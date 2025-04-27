@@ -11,11 +11,12 @@ return new class extends Migration {
     public function up(): void {
         Schema::create('books', function (Blueprint $table) {
             $table->string('isbn', 13)->primary();
-            $table->string('title');
+            $table->string('title', 255);
             $table->json('authors');
             $table->string('published_year', 4);
-            $table->string('synopsis');
-            $table->unsignedInteger('price');
+            $table->text('synopsis')->nullable();
+            $table->string('cover_image')->nullable();
+            $table->unsignedInteger('price')->nullable();
             $table->timestamps();
         });
     }
