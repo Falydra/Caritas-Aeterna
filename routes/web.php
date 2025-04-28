@@ -76,6 +76,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 Route::get('/donations', [DonationController::class, 'index'])->name('donations.index');
 Route::get('/donations/{donation}', [DonationController::class, 'show'])->name('donations.show');
+Route::get('/donations/search', [DonationController::class, 'search'])->name('donations.search');
 
 Route::get('/books', [BookController::class, 'index'])->name('books.index');
 Route::middleware(['auth', 'verified'])->group(function() {

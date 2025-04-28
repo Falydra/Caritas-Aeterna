@@ -24,8 +24,8 @@ class BookStoreRequest extends FormRequest {
             'data.title' => 'bail|required|string|max:255',
             'data.authors' => 'bail|required|array',
             'data.published_year' => 'bail|required|string|max:4',
-            'data.synopsis' => 'bail|nullable|string',
-            'data.cover_image' => 'bail|nullable|mimes:jpg,jpeg,png,webp|max:4096',
+            'data.synopsis' => 'bail|nullable|string|max:1024',
+            'data.cover_image' => 'bail|nullable|mimes:jpg,jpeg,png,webp|max:2048',
             'data.price' => 'bail|nullable|integer|min:0|max:4294967295',
         ];
     }

@@ -5,18 +5,29 @@ namespace App\Http\Controllers\Donation;
 use Inertia\Inertia;
 use App\Models\Donee;
 use App\Models\Donation;
+use App\Models\Fundraiser;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\ProductDonation;
+use App\Traits\HandleDonationsData;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Donation\DonationStoreRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\Donation\DonationCollection;
+use Illuminate\Contracts\Database\Eloquent\Builder;
+use App\Http\Requests\Donation\DonationStoreRequest;
 
 class DonationController extends Controller {
+    use HandleDonationsData;
+
     public function index() {
         $donations = Donation::select(
-            'type', 'type_attributes', 'title', 'header_image'
-        )->latest()->paginate(10);
+            'type',
+            'type_attributes',
+            'title',
+            'header_image'
+        )->whereNot(function (Builder $query) {
+            $query->where('status', 'pending')->orWhere('status', 'denied');
+        })->latest()->paginate(10);
 
         return (new DonationCollection($donations))->additional([
             'status' => 'success',
@@ -25,9 +36,13 @@ class DonationController extends Controller {
     }
 
     public function show(Donation $donation) {
-        return Inertia::render('Donation/Show', [
-            'donation' => $donation
-        ]);
+        if ($donation->type === ProductDonation::class) {
+            return app(ProductDonationController::class)->show($donation);
+        }
+
+        if ($donation->type === Fundraiser::class) {
+            return app(FundraiserController::class)->show($donation);
+        }
     }
 
     public function create() {
@@ -61,7 +76,7 @@ class DonationController extends Controller {
         }
 
         $validated = $request->validate([
-            'data.type' => "bail|required",
+            'data.type' => "bail|required|string",
         ]);
 
         if ($validated['data']['type'] === 'product_donation') {
@@ -73,5 +88,29 @@ class DonationController extends Controller {
         }
 
         abort(400, 'Invalid donation type');
+    }
+
+    public function search(Request $request) {
+        $validated = $request->validate([
+            'data.keyword' => "bail|string"
+        ]);
+
+        $query = data_get($validated, 'data.keyword');
+        if (isset($query)) {
+            $query = $this->sanitizeTextInput($query);
+        }
+
+        $donations = Donation::query()
+            ->when($query, function($q) use ($query) {
+                $q->where('title', 'like', "%{$query}%")
+                ->orWhere('type', 'like', "%{$query}%");
+            })
+            ->latest()
+            ->paginate(10);
+
+        return (new DonationCollection($donations))->additional([
+            'status' => 'success',
+            'message' => 'Lists donation retrieved successfully'
+        ]);
     }
 }

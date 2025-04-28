@@ -1,0 +1,21 @@
+{
+	"data": {
+		"type": "string enum(fundraiser, product_donation)",
+		"title": "string max 255",
+		"class_attributes": {
+            "target_fund": "unsigned integer",
+            "current_fund": "unsigned integer"
+        },
+        "header_image": "File max 2mb",
+		"text_descriptions": [
+            {"0": "text max 2048"},
+            {"1": "text max 2048"},
+            {"2": "text max 2048"}
+        ],
+        "image_descriptions": [
+            {"0": "File max 2mb"},
+            {"1": "File max 2mb"},
+            {"2": "File max 2mb"}
+        ]
+	}
+}

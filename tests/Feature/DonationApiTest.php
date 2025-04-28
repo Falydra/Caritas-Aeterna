@@ -3,20 +3,137 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
+use App\Models\Book;
 use App\Models\Donee;
+use Illuminate\Support\Str;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Http\UploadedFile;
 
 class DonationApiTest extends TestCase {
     /**
      * A basic feature test example.
      */
-    public function test_can_create_donation_as_donee(): void {
+    public function test_can_create_product_donation_as_donee(): void {
         $user = Donee::first();
 
-        $header_path = storage_path('app\\public\\uploads\\test\\header_01.png');
-        $header_name = 'header_01.png';
+        $title = Str::of(fake()->sentence(random_int(4, 6)))->replace('.', '');
+        $books = $this->populateBooksField();
+        $facilities = $this->populateFacilitiesField();
+        $product_amount = count($books) + count($facilities);
+
+        $data = $this->generateDonation(
+            'product_donation',
+            $title,
+            $product_amount
+        );
+
+        $data['products'] = [
+            'books' => $books,
+            'facilities' => $facilities
+        ];
+
+        $response = $this->actingAs($user)->postJson(
+            'donations',
+            ['data' => $data]
+        );
+        $response->assertStatus(302);
+        $this->assertDatabaseHas('donations', [
+            'title' => $title,
+        ]);
+    }
+
+    public function test_create_product_donation_with_book(): void {
+        $user = Donee::inRandomOrder()->first();
+
+        $title = Str::of(fake()->sentence(random_int(4, 6)))->replace('.', '');
+
+        $books = $this->populateBooksField();
+        $product_amount = count($books);
+
+        $data = $this->generateDonation(
+            'product_donation',
+            $title,
+            $product_amount
+        );
+
+        $data['products'] = [
+            'books' => $books
+        ];
+
+        $response = $this->actingAs($user)->postJson(
+            'donations',
+            ['data' => $data]
+        );
+
+        $response->assertStatus(302);
+        $this->assertDatabaseHas('donations', [
+            'title' => $title,
+        ]);
+    }
+
+    public function test_create_product_donation_with_facility(): void {
+        $user = Donee::inRandomOrder()->first();
+
+        $title = Str::of(fake()->sentence(random_int(4, 6)))->replace('.', '');
+
+        $facilities = $this->populateFacilitiesField();
+        $product_amount = count($facilities);
+
+        $data = $this->generateDonation(
+            'product_donation',
+            $title,
+            $product_amount
+        );
+
+        $data['products'] = [
+            'facilities' => $facilities
+        ];
+
+        $response = $this->actingAs($user)->postJson(
+            'donations',
+            ['data' => $data]
+        );
+
+        $response->assertStatus(302);
+        $this->assertDatabaseHas('donations', [
+            'title' => $title,
+        ]);
+    }
+
+    private function populateBooksField() {
+        $books = array();
+        for ($i = 0; $i < random_int(2, 10); $i++) {
+            $isbn = Book::inRandomOrder()->first()->isbn;
+            $amount = random_int(1, 5);
+            $books[$i] = [
+                'isbn' => $isbn,
+                'amount' => $amount
+            ];
+        }
+
+        return $books;
+    }
+
+    private function populateFacilitiesField() {
+        $facilities = array();
+        for ($i = 0; $i < random_int(1, 10); $i++) {
+            $facilities[$i] = [
+                'name' => Str::of(fake()->sentence(random_int(2, 5)))->replace('.', ''),
+                'description' => fake()->sentence(random_int(10, 35)),
+                'dimension' => random_int(1, 4) . 'm x ' . random_int(1, 4) . 'm',
+                'material' => fake()->word(),
+                'price' => random_int(50000, 150000),
+                'amount' => random_int(1, 5)
+            ];
+        }
+
+        return $facilities;
+    }
+
+    private function generateDonation(string $type, string $title, int $attr_amount) {
+        $header_name = 'header_0' . random_int(1, 4) . '.png';
+        $header_path = storage_path('app\\public\\uploads\\test\\' . $header_name);
         $header_file = new UploadedFile(
             $header_path,
             $header_name,
@@ -25,37 +142,40 @@ class DonationApiTest extends TestCase {
             true
         );
 
-        $text_descriptions = [
-            '0' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sollicitudin pretium neque, sit amet maximus orci ultrices quis. Vivamus nisi nisl, ultricies in ex id, lobortis pellentesque enim. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Curabitur fringilla turpis id lectus elementum, sit amet mollis nisl interdum. Nunc eu semper odio, eu fringilla nulla. Cras condimentum dui orci, et commodo nunc vehicula semper. Nullam vel lectus ligula. Donec eu ultricies nulla, sed suscipit velit. Duis suscipit volutpat ex, ultrices sagittis augue aliquet eget. Mauris arcu nunc, varius non aliquam eu, placerat sit amet neque. Cras aliquam leo magna, ut auctor enim consectetur sit amet. Interdum et malesuada fames ac ante ipsum primis in faucibus.',
-            '1' => 'Phasellus nisl metus, ullamcorper ut enim nec, gravida interdum tellus. Nunc non risus vitae mi facilisis tincidunt luctus eu diam. Praesent a ultricies purus. Etiam porta risus sit amet sem gravida tincidunt. Integer et velit vel elit vulputate molestie quis nec erat. Fusce in nunc magna. Donec pharetra velit nec aliquam consequat.',
-            '3' => 'Nam quis lobortis odio. Maecenas mollis nunc nec ante mattis pellentesque. Maecenas commodo interdum facilisis. Nunc sed enim tempus, pulvinar nulla nec, posuere ante. Donec ultricies dolor quis ex finibus, facilisis malesuada nunc vulputate. Nam at tellus mauris. Sed justo nunc, ultrices ut finibus condimentum, imperdiet ut erat. Aenean quis sapien porta orci dictum pretium at ut mauris. Etiam dapibus diam ex, in suscipit risus laoreet sed. Pellentesque vel ultricies tellus, porta sodales leo.'
-        ];
+        $text_descriptions = array();
+        $images = array();
+        for ($i = 0; $i < random_int(1, 9); $i++) {
+            if ($i === 0) {
+                $text_descriptions["{$i}"] = fake()->sentence(random_int(75, 120));
+                continue;
+            }
 
-        $images = [
-            '2' => 'desc_01.png',
-            '4' => 'desc_02.png'
-        ];
+            $dice = random_int(0, 1);
+            if ($dice === 0) {
+                $text_descriptions["{$i}"] = fake()->sentence(random_int(75, 120));
+            } else {
+                $image_name = 'desc_0' . random_int(1, 6) . '.png';
+                $images["{$i}"] = $image_name;
+            }
+        }
+
         $image_descriptions = [];
-        $this->populateImageDescriptions($images, $image_descriptions);
+        if (count($images) > 0) {
+            $this->populateImageDescriptions($images, $image_descriptions);
+        }
 
-
-        $response = $this->actingAs($user)->postJson(
-            'donations',
-            [
-                'data' => [
-                    "type" => "product_donations",
-                    "title" => "buku untuk pai",
-                    "type_attributes" => [
-                        "product_amount" => 15,
-                        "fulfilled_product_amount" => 0
-                    ],
-                    "header_image" => $header_file,
-                    "text_descriptions" => $text_descriptions,
-                    "image_descriptions" => $image_descriptions
-                ]
-            ]
-        );
-        $response->assertStatus(302);
+        $data = [
+            "type" => $type,
+            "title" => $title,
+            "type_attributes" => [
+                "product_amount" => $attr_amount,
+                "fulfilled_product_amount" => 0
+            ],
+            "header_image" => $header_file,
+            "text_descriptions" => $text_descriptions,
+            "image_descriptions" => $image_descriptions ?? [],
+        ];
+        return $data;
     }
 
     private function populateImageDescriptions(array $images, array &$image_descriptions) {

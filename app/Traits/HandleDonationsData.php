@@ -36,4 +36,15 @@ trait HandleDonationsData {
             ];
         }
     }
+
+    protected function sanitizeTextInput(?string $text): ?string {
+        if (is_null($text)) {
+            return null;
+        }
+
+        $text = strip_tags($text);
+        $text = trim($text);
+        $text = preg_replace('/\s+/', ' ', $text);
+        return $text;
+    }
 }

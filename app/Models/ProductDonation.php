@@ -15,7 +15,7 @@ class ProductDonation extends Donation {
     ];
 
     public function books(): BelongsToMany {
-        return $this->belongsToMany(Book::class, 'book_donation')->withPivot(['amount', 'status']);
+        return $this->belongsToMany(Book::class, 'book_donation', 'donation_id', 'isbn', 'id', 'isbn')->withPivot(['amount', 'status']);
     }
 
     public function facilities(): HasMany {

@@ -1,0 +1,10 @@
+{
+    "data": {
+        "name": "string max 255",
+        "description": "string max 255",
+        "dimension": "optional string max 255",
+        "material": "optional string max 255",
+        "price": "unsigned integer",
+        "amount": "unsigned small integer"
+    }
+}
