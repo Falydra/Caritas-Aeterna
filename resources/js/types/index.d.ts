@@ -7,6 +7,32 @@ export interface User {
     email_verified_at?: string;
 }
 
+export type Fund = {
+    user_id: User.id;
+    amount: number;
+    transfer_date: string;
+}
+
+//Fixed Book
+export type Book = {
+    title: string;
+    isbn: string;
+    authors: string[];
+    published_year: string;
+    synopsis: string;
+    price: number;
+}
+
+export type Facility = {
+    name: string;
+    description: string;
+    dimensions: string;
+    material: string;
+    price: number;
+    amount: number;
+    status: boolean;
+}
+
 export type PageProps<
     T extends Record<string, unknown> = Record<string, unknown>
 > = T & {
@@ -58,6 +84,15 @@ export type InitiatorDonation = {
     donationLimit?: number;
     donation_title?: string;
 };
+
+export type InitiatorBookDonation = {
+    user: User;
+    organization?: string;
+    isVerified?: boolean;
+    donationLimit?: number;
+    donation_title?: string;
+    book_type: string;
+}
 
 export type NominalDonation = {
     id: number;

@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\Donor\DonorController;
 use App\Http\Controllers\SuperAdmin\DashboardController;
+use App\Http\Controllers\GeneralNewsController;
 
 use function PHPUnit\Framework\isEmpty;
 use Illuminate\Support\Facades\Auth;
@@ -36,6 +37,8 @@ Route::get('/', function () {
     ]);
 })->name('welcome');
 
+Route::get('/news', [GeneralNewsController::class, 'index'])->name('news');
+
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard/Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -60,6 +63,8 @@ Route::get('/dashboard/admin', [AdminDashboardController::class, 'index'])
 Route::get('/dashboard/super-admin', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('super-admin.dashboard');
+
+
 
 Route::fallback(function () {
     return Inertia::render('404');

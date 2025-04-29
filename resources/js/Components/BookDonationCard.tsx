@@ -15,12 +15,12 @@ import donation_data from "@/config/donation_data"
 import { IoIosArrowForward } from "react-icons/io";
 import initiator_data from "@/config/initiator_data";
 import CharityDetail from "./CharityDetail";
-import { progressCompleted, totalDays, totalDonation, donationLimit } from "@/config/donation_attr";
+import { progressCompleted, totalDays, totalDonation, donationLimit, totalDonationBook, bookDonationLimit, totalDaysBook, progressCompletedBook } from "@/config/donation_attr";
 import { Input } from "./ui/input";
 import { IoDocumentTextOutline } from "react-icons/io5";
 import nominal_donasi from "@/config/nominal_donasi";
 
-export function CardWithForm() {
+export function BookCharityCard() {
   const { auth } = usePage().props;
   const [isModalEnableCharity, setIsModalEnableCharity] = useState(false);
   const [isDetail, setIsDetail] = useState(false);
@@ -40,34 +40,41 @@ export function CardWithForm() {
         <div className="flex flex-row w-full h-full ">
           <div className="w-6/12 h-full justify-between items-start flex flex-col cursor-pointer hover:text-primary-bg hover:rounded-l-xl">
             <CardHeader className="text-start text-xl">
-              <CardTitle>Bantu Programmer Papua</CardTitle>
+              <CardTitle>Bantu Perpustakaan Universitas Papua Merdeka</CardTitle>
               <CardDescription>
-                Telah muncul seorang programmer jawa yang setiap harinya harus mencari rupiah. Programmer tersebut telah menghabiskan sisa hidupnya untuk membuat program yang tidak jelas dasarnya. Hingga pada akhirnya programmer tersebut memutuskan untuk meledakan diri dan menyebabkan luka yang sangat serius. Dibutuhkan sejumlah dana untuk mengatasi kesenjangan sosial di setiap individu. Masing-masing daerah akan mendapatkan pembagian dana secara merata
+                Dalam beberapa tahun terakhir, perpustakaan Universitas Papua Merdeka mengalami penurunan jumlah pengunjung yang signifikan. Hal ini disebabkan oleh kurangnya koleksi buku yang relevan dan menarik bagi mahasiswa. Oleh karena itu, kami mengajak Anda untuk berpartisipasi dalam program donasi buku ini. Mari bersama-sama kita tingkatkan minat baca mahasiswa dan kembangkan perpustakaan kita menjadi lebih baik.
               </CardDescription>
-              <a className="text-primary-accent hover:text-primary-bg/70 font-semibold text-sm flex flex-row self-end" onClick={handleDetail}>
-                Detail
-                <IoIosArrowForward className="text-md self-center" />
-              </a>
+              <div className="w-full flex flex-row items-center justify-between">
+                <h2 className="text-sm font-semibold">
+                  <span className="text-black">Jenis Buku:</span>{" "}
+                  <span className="text-primary-accent">Kalkulus</span>
+                </h2>
+                <a className="text-primary-accent hover:text-primary-bg/70 font-semibold text-sm flex flex-row self-end" onClick={handleDetail}>
+                  Detail
+                  <IoIosArrowForward className="text-md self-center" />
+                </a>
+
+              </div>
             </CardHeader>
 
             <CardFooter className="flex w-full justify-end h-full flex-col ">
               <div className="w-full flex flex-col items-start justify-end h-full">
                 <h1 className="text-xl font-bold">Tersedia</h1>
                 <p className="text-md text-muted-foreground">
-                  {progressCompleted} / {totalDays} days elapsed
+                  {progressCompletedBook} / {totalDaysBook} days elapsed
                 </p>
-                <ProgressBar className="w-full" labelAlignment="outside" isLabelVisible={false} completed={progressCompleted} maxCompleted={totalDays} />
+                <ProgressBar className="w-full" labelAlignment="outside" isLabelVisible={false} completed={progressCompletedBook} maxCompleted={totalDaysBook} />
                 <div className="w-full flex flex-row justify-start">
-                  <h1 className="font-thin text-xs self-center text-center">Terkumpul Rp.</h1>
-                  <h2 className="font-thin text-xs self-center text-center">
-                    {totalDonation} / {donationLimit}
+                  <h1 className="font-thin text-xs self-center text-center">Terkumpul sebanyak: </h1>
+                  <h2 className="font-thin text-xs self-center text-center px-2">
+                    {totalDonationBook} / {bookDonationLimit} Buku
                   </h2>
                 </div>
               </div>
               <Button className="w-full h-[50px] hover:bg-primary-fg bg-primary-accent" onClick={handleIsEnableDonasi}>Donasi</Button>
             </CardFooter>
           </div>
-          <div className="w-9/12 h-full items-center justify-center flex flex-col bg-cover bg-center rounded-r-xl bg-[url(/images/Charity1.jpeg)]">
+          <div className="w-9/12 h-full items-center justify-center flex flex-col bg-cover bg-center rounded-r-xl bg-[url(/images/Perpus.jpeg)]">
           </div>
         </div>
       </Card>
