@@ -1,14 +1,18 @@
 import { useState } from "react";
 import { Link } from "react-scroll";
 import { CardWithForm } from "./CharityCard";
+import { BookCharityCard } from "./BookDonationCard";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Charity() {
     const [isMoney, setIsMoney] = useState(true);
     const [isBook, setIsBook] = useState(false);
 
     return (
-        <div id="charity" className="items-center h-screen justify-center ">
-            <section className="h-full bg-primary-bg flex flex-col items-center justify-start py-16">
+        <div id="charity" className="w-full min-h-screen flex justify-center items-center bg-primary-bg overflow-hidden">
+            <section className="w-full  h-full flex flex-col items-center justify-start py-16 px-4 relative">
+                
+                
                 <div className="transform w-2/12 top-0 items-center justify-center flex flex-col">
                     <div className="relative w-full flex items-center justify-center px-1 py-1 bg-gray-700 border border-gray-600 rounded-full">
                         <div
@@ -47,27 +51,49 @@ export default function Charity() {
                     </div>
                 </div>
 
-                <div
-                    id="money-charity"
-                    className={`w-full text-center items-center flex flex-col h-full justify-center py-8 ${
-                        isMoney ? "" : "hidden"
-                    }`}
-                >
-                    <h1 className="text-2xl font-bold text-primary-fg">
-                        Berita Terkini
-                    </h1>
-                    <CardWithForm />
+                {/* Content Area */}
+                <div className="relative w-full h-screen flex items-center justify-center overflow-hidden">
+                    <AnimatePresence mode="wait">
+                        {isMoney && (
+                            <motion.div
+                                key="money"
+                                initial={{ x: 300, opacity: 0 }}
+                                animate={{ x: 0, opacity: 1 }}
+                                exit={{ x: 900, opacity: 0 }}
+                                
+                                transition={{ duration: 0.5 }}
+                                className="absolute w-full h-full flex flex-col items-center justify-start py-4"
+                            >
+                                <h1 className="text-2xl font-bold text-primary-fg">
+                                    Berita Terkini
+                                </h1>
+                                <div className="w-full flex justify-center">
+                                    <CardWithForm />
+                                </div>
+                            </motion.div>
+                        )}
+
+                        {isBook && (
+                            <motion.div
+                                key="book"
+                                initial={{ x: -300, opacity: 0 }}
+                                animate={{ x: 0, opacity: 1 }}
+                                exit={{ x: -900, opacity: 0 }}
+                                
+                                transition={{ duration: 0.5 }}
+                                className="absolute w-full h-full flex flex-col items-center justify-start py-4"
+                            >
+                                <h1 className="text-2xl font-bold text-primary-fg ">
+                                    Berita Terkini
+                                </h1>
+                                <div className="w-full flex justify-center">
+                                    <BookCharityCard />
+                                </div>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
                 </div>
 
-                <div
-                    id="book-charity"
-                    className={`w-full text-center py-8 ${
-                        isBook ? "" : "hidden"
-                    }`}
-                >
-                    <h2 className="text-2xl font-bold">Book Donation</h2>
-                    <p className="mt-2">Content for the Book Donation</p>
-                </div>
             </section>
         </div>
     );

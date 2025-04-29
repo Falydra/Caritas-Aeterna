@@ -24,12 +24,13 @@ export default function Navbar() {
     }
 
     return (
-        <div className="w-full fixed h-[60px] bg-primary-fg top-0 left-0 z-20 ">
-                <div className="flex-row flex w-full h-[60px] backdrop-blur-sm z-15 text-primary-bg   items-center justify-center top-0 left-0 sticky">
+        <div className="w-full fixed h-[80px] bg-primary-fg top-0 left-0 z-20 ">
+                <div className="flex-row flex w-full h-[80px] backdrop-blur-sm z-15 text-primary-bg   items-center justify-center top-0 left-0 sticky">
                     <div className="flex w-full h-full items-center justify-center">
-                        <div className="flex w-full items-center justify-start">
-                            {/* <img src="images/Screenshot_2025-01-02_195749-removebg-preview.png" className="w-auto flex h-16" /> */}
-                        </div>
+                        <Link href={route('welcome')} className="flex w-full items-center justify-start flex-row px-8">
+                            <img src="/images/Logo_Undip_Full-removebg-preview.png" className="w-auto flex h-12" />
+                           
+                        </Link >
                         <div className="flex w-full items-center justify-around ">
 
                         <h1>

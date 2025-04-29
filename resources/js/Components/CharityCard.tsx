@@ -42,7 +42,7 @@ export function CardWithForm() {
             <CardHeader className="text-start text-xl">
               <CardTitle>Bantu Programmer Papua</CardTitle>
               <CardDescription>
-                Telah muncul seorang programmer jawa yang setiap harinya harus mencari rupiah. Programmer tersebut telah menghabiskan sisa hidupnya untuk membuat program yang tidak jelas dasarnya. Hingga pada akhirnya programmer tersebut memutuskan untuk meledakan diri dan menyebabkan luka yang sangat serius.
+                Telah muncul seorang programmer jawa yang setiap harinya harus mencari rupiah. Programmer tersebut telah menghabiskan sisa hidupnya untuk membuat program yang tidak jelas dasarnya. Hingga pada akhirnya programmer tersebut memutuskan untuk meledakan diri dan menyebabkan luka yang sangat serius. Dibutuhkan sejumlah dana untuk mengatasi kesenjangan sosial di setiap individu. Masing-masing daerah akan mendapatkan pembagian dana secara merata
               </CardDescription>
               <a className="text-primary-accent hover:text-primary-bg/70 font-semibold text-sm flex flex-row self-end" onClick={handleDetail}>
                 Detail
