@@ -14,11 +14,20 @@ export default {
 
     theme: {
         extend: {
+            lineHeight: {
+                tight: '0.81',
+            },
             fontFamily: {
                 sans: [
                     'Figtree',
                     ...defaultTheme.fontFamily.sans
                 ]
+            },
+            fontSize: {
+                'xxs': ['0.44rem', { lineHeight: '0.1rem' }],
+                ...defaultTheme.fontSize,
+
+
             },
             colors: {
                 primary: {
