@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class BookDonation extends Pivot {
@@ -24,5 +24,12 @@ class BookDonation extends Pivot {
 
     public function donation(): BelongsTo {
         return $this->belongsTo(ProductDonation::class);
+    }
+
+    public function donationItem(): BelongsToMany {
+        return $this->belongsToMany(
+            DonationItem::class,
+            'book_donation_item'
+        )->withTimestamps();
     }
 }

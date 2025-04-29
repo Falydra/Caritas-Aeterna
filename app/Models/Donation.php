@@ -101,6 +101,10 @@ class Donation extends Model {
     }
 
     public function donors(): BelongsToMany {
-        return $this->belongsToMany(Donor::class, 'donor_donation')->withPivot('verified_at');
+        return $this->belongsToMany(Donor::class, 'donor_donation')->withPivot('verified_at')->withTimestamps();
+    }
+
+    public function type(): string {
+        return static::class;
     }
 }

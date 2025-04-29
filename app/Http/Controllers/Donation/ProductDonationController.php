@@ -38,8 +38,15 @@ class ProductDonationController extends Controller {
     }
 
     public function show(ProductDonation $donation) {
+        $data = ProductDonation::with(
+            'books',
+            'facilities'
+        )->where('id', $donation->id)
+        ->first();
+
+        // return $data;
         return Inertia::render('Donation/Show', [
-            'donation' => $donation
+            'donation' => $data
         ]);
     }
 
@@ -74,7 +81,7 @@ class ProductDonationController extends Controller {
             // book validation
             'data.products.books' => "bail|nullable|array",
             'data.products.books.*.isbn' => "bail|required_with:data.products.books|exists:books,isbn",
-            'data.products.books.*.amount' => "bail|required_with:data.products.books|int|min:1|max:255",
+            'data.products.books.*.amount' => "bail|required_with:data.products.books|integer|min:1|max:255",
 
             // facilities validation
             'data.products.facilities' => "bail|nullable|array",
@@ -82,8 +89,8 @@ class ProductDonationController extends Controller {
             'data.products.facilities.*.description' => "bail|required_with:data.products.facilities|string|max:255",
             'data.products.facilities.*.dimension' => "bail|nullable|string|max:255",
             'data.products.facilities.*.material' => "bail|nullable|string|max:255",
-            'data.products.facilities.*.price' => "bail|required_with:data.products.facilities|int|min:0|max:4294967295",
-            'data.products.facilities.*.amount' => "bail|required_with:data.products.facilities|int|min:1|max:255"
+            'data.products.facilities.*.price' => "bail|required_with:data.products.facilities|integer|min:0|max:4294967295",
+            'data.products.facilities.*.amount' => "bail|required_with:data.products.facilities|integer|min:1|max:255"
         ]);
 
         DB::beginTransaction();

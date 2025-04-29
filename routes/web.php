@@ -9,6 +9,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Donation\DonationController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\Donor\DonorController;
 use App\Http\Controllers\SuperAdmin\DashboardController;
 
 use function PHPUnit\Framework\isEmpty;
@@ -71,8 +72,9 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/donations/create', [DonationController::class, 'create'])->name('donations.create');
     Route::post('/donations', [DonationController::class, 'store'])->name('donations.store');
+    Route::get('/donations/create', [DonationController::class, 'create'])->name('donations.create');
+    Route::post('/donations/donate', [DonorController::class, 'donate'])->name('donations.donate');
 });
 Route::get('/donations', [DonationController::class, 'index'])->name('donations.index');
 Route::get('/donations/{donation}', [DonationController::class, 'show'])->name('donations.show');
@@ -83,4 +85,5 @@ Route::middleware(['auth', 'verified'])->group(function() {
     Route::get('books/create', [BookController::class, 'create'])->name('books.create');
     Route::post('books', [BookController::class, 'store'])->name('books.store');
 });
+
 require __DIR__ . '/auth.php';

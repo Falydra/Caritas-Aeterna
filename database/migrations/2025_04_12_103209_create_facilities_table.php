@@ -14,13 +14,14 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('product_donation_id')->constrained(
                 table:'donations', indexName:'facility_product_donation_id'
-            );
+            )->cascadeOnDelete();
             $table->string('name', 255);
             $table->string('description', 255);
             $table->string('dimension')->nullable();
             $table->string('material')->nullable();
             $table->unsignedInteger('price');
             $table->unsignedSmallInteger('amount');
+            $table->unsignedSmallInteger('fulfilled_amount')->default(0);
             $table->enum(
                 'status',
                 array_column(ProductStatusEnum::cases(), 'value'))

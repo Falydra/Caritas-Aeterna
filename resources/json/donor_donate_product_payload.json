@@ -1,0 +1,41 @@
+{
+    "data": {
+        "type": "product_donation",
+        "user_id": "unsigned big int in:users.id",
+        "donation_id": "unsigned big int in:donations.id",
+        "package_picture": "image file max 4096kb",
+        "resi": "string",
+        "products": {
+            "books": [
+                {
+                    "isbn": "string max 13",
+                    "amount": "unsigned small int min 1"
+                },
+                {
+                    "isbn": "string max 13",
+                    "amount": "unsigned small int min 1"
+                },
+                "...",
+                {
+                    "isbn": "string max 13",
+                    "amount": "unsigned small int min 1"
+                }
+            ],
+            "facilities": [
+                {
+                    "id": "unsigned big int",
+                    "amount": "unsigned small int min 1"
+                },
+                {
+                    "id": "unsigned big int",
+                    "amount": "unsigned small int min 1"
+                },
+                "...",
+                {
+                    "id": "unsigned big int",
+                    "amount": "unsigned small int min 1"
+                }
+            ]
+        }
+    }
+}

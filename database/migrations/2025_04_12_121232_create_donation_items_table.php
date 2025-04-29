@@ -16,6 +16,10 @@ return new class extends Migration {
             $table->foreignId('donor_donation_id')->constrained(
                 table: 'donor_donation', indexName: 'donation_item_donor_donation_id'
             )->cascadeOnDelete();
+            $table->string('isbn', 13);
+            $table->foreignId('facility_id')->constrained(
+                'facilities', 'id', 'donation_item_facility_id'
+            )->cascadeOnDelete();
             $table->string('package_picture');
             $table->string('resi');
             $table->enum(
@@ -23,6 +27,8 @@ return new class extends Migration {
                 array_column(DonationItemStatusEnum::cases(), 'value'))
                 ->default(DonationItemStatusEnum::PENDING->value);
             $table->timestamps();
+
+            $table->foreign('isbn')->references('isbn')->on('books')->cascadeOnDelete();
         });
     }
 

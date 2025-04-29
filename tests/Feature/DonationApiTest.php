@@ -16,6 +16,7 @@ class DonationApiTest extends TestCase {
      */
     public function test_can_create_product_donation_as_donee(): void {
         $user = Donee::first();
+        $user->markEmailAsVerified();
 
         $title = Str::of(fake()->sentence(random_int(4, 6)))->replace('.', '');
         $books = $this->populateBooksField();
