@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class DonorDonation extends Pivot {
+class DonorDonation extends Model {
     protected $table = 'donor_donation';
 
     protected $fillable = [
@@ -34,7 +34,7 @@ class DonorDonation extends Pivot {
         return $this->hasOne(DonationItem::class);
     }
 
-    public function fund(): HasOne {
+    public function funds(): HasOne {
         return $this->hasOne(Fund::class);
     }
 }

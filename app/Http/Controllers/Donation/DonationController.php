@@ -36,6 +36,25 @@ class DonationController extends Controller {
     }
 
     public function show(Donation $donation) {
+        if (request()->is('api/*')) {
+            $donationData = Donation::with([
+                'donorDonations' => function ($q) {
+                    $q->select(
+                        'id', 'donor_id', 'donation_id', 'verified_at'
+                    )->whereHas('funds', function ($q) {
+                        $q->where('status', 'pending'); ####### IMPORTANT!!! CHANGE TO SUCCESS ##########
+                    })->latest('created_at')->take(10);
+                },
+                'donorDonations.donor' => function ($q) {
+                    $q->select('id', 'username');
+                },
+                'donorDonations.funds' => function ($q) {
+                    $q->select('id', 'donor_donation_id', 'amount');
+                }
+            ])->find($donation->id);
+            return $donationData;
+        }
+
         if ($donation->type === ProductDonation::class) {
             return app(ProductDonationController::class)->show($donation);
         }

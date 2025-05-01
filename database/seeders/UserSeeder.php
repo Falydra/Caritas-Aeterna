@@ -51,72 +51,97 @@ class UserSeeder extends Seeder {
             'password' => 'user',
             // 'type' => Donor::class
         ]);
-        $donor->userProfile()->create([
-            'full_name' => 'orang baik #1',
-            'phone_number' => '082100000003',
-            'date_of_birth' => '2002-01-01',
-            'gender' => GenderEnum::OTHER->value,
-            'last_updated' => Carbon::now()
-        ]);
+        $profile = $this->userProfile();
+        $donor->userProfile()->create($profile);
 
         $donee = Donee::create([
             'username' => 'donee',
             'email' => 'donee@example.com',
             'password' => 'user',
-            // 'type' => Donee::class
         ]);
-        $donee->userProfile()->create([
-            'full_name' => 'orang #1',
-            'phone_number' => '082100000004',
-            'date_of_birth' => '1998-01-01',
-            'gender' => GenderEnum::OTHER->value,
-            'last_updated' => Carbon::now()
-        ]);
-        $donee_identity = $donee->userIdentity()->create([
-            'nik' => '3374010101980001',
-            'full_name' => 'orang #1',
-            'id_card_image' => '3374010101980001.jpg',
-            'verified_at' => Carbon::now()
-        ]);
-        $donee_identity->address()->create([
-            'address_detail' => 'jl hidup bersamamu 1a',
-            'rt' => '001',
-            'rw' => '001',
-            'kelurahan' => 'zona nyaman',
-            'kecamatan' => 'hidup aman',
-            'city' => 'perasaanmu',
-            'province' => 'hatimu',
-            'postal_code' => '00001'
-        ]);
+        $profile = $this->userProfile();
+        $donee->userProfile()->create($profile);
+        $donee_identity = $donee->userIdentity()->create($this->userIdentity($profile));
+        $donee_identity->address()->create($this->address());
 
         $donee = Donee::create([
             'username' => 'donee_2',
             'email' => 'donee2@example.com',
             'password' => 'user',
-            // 'type' => Donee::class
         ]);
-        $donee->userProfile()->create([
-            'full_name' => 'orang #2',
-            'phone_number' => '082100000005',
-            'date_of_birth' => '1998-01-01',
-            'gender' => GenderEnum::OTHER->value,
+        $profile = $this->userProfile();
+        $donee->userProfile()->create($profile);
+        $donee_identity = $donee->userIdentity()->create($this->userIdentity($profile));
+        $donee_identity->address()->create($this->address());
+
+        for ($i = 0; $i < 50; $i++) {
+            if ($i < 10) {
+                $this->donee();
+            }
+            $this->donor();
+        }
+    }
+
+    protected function donee() {
+        $donee = Donee::create([
+            'username' => fake()->userName(),
+            'email' => fake()->safeEmail(),
+            'password' => 'user'
+        ]);
+        $profile = $this->userProfile();
+        $donee->userProfile()->create($profile);
+        $donee_identity = $donee->userIdentity()->create($this->userIdentity($profile));
+        $donee_identity->address()->create($this->address());
+    }
+
+    protected function donor() {
+        $donor = Donor::create([
+            'username' => fake()->userName(),
+            'email' => fake()->safeEmail(),
+            'password' => 'user'
+        ]);
+        $profile = $this->userProfile();
+        $donor->userProfile()->create($profile);
+    }
+
+    protected function userProfile() {
+        $seed = random_int(0, 1);
+        $gender = $seed === 0 ? GenderEnum::MALE->value : GenderEnum::FEMALE->value;
+        $data = [
+            'full_name' => fake()->name($gender),
+            'phone_number' => fake()->phoneNumber(),
+            'date_of_birth' => fake()->date('dmY', '2004-12-31'),
+            'gender' => $gender,
             'last_updated' => Carbon::now()
-        ]);
-        $donee_identity = $donee->userIdentity()->create([
-            'nik' => '3374010101980001',
-            'full_name' => 'orang #2',
-            'id_card_image' => '3374010101980002.jpg',
+        ];
+
+        return $data;
+    }
+
+    protected function userIdentity(array $profile) {
+        $nik = fake()->randomNumber(6, true) . $profile['date_of_birth'] . fake()->randomNumber(2, true);
+        $data = [
+            'nik' => $nik,
+            'full_name' => $profile['full_name'],
+            'id_card_image' => '/' . $nik . '.jpg',
             'verified_at' => Carbon::now()
-        ]);
-        $donee_identity->address()->create([
-            'address_detail' => 'jl hidup bersamamu 7a',
-            'rt' => '001',
-            'rw' => '001',
-            'kelurahan' => 'zona nyaman',
-            'kecamatan' => 'hidup aman',
-            'city' => 'perasaanmu',
-            'province' => 'hatimu',
-            'postal_code' => '00001'
-        ]);
+        ];
+
+        return $data;
+    }
+
+    protected function address() {
+        $data = [
+            'address_detail' => fake()->address(),
+            'rt' => '0' . fake()->randomNumber(2, true),
+            'rw' => '00' . fake()->randomDigit(),
+            'kelurahan' => fake()->word(),
+            'kecamatan' => fake()->word(),
+            'city' => fake()->city(),
+            'province' => fake()->word(),
+            'postal_code' => fake()->randomNumber(5, true)
+        ];
+
+        return $data;
     }
 }

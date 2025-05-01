@@ -21,4 +21,8 @@ class Donor extends User {
     public function donations(): BelongsToMany {
         return $this->belongsToMany(Donation::class, 'donor_donation')->withPivot('verified_at')->withTimestamps();
     }
+
+    public function donorDonations(): HasMany {
+        return $this->hasMany(DonorDonation::class);
+    }
 }

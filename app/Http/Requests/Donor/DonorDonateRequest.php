@@ -58,6 +58,8 @@ class DonorDonateRequest extends FormRequest {
                 'data.donation_id' => 'bail|required|integer|exists:donations,id',
 
                 // additional fund validation
+                'data.amount' => 'bail|required|integer|min:5000',
+                'data.note' => 'nullable|string'
             ];
         }
 

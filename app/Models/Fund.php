@@ -4,20 +4,65 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class Fund extends Model {
     protected $table = 'funds';
 
     protected $fillable = [
+        'donation_id',
+        'donation_type',
         'amount',
-        'transfer_date'
+        'snap_token',
+        'redirect_url',
+        'note',
     ];
 
     protected function casts(): array {
         return [
             'transfer_date' => 'datetime'
         ];
+    }
+
+    /**
+     * Set status to Pending
+     *
+     * @return void
+     */
+    public function setPending() {
+        $this->attributes['status'] = 'pending';
+        $this->save();
+    }
+
+    /**
+     * Set status to Success
+     *
+     * @return void
+     */
+    public function setSuccess() {
+        $this->attributes['status'] = 'success';
+        $this->save();
+    }
+
+    /**
+     * Set status to Failed
+     *
+     * @return void
+     */
+    public function setFailed() {
+        $this->attributes['status'] = 'failed';
+        $this->save();
+    }
+
+    /**
+     * Set status to Expired
+     *
+     * @return void
+     */
+    public function setExpired() {
+        $this->attributes['status'] = 'expired';
+        $this->save();
     }
 
     public function donation(): BelongsTo {

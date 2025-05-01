@@ -23,8 +23,6 @@ return new class extends Migration {
                 array_column(DonationItemStatusEnum::cases(), 'value'))
                 ->default(DonationItemStatusEnum::PENDING->value);
             $table->timestamps();
-
-            $table->foreign('isbn')->references('isbn')->on('books')->cascadeOnDelete();
         });
     }
 

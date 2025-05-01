@@ -117,6 +117,10 @@ class User extends Authenticatable {
         return $this->hasOne(UserIdentity::class, 'user_id');
     }
 
+    public function isVerified(): bool {
+        return $this->email_verified_at !== null;
+    }
+
     public function isAdmin(): bool {
         return static::class == Admin::class || static::class == SuperAdmin::class;
     }

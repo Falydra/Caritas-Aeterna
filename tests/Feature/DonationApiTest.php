@@ -2,9 +2,12 @@
 
 namespace Tests\Feature;
 
+use App\Enums\DonationStatusEnum;
 use Tests\TestCase;
 use App\Models\Book;
+use App\Models\Admin;
 use App\Models\Donee;
+use App\Models\Donation;
 use Illuminate\Support\Str;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -102,6 +105,51 @@ class DonationApiTest extends TestCase {
         ]);
     }
 
+    public function test_create_fundraiser(): void {
+        $user = Donee::inRandomOrder()->first();
+        $user->markEmailAsVerified();
+
+        $title = Str::of(fake()->sentence(random_int(4, 6)))->replace('.', '');
+        $target = 720000;
+
+        $data = $this->generateDonation(
+            'fundraiser',
+            $title,
+            $target
+        );
+
+        $response = $this->actingAs($user)->postJson(
+            'donations',
+            ['data' => $data]
+        );
+
+        $response->assertStatus(302);
+        $this->assertDatabaseHas('donations', [
+            'title' => $title,
+        ]);
+    }
+
+    protected function startDonation($admin): void {
+        $donation = Donation::inRandomOrder()->first();
+
+        $donation->setOnProgress($admin);
+
+        $this->assertDatabaseHas('donations', [
+            'id' => $donation->id,
+            'status' => DonationStatusEnum::ON_PROGRESS->value,
+            'reviewed_by' => $admin->id
+        ]);
+    }
+
+    public function test_batch_start_donation(): void {
+        $donations = Donation::all();
+        $admin = Admin::first();
+
+        foreach ($donations as $donation) {
+            $this->startDonation($admin);
+        }
+    }
+
     private function populateBooksField() {
         $books = array();
         for ($i = 0; $i < random_int(2, 10); $i++) {
@@ -165,13 +213,22 @@ class DonationApiTest extends TestCase {
             $this->populateImageDescriptions($images, $image_descriptions);
         }
 
+        if ($type === 'product_donation') {
+            $attr = [
+                "product_amount" => $attr_amount,
+                "fulfilled_product_amount" => 0
+            ];
+        } else {
+            $attr = [
+                "target_fund" => $attr_amount,
+                "current_fund" => 0
+            ];
+        }
+
         $data = [
             "type" => $type,
             "title" => $title,
-            "type_attributes" => [
-                "product_amount" => $attr_amount,
-                "fulfilled_product_amount" => 0
-            ],
+            "type_attributes" => $attr,
             "header_image" => $header_file,
             "text_descriptions" => $text_descriptions,
             "image_descriptions" => $image_descriptions ?? [],

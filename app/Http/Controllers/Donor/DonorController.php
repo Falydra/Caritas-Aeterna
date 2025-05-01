@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Donor;
 
 use App\Exceptions\DonateOwnDonationException;
 use App\Exceptions\InvalidUserTypeException;
+use App\Exceptions\UnverifiedUserException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Donor\DonorDonateRequest;
 use App\Models\Fundraiser;
@@ -23,16 +24,18 @@ class DonorController extends Controller {
             if ($type === ProductDonation::class) {
                 $service->donateProduct($request->validated());
             } else if ($type === Fundraiser::class) {
-                // call fundraiser service
+                $fund = $service->donateFund($request->validated());
             } else {
                 abort(500, "No such type as {$type}");
             }
+        } catch (UnverifiedUserException $e) {
+            abort(403, $e->getMessage());
         } catch (DonateOwnDonationException $e) {
             abort(403, $e->getMessage());
         } catch (InvalidUserTypeException $e) {
             abort(403, $e->getMessage());
         } catch (Exception $e) {
-            // \Log::alert($e->getMessage());
+            \Log::alert($e->getMessage());
             abort(500, $e->getMessage());
         }
 

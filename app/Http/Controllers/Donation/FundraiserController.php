@@ -34,17 +34,9 @@ class FundraiserController extends Controller {
     }
 
     public function show(Fundraiser $donation) {
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Donation retrieved successfully',
-            'data' => [
-                'donation' => $donation,
-            ]
+        return Inertia::render('Donation/Show', [
+            'donation' => $donation
         ]);
-
-        // return Inertia::render('Donation/Show', [
-        //     'donation' => $donation
-        // ]);
     }
 
     public function create() {
