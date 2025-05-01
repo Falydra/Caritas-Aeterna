@@ -9,16 +9,28 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Traits\HandleDonationsData;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Donation\DonationStoreRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Query\Builder;
+use App\Http\Resources\Donation\DonationCollection;
+use App\Http\Requests\Donation\DonationStoreRequest;
 
 class FundraiserController extends Controller {
     use HandleDonationsData;
 
     public function index() {
         $donations = Fundraiser::select(
-            'type', 'type_attributes', 'title', 'header_image'
-        )->latest()->paginate(10);
+            'type',
+            'type_attributes',
+            'title',
+            'header_image'
+        )->whereNot(function (Builder $query) {
+            $query->where('status', 'pending')->orWhere('status', 'denied');
+        })->latest()->paginate(10);
+
+        return (new DonationCollection($donations))->additional([
+            'status' => 'success',
+            'message' => 'Lists donation retrieved successfully'
+        ]);
     }
 
     public function show(Fundraiser $donation) {

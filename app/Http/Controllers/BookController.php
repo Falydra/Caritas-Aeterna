@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\BookCollection;
+use App\Models\ProductDonation;
 use Illuminate\Support\Facades\Storage;
 
 class BookController extends Controller {
@@ -87,6 +88,34 @@ class BookController extends Controller {
         return back()->with('success', 'Book added successfully');
     }
 
+    public function search(Request $request) {
+        $validated = $request->validate([
+            'data.keyword' => 'bail|string'
+        ]);
+
+        $query = data_get($validated, 'data.keyword');
+        if (isset($query)) {
+            $query = $this->sanitizeTextInput($query);
+        }
+
+        $books = Book::query()
+            ->when($query, function($q) use ($query) {
+                $q->where('title', 'like', "%{$query}%")
+                ->orWhere('authors', 'like', "%{$query}%")
+                ->orWhere('synopsis', 'like', "%{$query}%");
+            })
+            ->latest()
+            ->paginate(10);
+
+        return (new BookCollection($books))->additional([
+            'status' => 'success',
+            'message' => 'Lists book retrieved successfully'
+        ]);
+    }
+
+    /**
+     * Helper Methods
+     */
     protected function storeImage(
         string $title,
         UploadedFile $file,

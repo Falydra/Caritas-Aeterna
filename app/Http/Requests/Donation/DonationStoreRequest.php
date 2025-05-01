@@ -24,8 +24,9 @@ class DonationStoreRequest extends FormRequest {
             'data.title' => "bail|required|string|unique:donations,title|max:255",
             'data.header_image' => "bail|required|image|mimes:jpg,jpeg,png,webp|max:4096",
             'data.text_descriptions' => "required|array",
-            'data.image_descriptions' => "required|array",
-            'data.image_descriptions.*' => "image|mimes:jpg,png,webp|max:4096",
+            'data.text_descriptions.*' => "required_with:data.text_descriptions|string",
+            'data.image_descriptions' => "array",
+            'data.image_descriptions.*' => "required_with:data.image_descriptions|image|mimes:jpg,png,webp|max:4096",
             'data.type_attributes' => "bail|required|array",
         ];
     }

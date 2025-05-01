@@ -16,7 +16,7 @@ return new class extends Migration {
                 table: 'users', indexName: 'user_profile_user_id'
             )->onDelete('cascade');
             $table->string('full_name', 128);
-            $table->string('phone_number', 15)->nullable();
+            $table->string('phone_number', 25)->nullable();
             $table->date('date_of_birth');
             $table->enum(
                 'gender',

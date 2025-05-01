@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class DonationItem extends Model {
@@ -19,7 +20,17 @@ class DonationItem extends Model {
         return $this->belongsTo(DonorDonation::class);
     }
 
-    public function donation(): BelongsTo {
-        return $this->belongsTo(ProductDonation::class);
+    public function books(): BelongsToMany {
+        return $this->belongsToMany(
+            BookDonation::class,
+            'book_donation_item'
+        )->withTimestamps();
+    }
+
+    public function facilities(): BelongsToMany {
+        return $this->belongsToMany(
+            Facility::class,
+            'facility_donation_item'
+        )->withTimestamps();
     }
 }

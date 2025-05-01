@@ -9,6 +9,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Donation\DonationController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\Donor\DonorController;
+use App\Http\Controllers\Fund\FundController;
 use App\Http\Controllers\SuperAdmin\DashboardController;
 use App\Http\Controllers\GeneralNewsController;
 
@@ -57,7 +59,7 @@ Route::get('/dashboard/donors', function () {
 
 Route::get('/dashboard/admin', [AdminDashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
-->name('admin.dashboard');
+    ->name('admin.dashboard');
 
 Route::get('/dashboard/super-admin', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
@@ -76,15 +78,19 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/donations/create', [DonationController::class, 'create'])->name('donations.create');
     Route::post('/donations', [DonationController::class, 'store'])->name('donations.store');
+    Route::get('/donations/create', [DonationController::class, 'create'])->name('donations.create');
+    Route::post('/donations/donate', [DonorController::class, 'donate'])->name('donations.donate');
+    Route::get('/donations/fund/pay/{fund}', [FundController::class, 'show'])->name('donation.pay');
 });
 Route::get('/donations', [DonationController::class, 'index'])->name('donations.index');
 Route::get('/donations/{donation}', [DonationController::class, 'show'])->name('donations.show');
+Route::get('/donations/search', [DonationController::class, 'search'])->name('donations.search');
 
 Route::get('/books', [BookController::class, 'index'])->name('books.index');
-Route::middleware(['auth', 'verified'])->group(function() {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('books/create', [BookController::class, 'create'])->name('books.create');
     Route::post('books', [BookController::class, 'store'])->name('books.store');
 });
+
 require __DIR__ . '/auth.php';

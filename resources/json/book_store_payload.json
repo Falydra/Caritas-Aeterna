@@ -1,0 +1,16 @@
+{
+    "data": {
+        "isbn": "string max 13",
+        "title": "string max 255",
+        "authors": [
+            "string max 50",
+            "string max 50",
+            "...",
+            "string max 50"
+        ],
+        "published_year": "string max 4",
+        "synopsis": "text max 1024",
+        "cover_image": "File max 2mb",
+        "price": "unsigned integer"
+    }
+}

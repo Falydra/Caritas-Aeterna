@@ -2,11 +2,15 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+use Illuminate\Support\Str;
 use App\Models\UserIdentity;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Enums\DonationStatusEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Donation extends Model {
     protected $table = 'donations';
@@ -32,7 +36,7 @@ class Donation extends Model {
             'type_attributes' => 'array',
             'text_descriptions' => 'array',
             'image_descriptions' => 'array',
-            'created_at' =>'datetime',
+            'created_at' => 'datetime',
             'updated_at' => 'datetime',
             'reviewed_at' => 'datetime'
         ];
@@ -92,15 +96,101 @@ class Donation extends Model {
         return $model;
     }
 
+    /**
+     * Relationship
+     */
     public function initiator(): BelongsTo {
         return $this->belongsTo(Donee::class);
     }
 
     public function reviewer(): BelongsTo {
-        return $this->belongsTo(Admin::class);
+        return $this->belongsTo(Admin::class, 'reviewed_by');
     }
 
     public function donors(): BelongsToMany {
-        return $this->belongsToMany(Donor::class, 'donor_donation')->withPivot('verified_at');
+        return $this->belongsToMany(Donor::class, 'donor_donation')->withPivot('verified_at')->withTimestamps();
+    }
+
+    public function donorDonations(): HasMany {
+        return $this->hasMany(DonorDonation::class);
+    }
+
+    /**
+     * Class Methods
+     */
+    public function type(): string {
+        return static::class;
+    }
+
+    public function category(): string {
+        return Str::afterLast(static::class, '\\');
+    }
+
+    public function typeAttributes(): array {
+        return $this->type_attributes;
+    }
+
+    public function setPending(User $user): void {
+        if ($user->role() !== Admin::class) {
+            return;
+        }
+
+        if ($this->status !== DonationStatusEnum::PENDING->value) {
+            $this->update([
+                'status' => DonationStatusEnum::PENDING->value,
+                'reviewed_by' => $user->id,
+                'reviewed_at' => now()
+            ]);
+            $this->reviewer()->associate($user);
+            $this->save();
+        }
+    }
+
+    public function setOnProgress(User $user): void {
+        if ($user->role() !== Admin::class) {
+            return;
+        }
+
+        if ($this->status !== DonationStatusEnum::ON_PROGRESS->value) {
+            $this->update([
+                'status' => DonationStatusEnum::ON_PROGRESS->value,
+                'reviewed_by' => $user->id,
+                'reviewed_at' => now()
+            ]);
+            $this->reviewer()->associate($user);
+            $this->save();
+        }
+    }
+
+    public function setDenied(User $user): void {
+        if ($user->role() !== Admin::class) {
+            return;
+        }
+
+        if ($this->status !== DonationStatusEnum::DENIED->value) {
+            $this->update([
+                'status' => DonationStatusEnum::DENIED->value,
+                'reviewed_by' => $user->id,
+                'reviewed_at' => now()
+            ]);
+            $this->reviewer()->associate($user);
+            $this->save();
+        }
+    }
+
+    public function setFinished(User $user): void {
+        if ($user->role() !== Admin::class) {
+            return;
+        }
+
+        if ($this->status !== DonationStatusEnum::FINISHED->value) {
+            $this->update([
+                'status' => DonationStatusEnum::FINISHED->value,
+                'reviewed_by' => $user->id,
+                'reviewed_at' => now()
+            ]);
+            $this->reviewer()->associate($user);
+            $this->save();
+        }
     }
 }

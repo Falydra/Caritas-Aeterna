@@ -1,0 +1,66 @@
+{
+	"data": {
+		"type": "string enum(fundraiser, product_donation)",
+		"title": "string max 255",
+		"class_attributes": {
+            "product_amount": "unsigned small integer",
+            "fulfilled_product_amount": "unsigned small integer"
+        },
+        "header_image": "File max 4mb",
+		"text_descriptions": [
+            {"0": "text max 2048"},
+            {"1": "text max 2048"},
+            {"2": "text max 2048"}
+        ],
+        "image_descriptions": [
+            {"0": "File max 4mb"},
+            {"1": "File max 4mb"},
+            {"2": "File max 4mb"}
+        ],
+        "products": {
+            "books": [
+                {
+                    "isbn": "string max 13",
+                    "amount": "unsigned small integer"
+                },
+                {
+                    "isbn": "string max 13",
+                    "amount": "unsigned small integer"
+                },
+                "...",
+                {
+                    "isbn": "string max 13",
+                    "amount": "unsigned small integer"
+                }
+            ],
+            "facilities": [
+                {
+                    "name": "string max 255",
+                    "description": "string max 255",
+                    "dimension": "optional string max 255",
+                    "material": "optional string max 255",
+                    "price": "unsigned integer",
+                    "amount": "unsigned small integer"
+                },
+                {
+                    "name": "string max 255",
+                    "description": "string max 255",
+                    "dimension": "optional string max 255",
+                    "material": "optional string max 255",
+                    "price": "unsigned integer",
+                    "amount": "unsigned small integer"
+                },
+                "...",
+                {
+                    "name": "string max 255",
+                    "description": "string max 255",
+                    "dimension": "optional string max 255",
+                    "material": "optional string max 255",
+                    "price": "unsigned integer",
+                    "amount": "unsigned small integer"
+                }
+            ]
+        }
+	}
+}
+

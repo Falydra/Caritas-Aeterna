@@ -16,6 +16,7 @@ class BooksApiTest extends TestCase {
      */
     public function test_can_create_book(): void {
         $user = Donee::first();
+        $user->markEmailAsVerified();
 
         $img_name = 'book_02.jpg';
         $img_path = storage_path('app\\public\\uploads\\test\\' . $img_name);

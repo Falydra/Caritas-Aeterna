@@ -14,16 +14,17 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('donation_id')->constrained(
                 table: 'donations', indexName: 'book_donation_donation_id'
-            )->onDelete('cascade');
+            )->cascadeOnDelete();
             $table->string('isbn', 13);
             $table->unsignedSmallInteger('amount');
+            $table->unsignedSmallInteger('fulfilled_amount')->default(0);
             $table->enum(
                 'status',
                 array_column(ProductStatusEnum::cases(), 'value'))
                 ->default(ProductStatusEnum::NOT_FULFILLED->value);
             $table->timestamps();
 
-            $table->foreign('isbn')->references('isbn')->on('books')->onDelete('cascade');
+            $table->foreign('isbn')->references('isbn')->on('books')->cascadeOnDelete();
         });
     }
 
