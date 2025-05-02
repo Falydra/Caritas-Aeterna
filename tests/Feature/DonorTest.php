@@ -37,7 +37,8 @@ class DonorTest extends TestCase {
     }
 
     public function test_donor_donate_fund(): void {
-        $user = Donor::inRandomOrder()->first();
+        // $user = Donor::inRandomOrder()->first();
+        $user = Donor::find(46);
         $user->markEmailAsVerified();
 
         $donation = Fundraiser::inRandomOrder()->first();

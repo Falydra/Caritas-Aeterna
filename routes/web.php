@@ -82,6 +82,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/donations/create', [DonationController::class, 'create'])->name('donations.create');
     Route::post('/donations/donate', [DonorController::class, 'donate'])->name('donations.donate');
     Route::get('/donations/fund/pay/{fund}', [FundController::class, 'show'])->name('donation.pay');
+    Route::post('/donations/fund/finish', [FundController::class, 'finish'])->name('donation.finish');
 });
 Route::get('/donations', [DonationController::class, 'index'])->name('donations.index');
 Route::get('/donations/{donation}', [DonationController::class, 'show'])->name('donations.show');

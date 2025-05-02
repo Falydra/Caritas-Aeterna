@@ -193,4 +193,13 @@ class FundController extends Controller {
             $fund->setFailed();
         }
     }
+
+    /**
+     *
+     */
+    public function finish(Request $request) {
+        \Log::info("Request data: ", [$request->all()]);
+
+        return redirect('/');
+    }
 }

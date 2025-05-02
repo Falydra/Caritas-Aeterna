@@ -1,0 +1,41 @@
+{
+    "id": 2,
+    "initiator_id": 10,
+    "type": "App\\Models\\Fundraiser",
+    "type_attributes": {
+      "target_fund": 720000,
+      "current_fund": 0
+    },
+    "title": "Quaerat odio ut optio fuga",
+    "header_image": "/storage/image/donations/quaerat_odio_ut_optio_fuga/6xUhwGxCy6T0WWn9rjmzrnf0miF8JtpGKU8Kq0iE.png",
+    "text_descriptions": {
+      "0": "Aspernatur dolor enim quaerat qui dolores aut dolore reiciendis enim possimus ea saepe repudiandae laboriosam aliquam similique consequatur autem praesentium incidunt laboriosam fugiat deleniti nulla enim autem aut dolores numquam ut quasi quod dolorem incidunt voluptatem voluptatem ut qui cum quia odit explicabo eos voluptate sit rerum et autem saepe quisquam consequatur dolor omnis nemo minus et veniam qui delectus consectetur illum ipsam voluptas libero error natus nostrum libero qui natus debitis asperiores aut quia occaecati hic eos possimus sed eius aut sit autem libero numquam inventore ex dolore blanditiis ipsam recusandae sed sequi quis nemo nihil quis maiores consequuntur esse eveniet velit atque repellendus necessitatibus voluptatem laborum est voluptatem voluptatibus aperiam ea earum velit maiores tempore doloremque fugiat sed quae quia voluptatibus ipsa ducimus sunt hic nam dignissimos et doloremque tenetur iste optio aspernatur alias sunt dolor quia reprehenderit sint omnis inventore quisquam.",
+      "2": "Id consequatur odio nisi nulla atque reiciendis soluta iure ut atque sit aut natus non molestiae et et qui voluptatem veniam et non aliquid explicabo accusantium et quis aspernatur culpa esse odio et dicta vel saepe sequi esse recusandae totam error in debitis non rerum voluptatem in reiciendis omnis corrupti ab quibusdam excepturi magnam iste labore fugit assumenda dolorem aperiam sit voluptate labore nisi consequuntur voluptatibus atque enim voluptas voluptatem eos dolorem ut sit soluta dolores repudiandae dicta est excepturi in tempore ducimus incidunt error aut laudantium beatae ab natus est qui esse iusto deleniti rerum dolorum ducimus aliquid libero dicta tenetur quis eligendi esse itaque enim error ut commodi sunt quos aut in molestiae qui commodi quo unde et accusamus unde et optio tempore error et mollitia."
+    },
+    "image_descriptions": {
+      "1": "/storage/image/donations/quaerat_odio_ut_optio_fuga/O63yi9F1JTLTQgTv9XLOMnaK30kOb8QcGgI15QR5.png",
+      "3": "/storage/image/donations/quaerat_odio_ut_optio_fuga/orsDa4vFBczZv7LdUbNx2KpkoC2L2gIYeyG4jOe7.png"
+    },
+    "status": "pending",
+    "reviewed_by": null,
+    "reviewed_at": null,
+    "created_at": "2025-05-01T16:30:48.000000Z",
+    "updated_at": "2025-05-01T16:30:48.000000Z",
+    "donor_donations": [
+      {
+        "id": 3,
+        "donor_id": 52,
+        "donation_id": 2,
+        "verified_at": "2025-05-01T23:31:08.000000Z",
+        "donors": {
+          "id": 52,
+          "username": "precious03"
+        },
+        "funds": {
+          "id": 3,
+          "donor_donation_id": 3,
+          "amount": "40000.00"
+        }
+      }
+    ]
+  }
