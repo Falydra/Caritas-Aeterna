@@ -3,6 +3,7 @@ import CartProduct from "@/Components/CartProduct";
 import Authenticated from "@/Layouts/AuthenticatedLayout";
 import { useState } from "react";
 import React, { Component } from 'react'
+import CreateDonation from "../Donation/Create";
 
 
 export default function Cart() {
@@ -16,7 +17,7 @@ export default function Cart() {
     return (
         <Authenticated>
             <div id="cart" className="text-white px-8 w-full h-full items-start py-4 flex flex-row justify-start gap-8">
-                <div className="w-full h-full flex-col flex items-start justify-start gap-8">
+                {/* <div className="w-full h-full flex-col flex items-start justify-start gap-8">
                     <div className="w-full h-full rounded-xl flex flex-col items-start justify-start gap-2">
 
                         <h1>
@@ -42,7 +43,8 @@ export default function Cart() {
                 
                     </div>
                     
-                </div>
+                </div> */}
+                {/* <CreateDonation/> */}
             </div>
         </Authenticated>
     );

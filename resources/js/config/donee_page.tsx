@@ -1,4 +1,3 @@
-
 export interface MenuItem {
     title: string;
     url: string;
@@ -6,23 +5,20 @@ export interface MenuItem {
     route: string;
 }
 
-
-
-
-export const PageData = {
+export const DoneePage = {
     mainPage: {
         items: [
             {
                 title: "Books",
-                url: "/dashboard",
+                url: "/dashboard/donee",
                 isActive: false,
-                route: "dashboard",
+                route: "donee.dashboard",
             },
             {
-                title: "Cart",
-                url: "/dashboard/cart",
+                title: "Create Donation",
+                url: "/dashboard/donee/create-donation",
                 isActive: false,
-                route: "cart",
+                route: "donee.init",
             },
             {
                 title: "Payment",

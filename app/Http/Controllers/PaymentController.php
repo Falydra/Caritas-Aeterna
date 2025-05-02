@@ -10,25 +10,35 @@ class PaymentController extends Controller
 {
     public function createTransaction(Request $request)
     {
-        // Konfigurasi Midtrans
-        Config::$serverKey = config('services.midtrans.server_key');
-        Config::$isProduction = config('services.midtrans.is_production');
-        Config::$isSanitized = true;
-        Config::$is3ds = true;
+        try {
+            Config::$serverKey = config('services.midtrans.server_key');
+            Config::$isProduction = config('services.midtrans.is_production');
+            Config::$isSanitized = true;
+            Config::$is3ds = true;
 
-        $params = [
-            'transaction_details' => [
-                'order_id' => 'ORDER-' . uniqid(),
-                'gross_amount' => $request->amount,
-            ],
-            'customer_details' => [
-                'first_name' => $request->name,
-                'email' => $request->email,
-            ],
-        ];
+            $request->validate([
+                'amount' => 'required|numeric|min:1000',
+                'name' => 'required|string',
+                'email' => 'required|email',
+            ]);
 
-        $snapToken = Snap::getSnapToken($params);
+            $params = [
+                'transaction_details' => [
+                    'order_id' => 'ORDER-' . uniqid(),
+                    'gross_amount' => $request->amount,
+                ],
+                'customer_details' => [
+                    'first_name' => $request->name,
+                    'email' => $request->email,
+                ],
+            ];
 
-        return response()->json(['token' => $snapToken]);
+            $snapToken = Snap::getSnapToken($params);
+
+            return response()->json(['token' => $snapToken]);
+        } catch (\Exception $e) {
+            \Log::error('MidTrans Error: ' . $e->getMessage());
+            return response()->json(['error' => 'Failed to create transaction'], 500);
+        }
     }
 }

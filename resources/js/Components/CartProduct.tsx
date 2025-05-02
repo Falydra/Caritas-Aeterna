@@ -6,7 +6,9 @@ export default function CartProduct() {
    
     return (
         <div className="flex w-full h-full text-primary-bg">
-            <DataTable />
+            {/* <DataTable />
+             */}
+             
         </div>
     );
 }
