@@ -1,6 +1,8 @@
 <?php
 
 
+
+use App\Http\Controllers\Donee\InitController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
@@ -13,6 +15,8 @@ use App\Http\Controllers\Donor\DonorController;
 use App\Http\Controllers\Fund\FundController;
 use App\Http\Controllers\SuperAdmin\DashboardController;
 use App\Http\Controllers\GeneralNewsController;
+use App\Http\Controllers\Donee\DoneeDashboardController;
+
 
 use function PHPUnit\Framework\isEmpty;
 use Illuminate\Support\Facades\Auth;
@@ -67,14 +71,16 @@ Route::get('/dashboard/super-admin', [DashboardController::class, 'index'])
 
 
 
-Route::fallback(function () {
-    return Inertia::render('404');
-})->name('fallback');
-
-Route::middleware('auth')->group(function () {
+    
+    Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+Route::middleware(['auth','verified'])->group(function() {
+    Route::get('dashboard/donee', [DoneeDashboardController ::class, 'index'])->name('donee.dashboard');
+    Route::get('dashboard/donee/create-donation', [InitController::class, 'index'])->name('donee.init');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -93,4 +99,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('books', [BookController::class, 'store'])->name('books.store');
 });
 
+Route::fallback(function () {
+    return Inertia::render('404');
+})->name('fallback');
 require __DIR__ . '/auth.php';

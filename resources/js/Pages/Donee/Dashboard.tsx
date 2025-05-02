@@ -119,11 +119,11 @@ export default function Page() {
         <div className="flex flex-col w-full h-full items-center justify-center">
           <div className="flex flex-col w-full  items-start justify-end  px-8 py-4">
               <h1 className="text-primary-fg self-start flex text-2xl flex-row  items-center justify-end font-semibold hover:text-primary-accent">
-                  Riwayat Donasi
+                  Riwayat Pengajuan Donasi
                 
               </h1>
                 <span className="">
-                  Riawat donasi terbaru 
+                  Riawat pengajuan donasi terbaru 
                 </span>
 
           </div>
