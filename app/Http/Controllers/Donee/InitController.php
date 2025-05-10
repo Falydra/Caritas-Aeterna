@@ -1,16 +1,16 @@
-<?php 
+<?php
 
 namespace App\Http\Controllers\Donee;
+
+use Inertia\Inertia;
+use App\Models\Donee;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Inertia\Inertia;
 
 
-class InitController extends Controller
-{
-    public function index()
-    {
-        if (Auth::user()->role() != 'donee') {
+class InitController extends Controller {
+    public function index() {
+        if (Auth::user()->role() != Donee::class) {
             return Inertia::render('Error', [
                 'code' => '403',
                 'status' => 'forbidden',

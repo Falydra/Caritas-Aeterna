@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Exceptions\UnverifiedUserException;
 use App\Exceptions\InvalidUserTypeException;
 use App\Exceptions\DonateOwnDonationException;
+use App\Exceptions\InvalidDonationStatusException;
 
 class DonationService {
     public function donateProduct(array $donationData) {
@@ -83,6 +84,10 @@ class DonationService {
 
         if ($user->id === $donation->initiator_id) {
             throw new DonateOwnDonationException('You are not allowed to donate to your own donation');
+        }
+
+        if ($donation->status === 'pending' || $donation->status === 'denied') {
+            throw new InvalidDonationStatusException('This donation has not started yet or is denied');
         }
 
         DB::beginTransaction();
@@ -160,6 +165,15 @@ class DonationService {
         $donationItem->books()->attach($book->isbn);
 
         // TODO: Handle BookDonation amount transaction
+    }
+
+    protected function createFacilityItemPivot(
+        ProductDonation $donation,
+        DonationItem $donationItem,
+        array $facilityData
+    ) {
+        $id = data_get($facilityData, 'id');
+        $amount = data_get($facilityData, 'amount');
     }
 
     protected function createDonationItem(DonorDonation $donation, array $donationData): DonationItem {

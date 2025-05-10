@@ -71,7 +71,7 @@ Route::get('/dashboard/super-admin', [DashboardController::class, 'index'])
 
 
 
-    
+
     Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -79,8 +79,8 @@ Route::get('/dashboard/super-admin', [DashboardController::class, 'index'])
 });
 
 Route::middleware(['auth','verified'])->group(function() {
-    Route::get('dashboard/donee', [DoneeDashboardController ::class, 'index'])->name('donee.dashboard');
-    Route::get('dashboard/donee/create-donation', [InitController::class, 'index'])->name('donee.init');
+    Route::get('/dashboard/donee', [DoneeDashboardController ::class, 'index'])->name('donee.dashboard');
+    Route::get('/dashboard/donee/create-donation', [InitController::class, 'index'])->name('donee.init');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -88,6 +88,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/donations/create', [DonationController::class, 'create'])->name('donations.create');
     Route::post('/donations/donate', [DonorController::class, 'donate'])->name('donations.donate');
     Route::get('/donations/fund/pay/{fund}', [FundController::class, 'show'])->name('donation.pay');
+    Route::post('/donations/fund/finish', [FundController::class, 'finish'])->name('donation.finish');
 });
 Route::get('/donations', [DonationController::class, 'index'])->name('donations.index');
 Route::get('/donations/{donation}', [DonationController::class, 'show'])->name('donations.show');

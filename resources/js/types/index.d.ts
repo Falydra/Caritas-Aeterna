@@ -7,12 +7,6 @@ export interface User {
     email_verified_at?: string;
 }
 
-export type Fund = {
-    user_id: User.id;
-    amount: number;
-    transfer_date: string;
-}
-
 //Fixed Book
 export type Book = {
     title: string;
@@ -70,6 +64,47 @@ export type Books = {
     image: string;
     status?: string;
 };
+
+export type Fund = {
+    id: number;
+    donor_donation_id: number;
+    amount: number;
+    // user_id: User.id;
+    // transfer_date: string;
+}
+
+export type Donor = {
+    id: number;
+    username: string;
+}
+
+export type Fundraiser = {
+    user: user;
+    id: number;
+    type: string;
+    type_attributes: {
+        [key: string]: string | number;
+    };
+    title: string;
+    header_image: string;
+    text_descriptions: {
+        [key: number]: string;
+    };
+    image_descriptions: {
+        [key: number]: string;
+    };
+    status: string;
+    created_at: string;
+    donor_donations: DonorDonations[];
+}
+
+export type DonorDonation = {
+    id: number;
+    donor_id: 52;
+    verified_at: string;
+    donor: Donor[];
+    funds: Fund[];
+}
 
 export type Donation = {
     user?: User;

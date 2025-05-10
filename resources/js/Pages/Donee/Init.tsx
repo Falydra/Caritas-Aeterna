@@ -7,7 +7,7 @@ import CreateDonation from "../Donation/Create";
 
 
 export default function DoneeCreateDonation() {
-    
+
     const [activePage, setActivePage] = useState<string>("Cart");
 
     const handleChangePage = (title: string) => {
@@ -17,8 +17,8 @@ export default function DoneeCreateDonation() {
     return (
         <Authenticated>
             <div id="cart" className="text-white px-8 w-full h-full items-start py-4 flex flex-row justify-start gap-8">
-              
-                {/* <CreateDonation/> */}
+
+                <CreateDonation/>
             </div>
         </Authenticated>
     );
