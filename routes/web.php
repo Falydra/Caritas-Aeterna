@@ -71,7 +71,7 @@ Route::get('/dashboard/super-admin', [DashboardController::class, 'index'])
 
 
 
-    
+
     Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -79,8 +79,8 @@ Route::get('/dashboard/super-admin', [DashboardController::class, 'index'])
 });
 
 Route::middleware(['auth','verified'])->group(function() {
-    Route::get('dashboard/donee', [DoneeDashboardController ::class, 'index'])->name('donee.dashboard');
-    Route::get('dashboard/donee/create-donation', [InitController::class, 'index'])->name('donee.init');
+    Route::get('/dashboard/donee', [DoneeDashboardController ::class, 'index'])->name('donee.dashboard');
+    Route::get('/dashboard/donee/create-donation', [InitController::class, 'index'])->name('donee.init');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
