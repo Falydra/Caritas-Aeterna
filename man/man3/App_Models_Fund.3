@@ -1,0 +1,111 @@
+.TH "App\Models\Fund" 3 "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+App\Models\Fund
+.SH SYNOPSIS
+.br
+.PP
+.PP
+Inherits Model\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBsetPending\fP ()"
+.br
+.ti -1c
+.RI "\fBsetSuccess\fP ()"
+.br
+.ti -1c
+.RI "\fBsetFailed\fP ()"
+.br
+.ti -1c
+.RI "\fBsetExpired\fP ()"
+.br
+.ti -1c
+.RI "\fBdonation\fP ()"
+.br
+.ti -1c
+.RI "\fBdonorDonation\fP ()"
+.br
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBcasts\fP ()"
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fB$table\fP = 'funds'"
+.br
+.ti -1c
+.RI "\fB$fillable\fP"
+.br
+.in -1c
+.SH "Member Function Documentation"
+.PP 
+.SS "App\\Models\\Fund::setExpired ()"
+Set status to Expired
+
+.PP
+\fBReturns\fP
+.RS 4
+void 
+.RE
+.PP
+
+.SS "App\\Models\\Fund::setFailed ()"
+Set status to Failed
+
+.PP
+\fBReturns\fP
+.RS 4
+void 
+.RE
+.PP
+
+.SS "App\\Models\\Fund::setPending ()"
+Set status to Pending
+
+.PP
+\fBReturns\fP
+.RS 4
+void 
+.RE
+.PP
+
+.SS "App\\Models\\Fund::setSuccess ()"
+Set status to Success
+
+.PP
+\fBReturns\fP
+.RS 4
+void 
+.RE
+.PP
+
+.SH "Member Data Documentation"
+.PP 
+.SS "App\\Models\\Fund::$fillable\fR [protected]\fP"
+\fBInitial value:\fP
+.nf
+= [
+        'donation_id',
+        'donation_type',
+        'amount',
+        'snap_token',
+        'redirect_url',
+        'note',
+    ]
+.PP
+.fi
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_app_1_1_http_1_1_controllers_1_1_donation_1_1_fundraiser_controller" xml:lang="en-US">
+<title>App\Http\Controllers\Donation\FundraiserController Class Reference</title>
+<indexterm><primary>App\Http\Controllers\Donation\FundraiserController</primary></indexterm>
+<para>Inheritance diagram for App\Http\Controllers\Donation\FundraiserController:    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="class_app_1_1_http_1_1_controllers_1_1_donation_1_1_fundraiser_controller.png"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+<simplesect>
+    <title>Public Member Functions    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_app_1_1_http_1_1_controllers_1_1_donation_1_1_fundraiser_controller_1ae6f4230acbcccf9a40f4379ee20a82ea"/><emphasis role="strong">index</emphasis> ()</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_app_1_1_http_1_1_controllers_1_1_donation_1_1_fundraiser_controller_1a4884f260929075ca6dcb1e6c7ba246dd"/><emphasis role="strong">latest</emphasis> ()</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_app_1_1_http_1_1_controllers_1_1_donation_1_1_fundraiser_controller_1a361a6373fb916f7d3099f1e157f8b5e7"/><emphasis role="strong">show</emphasis> (<link linkend="_class_app_1_1_models_1_1_fundraiser">Fundraiser</link> $donation)</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_app_1_1_http_1_1_controllers_1_1_donation_1_1_fundraiser_controller_1ab65a2b3fdcba8ed4ead64f8ed8fb47b8"/><emphasis role="strong">create</emphasis> ()</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_app_1_1_http_1_1_controllers_1_1_donation_1_1_fundraiser_controller_1a587975db40cf2a068ae262581d1123f0"/><emphasis role="strong">store</emphasis> (<link linkend="_class_app_1_1_http_1_1_requests_1_1_donation_1_1_donation_store_request">DonationStoreRequest</link> $request)</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<para>
+The documentation for this class was generated from the following file:</para>
+app/Http/Controllers/Donation/FundraiserController.php</section>

@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Query\Builder;
 use App\Http\Resources\Donation\DonationCollection;
 use App\Http\Requests\Donation\DonationStoreRequest;
+use Illuminate\Contracts\Database\Query\Builder as QueryBuilder;
 
 class FundraiserController extends Controller {
     use HandleDonationsData;
@@ -25,6 +26,23 @@ class FundraiserController extends Controller {
             'header_image'
         )->whereNot(function (Builder $query) {
             $query->where('status', 'pending')->orWhere('status', 'denied');
+        })->latest()->paginate(10);
+
+        return (new DonationCollection($donations))->additional([
+            'status' => 'success',
+            'message' => 'Lists donation retrieved successfully'
+        ]);
+    }
+
+
+    public function latest() {
+        $donations = Fundraiser::select(
+            'id', 'initiator_id',
+            'type', 'type_attributes',
+            'title', 'header_image',
+        )->with('initiator:id,username')
+        ->whereNot(function (QueryBuilder $q) {
+            $q->where('status', 'pending')->orWhere('status', 'denied');
         })->latest()->paginate(10);
 
         return (new DonationCollection($donations))->additional([

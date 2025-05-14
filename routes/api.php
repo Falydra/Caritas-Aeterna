@@ -10,4 +10,4 @@ use App\Http\Controllers\Fund\FundController;
 Route::get('/donations', [DonationController::class, 'index'])->name('donations.index');
 Route::get('/donations/{donation}', [DonationController::class, 'show'])->name('donations.show');
 Route::get('/donations/search', [DonationController::class, 'search'])->name('donations.search');
-Route::post('/notification/handler', [FundController::class, 'notificationHandler'])->name('notification.handler');
+// Route::post('/notification/handler', [FundController::class, 'notificationHandler'])->name('notification.handler');

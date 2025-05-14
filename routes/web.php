@@ -11,12 +11,14 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Donation\DonationController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\Donation\FundraiserController;
+use App\Http\Controllers\Donation\ProductDonationController;
 use App\Http\Controllers\Donor\DonorController;
-use App\Http\Controllers\Fund\FundController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\SuperAdmin\DashboardController;
 use App\Http\Controllers\GeneralNewsController;
 use App\Http\Controllers\Donee\DoneeDashboardController;
-
+use App\Models\ProductDonation;
 
 use function PHPUnit\Framework\isEmpty;
 use Illuminate\Support\Facades\Auth;
@@ -87,10 +89,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/donations', [DonationController::class, 'store'])->name('donations.store');
     Route::get('/donations/create', [DonationController::class, 'create'])->name('donations.create');
     Route::post('/donations/donate', [DonorController::class, 'donate'])->name('donations.donate');
-    Route::get('/donations/fund/pay/{fund}', [FundController::class, 'show'])->name('donation.pay');
-    Route::post('/donations/fund/finish', [FundController::class, 'finish'])->name('donation.finish');
+
+    // midtrans url endpoints
+    Route::get('/donations/payment/pay/{fund}', [PaymentController::class, 'show'])->name('donation.pay');
+    Route::post('/donations/payment/notifications/handling');
+    Route::get('/donations/payment/finish', [PaymentController::class, 'finish'])->name('donation.finish');
+    Route::post('/donations/payment/error', [PaymentController::class, 'error'])->name('donation.error');
 });
 Route::get('/donations', [DonationController::class, 'index'])->name('donations.index');
+Route::get('/donations/fundraiser/latest', [FundraiserController::class, 'latest'])->name('fundraiser.latest');
+Route::get('/donations/product/latest', [ProductDonationController::class, 'latest'])->name('product_donation.latest');
 Route::get('/donations/{donation}', [DonationController::class, 'show'])->name('donations.show');
 Route::get('/donations/search', [DonationController::class, 'search'])->name('donations.search');
 

@@ -34,8 +34,11 @@ export default {
                     bg: '#221e24',
                     fg: '#ddd7e4',
                     accent: '#5f63e8',
-                    DEFAULT: '#221e24',
+                DEFAULT: '#221e24',
                     foreground: 'hsl(var(--primary-foreground))'
+                },
+                hover: {
+                    accent: '#3F42BE'
                 },
                 background: '#221e24',
                 foreground: '#ddd7e4',

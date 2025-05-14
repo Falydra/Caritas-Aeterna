@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_app_1_1_providers_1_1_app_service_provider" xml:lang="en-US">
+<title>App\Providers\AppServiceProvider Class Reference</title>
+<indexterm><primary>App\Providers\AppServiceProvider</primary></indexterm>
+<para>Inheritance diagram for App\Providers\AppServiceProvider:    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="class_app_1_1_providers_1_1_app_service_provider.png"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+<simplesect>
+    <title>Public Member Functions    </title>
+        <itemizedlist>
+            <listitem><para><link linkend="_class_app_1_1_providers_1_1_app_service_provider_1a2853e71d5b5c0d013d755b0265da3a9f">register</link> ()</para>
+</listitem>
+            <listitem><para><link linkend="_class_app_1_1_providers_1_1_app_service_provider_1ace5b6b100b2a3d1ee0f006501bb6b02f">boot</link> ()</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Member Function Documentation</title>
+<anchor xml:id="_class_app_1_1_providers_1_1_app_service_provider_1ace5b6b100b2a3d1ee0f006501bb6b02f"/><section>
+    <title>boot()</title>
+<indexterm><primary>boot</primary><secondary>App\Providers\AppServiceProvider</secondary></indexterm>
+<indexterm><primary>App\Providers\AppServiceProvider</primary><secondary>boot</secondary></indexterm>
+<para><computeroutput>App\Providers\AppServiceProvider::boot ( )</computeroutput></para>
+<para>Bootstrap any application services. </para>
+</section>
+<anchor xml:id="_class_app_1_1_providers_1_1_app_service_provider_1a2853e71d5b5c0d013d755b0265da3a9f"/><section>
+    <title>register()</title>
+<indexterm><primary>register</primary><secondary>App\Providers\AppServiceProvider</secondary></indexterm>
+<indexterm><primary>App\Providers\AppServiceProvider</primary><secondary>register</secondary></indexterm>
+<para><computeroutput>App\Providers\AppServiceProvider::register ( )</computeroutput></para>
+<para>Register any application services. </para>
+</section>
+<para>
+The documentation for this class was generated from the following file:</para>
+app/Providers/AppServiceProvider.php</section>
+</section>

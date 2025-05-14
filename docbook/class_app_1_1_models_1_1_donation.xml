@@ -1,0 +1,185 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_app_1_1_models_1_1_donation" xml:lang="en-US">
+<title>App\Models\Donation Class Reference</title>
+<indexterm><primary>App\Models\Donation</primary></indexterm>
+<para>Inheritance diagram for App\Models\Donation:    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="class_app_1_1_models_1_1_donation.png"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+<simplesect>
+    <title>Public Member Functions    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_app_1_1_models_1_1_donation_1a7abc35dc5e07be94072aac0842118c03"/><emphasis role="strong">casts</emphasis> ()</para>
+</listitem>
+            <listitem><para><link linkend="_class_app_1_1_models_1_1_donation_1ae88a75cb9f3fb70a1a42f16bdb0ff29a">newInstance</link> ($attributes=[], $exists=false)</para>
+</listitem>
+            <listitem><para><link linkend="_class_app_1_1_models_1_1_donation_1af4b8b959585dd15f746a288142960661">newFromBuilder</link> ($attributes=[], $connection=null)</para>
+</listitem>
+            <listitem><para><link linkend="_class_app_1_1_models_1_1_donation_1aed8394fb1ff75d4d252e415ef6085667">initiator</link> ()</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_app_1_1_models_1_1_donation_1a8a93ca7274530f505203ea9d2f4b5534"/><emphasis role="strong">reviewer</emphasis> ()</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_app_1_1_models_1_1_donation_1a6879f4747347b383cf786d374850ec71"/><emphasis role="strong">donors</emphasis> ()</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_app_1_1_models_1_1_donation_1ad0fce665e4053549ee2c98cf8263ba9e"/><emphasis role="strong">donorDonations</emphasis> ()</para>
+</listitem>
+            <listitem><para><link linkend="_class_app_1_1_models_1_1_donation_1adaa4adc94eb46548bbaf78b4badaacfa">type</link> ()</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_app_1_1_models_1_1_donation_1a217aa22ed3ac2dc0722b0497473e9ce3"/><emphasis role="strong">category</emphasis> ()</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_app_1_1_models_1_1_donation_1adc6f850f1f822c8d47cb52c23bb080e1"/><emphasis role="strong">typeAttributes</emphasis> ()</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_app_1_1_models_1_1_donation_1a50206839d4155a0cae6095675607e759"/><emphasis role="strong">setPending</emphasis> (<link linkend="_class_app_1_1_models_1_1_user">User</link> $user)</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_app_1_1_models_1_1_donation_1a3b3b9a80c5e8b1eeb1f6263200d6932f"/><emphasis role="strong">setOnProgress</emphasis> (<link linkend="_class_app_1_1_models_1_1_user">User</link> $user)</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_app_1_1_models_1_1_donation_1a45aa86c131dd00fea0da07655896fa42"/><emphasis role="strong">setDenied</emphasis> (<link linkend="_class_app_1_1_models_1_1_user">User</link> $user)</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_app_1_1_models_1_1_donation_1ae9febf79c18723f1948e8b37d43994e2"/><emphasis role="strong">setFinished</emphasis> (<link linkend="_class_app_1_1_models_1_1_user">User</link> $user)</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Protected Attributes    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_app_1_1_models_1_1_donation_1ad9ba1ad1c6cd7caea7122ec468fd7e9f"/><emphasis role="strong">$table</emphasis> = &apos;donations&apos;</para>
+</listitem>
+            <listitem><para><link linkend="_class_app_1_1_models_1_1_donation_1a8548d151bfd463e479f2d8de0d29464b">$guarded</link></para>
+</listitem>
+            <listitem><para><link linkend="_class_app_1_1_models_1_1_donation_1a48f3519dc7acdbd2367309bc2c48f59a">$fillable</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Member Function Documentation</title>
+<anchor xml:id="_class_app_1_1_models_1_1_donation_1aed8394fb1ff75d4d252e415ef6085667"/><section>
+    <title>initiator()</title>
+<indexterm><primary>initiator</primary><secondary>App\Models\Donation</secondary></indexterm>
+<indexterm><primary>App\Models\Donation</primary><secondary>initiator</secondary></indexterm>
+<para><computeroutput>App\Models\Donation::initiator ( )</computeroutput></para>
+<para>Relationship </para>
+</section>
+<anchor xml:id="_class_app_1_1_models_1_1_donation_1af4b8b959585dd15f746a288142960661"/><section>
+    <title>newFromBuilder()</title>
+<indexterm><primary>newFromBuilder</primary><secondary>App\Models\Donation</secondary></indexterm>
+<indexterm><primary>App\Models\Donation</primary><secondary>newFromBuilder</secondary></indexterm>
+<para><computeroutput>App\Models\Donation::newFromBuilder ( $attributes = <computeroutput>[]</computeroutput>
+,  $connection = <computeroutput>null</computeroutput>
+)</computeroutput></para>
+<para>Create a new model instance that is existing.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>array</entry><entry>$attributes</entry><entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+<entry>string | null</entry><entry>$connection</entry><entry>
+<para></para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>static </para>
+</formalpara>
+</para>
+</section>
+<anchor xml:id="_class_app_1_1_models_1_1_donation_1ae88a75cb9f3fb70a1a42f16bdb0ff29a"/><section>
+    <title>newInstance()</title>
+<indexterm><primary>newInstance</primary><secondary>App\Models\Donation</secondary></indexterm>
+<indexterm><primary>App\Models\Donation</primary><secondary>newInstance</secondary></indexterm>
+<para><computeroutput>App\Models\Donation::newInstance ( $attributes = <computeroutput>[]</computeroutput>
+,  $exists = <computeroutput>false</computeroutput>
+)</computeroutput></para>
+<para>Create a new instance of the given model.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>array</entry><entry>$attributes</entry><entry>
+<para></para>
+</entry>
+                            </row>
+                            <row>
+<entry>bool</entry><entry>$exists</entry><entry>
+<para></para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>static </para>
+</formalpara>
+</para>
+</section>
+<anchor xml:id="_class_app_1_1_models_1_1_donation_1adaa4adc94eb46548bbaf78b4badaacfa"/><section>
+    <title>type()</title>
+<indexterm><primary>type</primary><secondary>App\Models\Donation</secondary></indexterm>
+<indexterm><primary>App\Models\Donation</primary><secondary>type</secondary></indexterm>
+<para><computeroutput>App\Models\Donation::type ( )</computeroutput></para>
+<para>Class Methods </para>
+</section>
+</section>
+<section>
+<title>Member Data Documentation</title>
+<anchor xml:id="_class_app_1_1_models_1_1_donation_1a48f3519dc7acdbd2367309bc2c48f59a"/><section>
+    <title>$fillable</title>
+<indexterm><primary>$fillable</primary><secondary>App\Models\Donation</secondary></indexterm>
+<indexterm><primary>App\Models\Donation</primary><secondary>$fillable</secondary></indexterm>
+<para><computeroutput>App\Models\Donation::$fillable<computeroutput>[protected]</computeroutput></computeroutput></para><emphasis role="strong">Initial value:</emphasis><programlisting linenumbering="unnumbered">=&#32;[
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&apos;title&apos;</emphasis>,
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&apos;type&apos;</emphasis>,
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&apos;type_attributes&apos;</emphasis>,
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&apos;text_descriptions&apos;</emphasis>,
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&apos;image_descriptions&apos;</emphasis>,
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&apos;header_image&apos;</emphasis>,
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&apos;status&apos;</emphasis>,
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&apos;reviewed_by&apos;</emphasis>,
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&apos;reviewed_at&apos;</emphasis>,
+&#32;&#32;&#32;&#32;]
+</programlisting></section>
+<anchor xml:id="_class_app_1_1_models_1_1_donation_1a8548d151bfd463e479f2d8de0d29464b"/><section>
+    <title>$guarded</title>
+<indexterm><primary>$guarded</primary><secondary>App\Models\Donation</secondary></indexterm>
+<indexterm><primary>App\Models\Donation</primary><secondary>$guarded</secondary></indexterm>
+<para><computeroutput>App\Models\Donation::$guarded<computeroutput>[protected]</computeroutput></computeroutput></para><emphasis role="strong">Initial value:</emphasis><programlisting linenumbering="unnumbered">=&#32;[
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&apos;type&apos;</emphasis>
+&#32;&#32;&#32;&#32;]
+</programlisting></section>
+<para>
+The documentation for this class was generated from the following file:</para>
+app/Models/Donation.php</section>
+</section>

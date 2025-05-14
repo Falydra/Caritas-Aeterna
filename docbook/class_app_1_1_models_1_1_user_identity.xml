@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_app_1_1_models_1_1_user_identity" xml:lang="en-US">
+<title>App\Models\UserIdentity Class Reference</title>
+<indexterm><primary>App\Models\UserIdentity</primary></indexterm>
+<para>Inheritance diagram for App\Models\UserIdentity:    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="class_app_1_1_models_1_1_user_identity.png"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+<simplesect>
+    <title>Public Member Functions    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_app_1_1_models_1_1_user_identity_1adbf76aada7042eeb95c41a4e3d3a4099"/><emphasis role="strong">casts</emphasis> ()</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_app_1_1_models_1_1_user_identity_1aee5bf79614667e050209371bc4c2eca1"/><emphasis role="strong">user</emphasis> ()</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_app_1_1_models_1_1_user_identity_1ad401c5454541d45038fa9341def4f95a"/><emphasis role="strong">address</emphasis> ()</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Protected Attributes    </title>
+        <itemizedlist>
+            <listitem><para><link linkend="_class_app_1_1_models_1_1_user_identity_1ab9ad521daffe568fcdaaf3346b934b4f">$fillable</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Member Data Documentation</title>
+<anchor xml:id="_class_app_1_1_models_1_1_user_identity_1ab9ad521daffe568fcdaaf3346b934b4f"/><section>
+    <title>$fillable</title>
+<indexterm><primary>$fillable</primary><secondary>App\Models\UserIdentity</secondary></indexterm>
+<indexterm><primary>App\Models\UserIdentity</primary><secondary>$fillable</secondary></indexterm>
+<para><computeroutput>App\Models\UserIdentity::$fillable<computeroutput>[protected]</computeroutput></computeroutput></para><emphasis role="strong">Initial value:</emphasis><programlisting linenumbering="unnumbered">=&#32;[
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&apos;nik&apos;</emphasis>,
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&apos;full_name&apos;</emphasis>,
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&apos;id_card_image&apos;</emphasis>
+&#32;&#32;&#32;&#32;]
+</programlisting></section>
+<para>
+The documentation for this class was generated from the following file:</para>
+app/Models/UserIdentity.php</section>
+</section>

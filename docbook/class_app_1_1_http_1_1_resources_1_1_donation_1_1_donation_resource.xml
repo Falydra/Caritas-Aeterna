@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_app_1_1_http_1_1_resources_1_1_donation_1_1_donation_resource" xml:lang="en-US">
+<title>App\Http\Resources\Donation\DonationResource Class Reference</title>
+<indexterm><primary>App\Http\Resources\Donation\DonationResource</primary></indexterm>
+<para>Inheritance diagram for App\Http\Resources\Donation\DonationResource:    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="class_app_1_1_http_1_1_resources_1_1_donation_1_1_donation_resource.png"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+<simplesect>
+    <title>Public Member Functions    </title>
+        <itemizedlist>
+            <listitem><para><link linkend="_class_app_1_1_http_1_1_resources_1_1_donation_1_1_donation_resource_1aac6b23b34fd868e7c3070cee3e31ea83">toArray</link> (Request $request)</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Member Function Documentation</title>
+<anchor xml:id="_class_app_1_1_http_1_1_resources_1_1_donation_1_1_donation_resource_1aac6b23b34fd868e7c3070cee3e31ea83"/><section>
+    <title>toArray()</title>
+<indexterm><primary>toArray</primary><secondary>App\Http\Resources\Donation\DonationResource</secondary></indexterm>
+<indexterm><primary>App\Http\Resources\Donation\DonationResource</primary><secondary>toArray</secondary></indexterm>
+<para><computeroutput>App\Http\Resources\Donation\DonationResource::toArray (Request $request)</computeroutput></para>
+<para>Transform the resource into an array.</para>
+
+<para><formalpara><title>Returns</title>
+
+<para>array&lt;string, mixed&gt; </para>
+</formalpara>
+</para>
+</section>
+<para>
+The documentation for this class was generated from the following file:</para>
+app/Http/Resources/Donation/DonationResource.php</section>
+</section>

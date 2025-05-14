@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_app_1_1_http_1_1_controllers_1_1_donee_1_1_init_controller" xml:lang="en-US">
+<title>App\Http\Controllers\Donee\InitController Class Reference</title>
+<indexterm><primary>App\Http\Controllers\Donee\InitController</primary></indexterm>
+<para>Inheritance diagram for App\Http\Controllers\Donee\InitController:    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="class_app_1_1_http_1_1_controllers_1_1_donee_1_1_init_controller.png"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+<simplesect>
+    <title>Public Member Functions    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_app_1_1_http_1_1_controllers_1_1_donee_1_1_init_controller_1a743e65e59f08bd43e5e5cc6c071edab4"/><emphasis role="strong">index</emphasis> ()</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<para>
+The documentation for this class was generated from the following file:</para>
+app/Http/Controllers/Donee/InitController.php</section>

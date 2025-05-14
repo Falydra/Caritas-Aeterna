@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_app_1_1_http_1_1_controllers_1_1_donation_1_1_product_donation_controller" xml:lang="en-US">
+<title>App\Http\Controllers\Donation\ProductDonationController Class Reference</title>
+<indexterm><primary>App\Http\Controllers\Donation\ProductDonationController</primary></indexterm>
+<para>Inheritance diagram for App\Http\Controllers\Donation\ProductDonationController:    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="class_app_1_1_http_1_1_controllers_1_1_donation_1_1_product_donation_controller.png"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+<simplesect>
+    <title>Public Member Functions    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_app_1_1_http_1_1_controllers_1_1_donation_1_1_product_donation_controller_1aee0a72043af4b3d777d6b24c451858b6"/><emphasis role="strong">index</emphasis> ()</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_app_1_1_http_1_1_controllers_1_1_donation_1_1_product_donation_controller_1a1e85dc29bcaa6b3ced11f7ee3bf91c51"/><emphasis role="strong">latest</emphasis> ()</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_app_1_1_http_1_1_controllers_1_1_donation_1_1_product_donation_controller_1aa57f2faad149d4038cf5002b3d51c57a"/><emphasis role="strong">show</emphasis> (<link linkend="_class_app_1_1_models_1_1_product_donation">ProductDonation</link> $donation)</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_app_1_1_http_1_1_controllers_1_1_donation_1_1_product_donation_controller_1afdd8cad55c6012c7ea6c4712bed6b85f"/><emphasis role="strong">create</emphasis> ()</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_app_1_1_http_1_1_controllers_1_1_donation_1_1_product_donation_controller_1ab249c46ba2bbb3206301553b45adef87"/><emphasis role="strong">store</emphasis> (<link linkend="_class_app_1_1_http_1_1_requests_1_1_donation_1_1_donation_store_request">DonationStoreRequest</link> $request)</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_app_1_1_http_1_1_controllers_1_1_donation_1_1_product_donation_controller_1aec19c9f8e9e8ffd588c00c2ed366a50c"/><emphasis role="strong">getAllBooks</emphasis> (<link linkend="_class_app_1_1_models_1_1_product_donation">ProductDonation</link> $donation)</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Protected Member Functions    </title>
+        <itemizedlist>
+            <listitem><para><link linkend="_class_app_1_1_http_1_1_controllers_1_1_donation_1_1_product_donation_controller_1a5841c50569c4b906a1994b2e7142825a">storeDonation</link> (Request $request, $validated)</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Member Function Documentation</title>
+<anchor xml:id="_class_app_1_1_http_1_1_controllers_1_1_donation_1_1_product_donation_controller_1a5841c50569c4b906a1994b2e7142825a"/><section>
+    <title>storeDonation()</title>
+<indexterm><primary>storeDonation</primary><secondary>App\Http\Controllers\Donation\ProductDonationController</secondary></indexterm>
+<indexterm><primary>App\Http\Controllers\Donation\ProductDonationController</primary><secondary>storeDonation</secondary></indexterm>
+<para><computeroutput>App\Http\Controllers\Donation\ProductDonationController::storeDonation (Request $request,  $validated)<computeroutput>[protected]</computeroutput></computeroutput></para>
+<para>Helper Methods </para>
+</section>
+<para>
+The documentation for this class was generated from the following file:</para>
+app/Http/Controllers/Donation/ProductDonationController.php</section>
+</section>

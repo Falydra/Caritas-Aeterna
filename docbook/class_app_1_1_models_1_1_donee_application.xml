@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_app_1_1_models_1_1_donee_application" xml:lang="en-US">
+<title>App\Models\DoneeApplication Class Reference</title>
+<indexterm><primary>App\Models\DoneeApplication</primary></indexterm>
+<para>Inheritance diagram for App\Models\DoneeApplication:    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="class_app_1_1_models_1_1_donee_application.png"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+<simplesect>
+    <title>Public Member Functions    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_app_1_1_models_1_1_donee_application_1a34dc57d52c9a1d56975005d1702f620b"/><emphasis role="strong">applicant</emphasis> ()</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_app_1_1_models_1_1_donee_application_1ae983b1bafe360cfe0e1c9138e03475a0"/><emphasis role="strong">reviewer</emphasis> ()</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Protected Attributes    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_app_1_1_models_1_1_donee_application_1a22019f83fd26691a59e31b7929272f32"/><emphasis role="strong">$table</emphasis> = &apos;donee_applications&apos;</para>
+</listitem>
+            <listitem><para><link linkend="_class_app_1_1_models_1_1_donee_application_1a88d9aa0e560b082b64e60d729b84f0ca">$fillable</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Member Data Documentation</title>
+<anchor xml:id="_class_app_1_1_models_1_1_donee_application_1a88d9aa0e560b082b64e60d729b84f0ca"/><section>
+    <title>$fillable</title>
+<indexterm><primary>$fillable</primary><secondary>App\Models\DoneeApplication</secondary></indexterm>
+<indexterm><primary>App\Models\DoneeApplication</primary><secondary>$fillable</secondary></indexterm>
+<para><computeroutput>App\Models\DoneeApplication::$fillable<computeroutput>[protected]</computeroutput></computeroutput></para><emphasis role="strong">Initial value:</emphasis><programlisting linenumbering="unnumbered">=&#32;[
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&apos;status&apos;</emphasis>,
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&apos;reviewed_at&apos;</emphasis>
+&#32;&#32;&#32;&#32;]
+</programlisting></section>
+<para>
+The documentation for this class was generated from the following file:</para>
+app/Models/DoneeApplication.php</section>
+</section>

@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_app_1_1_http_1_1_controllers_1_1_donor_1_1_donor_controller" xml:lang="en-US">
+<title>App\Http\Controllers\Donor\DonorController Class Reference</title>
+<indexterm><primary>App\Http\Controllers\Donor\DonorController</primary></indexterm>
+<para>Inheritance diagram for App\Http\Controllers\Donor\DonorController:    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="class_app_1_1_http_1_1_controllers_1_1_donor_1_1_donor_controller.png"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+<simplesect>
+    <title>Public Member Functions    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_app_1_1_http_1_1_controllers_1_1_donor_1_1_donor_controller_1acc4ac0a4d79cabc2b179fad37f040d2c"/><emphasis role="strong">donate</emphasis> (<link linkend="_class_app_1_1_http_1_1_requests_1_1_donor_1_1_donor_donate_request">DonorDonateRequest</link> $request, <link linkend="_class_app_1_1_services_1_1_donation_service">DonationService</link> $service)</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_app_1_1_http_1_1_controllers_1_1_donor_1_1_donor_controller_1a06149d24b2eb2e443a08d8f3e9e9d5c0"/><emphasis role="strong">donateFund</emphasis> (<link linkend="_class_app_1_1_http_1_1_requests_1_1_donor_1_1_donor_donate_request">DonorDonateRequest</link> $request, <link linkend="_class_app_1_1_services_1_1_donation_service">DonationService</link> $service)</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_app_1_1_http_1_1_controllers_1_1_donor_1_1_donor_controller_1ad484fff961789338157d18239a03fd78"/><emphasis role="strong">donateProduct</emphasis> (<link linkend="_class_app_1_1_http_1_1_requests_1_1_donor_1_1_donor_donate_request">DonorDonateRequest</link> $request, <link linkend="_class_app_1_1_services_1_1_donation_service">DonationService</link> $service)</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<para>
+The documentation for this class was generated from the following file:</para>
+app/Http/Controllers/Donor/DonorController.php</section>

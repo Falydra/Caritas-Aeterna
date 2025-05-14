@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_app_1_1_http_1_1_requests_1_1_auth_1_1_login_request" xml:lang="en-US">
+<title>App\Http\Requests\Auth\LoginRequest Class Reference</title>
+<indexterm><primary>App\Http\Requests\Auth\LoginRequest</primary></indexterm>
+<para>Inheritance diagram for App\Http\Requests\Auth\LoginRequest:    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="class_app_1_1_http_1_1_requests_1_1_auth_1_1_login_request.png"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+<simplesect>
+    <title>Public Member Functions    </title>
+        <itemizedlist>
+            <listitem><para><link linkend="_class_app_1_1_http_1_1_requests_1_1_auth_1_1_login_request_1ac36d9d087ac78f077abd42e3cb006292">authorize</link> ()</para>
+</listitem>
+            <listitem><para><link linkend="_class_app_1_1_http_1_1_requests_1_1_auth_1_1_login_request_1a125d976e006becb57fa4f2ed6f3d0b58">rules</link> ()</para>
+</listitem>
+            <listitem><para><link linkend="_class_app_1_1_http_1_1_requests_1_1_auth_1_1_login_request_1a7be4cc5f6c415464b716807cc1b862ce">authenticate</link> ()</para>
+</listitem>
+            <listitem><para><link linkend="_class_app_1_1_http_1_1_requests_1_1_auth_1_1_login_request_1a673cadc2bf050f1c139636c261bc996e">ensureIsNotRateLimited</link> ()</para>
+</listitem>
+            <listitem><para><link linkend="_class_app_1_1_http_1_1_requests_1_1_auth_1_1_login_request_1aea2a6943931bedd74179057a5d67bb5c">throttleKey</link> ()</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Member Function Documentation</title>
+<anchor xml:id="_class_app_1_1_http_1_1_requests_1_1_auth_1_1_login_request_1a7be4cc5f6c415464b716807cc1b862ce"/><section>
+    <title>authenticate()</title>
+<indexterm><primary>authenticate</primary><secondary>App\Http\Requests\Auth\LoginRequest</secondary></indexterm>
+<indexterm><primary>App\Http\Requests\Auth\LoginRequest</primary><secondary>authenticate</secondary></indexterm>
+<para><computeroutput>App\Http\Requests\Auth\LoginRequest::authenticate ( )</computeroutput></para>
+<para>Attempt to authenticate the request&apos;s credentials.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Exceptions</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry></entry>
+<entry></entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                Illuminate\Validation\ValidationException </para>
+</section>
+<anchor xml:id="_class_app_1_1_http_1_1_requests_1_1_auth_1_1_login_request_1ac36d9d087ac78f077abd42e3cb006292"/><section>
+    <title>authorize()</title>
+<indexterm><primary>authorize</primary><secondary>App\Http\Requests\Auth\LoginRequest</secondary></indexterm>
+<indexterm><primary>App\Http\Requests\Auth\LoginRequest</primary><secondary>authorize</secondary></indexterm>
+<para><computeroutput>App\Http\Requests\Auth\LoginRequest::authorize ( )</computeroutput></para>
+<para>Determine if the user is authorized to make this request. </para>
+</section>
+<anchor xml:id="_class_app_1_1_http_1_1_requests_1_1_auth_1_1_login_request_1a673cadc2bf050f1c139636c261bc996e"/><section>
+    <title>ensureIsNotRateLimited()</title>
+<indexterm><primary>ensureIsNotRateLimited</primary><secondary>App\Http\Requests\Auth\LoginRequest</secondary></indexterm>
+<indexterm><primary>App\Http\Requests\Auth\LoginRequest</primary><secondary>ensureIsNotRateLimited</secondary></indexterm>
+<para><computeroutput>App\Http\Requests\Auth\LoginRequest::ensureIsNotRateLimited ( )</computeroutput></para>
+<para>Ensure the login request is not rate limited.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Exceptions</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry></entry>
+<entry></entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                Illuminate\Validation\ValidationException </para>
+</section>
+<anchor xml:id="_class_app_1_1_http_1_1_requests_1_1_auth_1_1_login_request_1a125d976e006becb57fa4f2ed6f3d0b58"/><section>
+    <title>rules()</title>
+<indexterm><primary>rules</primary><secondary>App\Http\Requests\Auth\LoginRequest</secondary></indexterm>
+<indexterm><primary>App\Http\Requests\Auth\LoginRequest</primary><secondary>rules</secondary></indexterm>
+<para><computeroutput>App\Http\Requests\Auth\LoginRequest::rules ( )</computeroutput></para>
+<para>Get the validation rules that apply to the request.</para>
+
+<para><formalpara><title>Returns</title>
+
+<para>array&lt;string, \Illuminate\Contracts\Validation\ValidationRule|array&lt;mixed&gt;|string&gt; </para>
+</formalpara>
+</para>
+</section>
+<anchor xml:id="_class_app_1_1_http_1_1_requests_1_1_auth_1_1_login_request_1aea2a6943931bedd74179057a5d67bb5c"/><section>
+    <title>throttleKey()</title>
+<indexterm><primary>throttleKey</primary><secondary>App\Http\Requests\Auth\LoginRequest</secondary></indexterm>
+<indexterm><primary>App\Http\Requests\Auth\LoginRequest</primary><secondary>throttleKey</secondary></indexterm>
+<para><computeroutput>App\Http\Requests\Auth\LoginRequest::throttleKey ( )</computeroutput></para>
+<para>Get the rate limiting throttle key for the request. </para>
+</section>
+<para>
+The documentation for this class was generated from the following file:</para>
+app/Http/Requests/Auth/LoginRequest.php</section>
+</section>

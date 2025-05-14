@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_app_1_1_http_1_1_controllers_1_1_fund_1_1_fund_controller" xml:lang="en-US">
+<title>App\Http\Controllers\Fund\FundController Class Reference</title>
+<indexterm><primary>App\Http\Controllers\Fund\FundController</primary></indexterm>
+<para>Inheritance diagram for App\Http\Controllers\Fund\FundController:    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="class_app_1_1_http_1_1_controllers_1_1_fund_1_1_fund_controller.png"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+<simplesect>
+    <title>Public Member Functions    </title>
+        <itemizedlist>
+            <listitem><para><link linkend="_class_app_1_1_http_1_1_controllers_1_1_fund_1_1_fund_controller_1af4e7afd3003a1bd76083e9c6447723bb">__construct</link> (Request $request)</para>
+</listitem>
+            <listitem><para><link linkend="_class_app_1_1_http_1_1_controllers_1_1_fund_1_1_fund_controller_1ad9ec7e5ada225dc982dd90e93c8d978b">index</link> ()</para>
+</listitem>
+            <listitem><para><link linkend="_class_app_1_1_http_1_1_controllers_1_1_fund_1_1_fund_controller_1a2ba116b3f4d2e10df2d89b7089239cde">show</link> (<link linkend="_class_app_1_1_models_1_1_fund">Fund</link> $fund)</para>
+</listitem>
+            <listitem><para><link linkend="_class_app_1_1_http_1_1_controllers_1_1_fund_1_1_fund_controller_1a4f0f31398fcaec0f6b0132a7f8812096">submitFund</link> (<link linkend="_class_app_1_1_services_1_1_midtrans_service">MidtransService</link> $service)</para>
+</listitem>
+            <listitem><para><link linkend="_class_app_1_1_http_1_1_controllers_1_1_fund_1_1_fund_controller_1aa54465bc7045aa2cb5f2994be9476bcb">notificationHandler</link> (Request $request)</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_app_1_1_http_1_1_controllers_1_1_fund_1_1_fund_controller_1af5c01d313f0d5cb75238a94ccf991bd4"/><emphasis role="strong">finish</emphasis> (Request $request)</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Protected Attributes    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_app_1_1_http_1_1_controllers_1_1_fund_1_1_fund_controller_1a25c5a1697e6c699e1d64bcef4cde1277"/><emphasis role="strong">$request</emphasis></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Constructor &amp; Destructor Documentation</title>
+<anchor xml:id="_class_app_1_1_http_1_1_controllers_1_1_fund_1_1_fund_controller_1af4e7afd3003a1bd76083e9c6447723bb"/><section>
+    <title>__construct()</title>
+<indexterm><primary>__construct</primary><secondary>App\Http\Controllers\Fund\FundController</secondary></indexterm>
+<indexterm><primary>App\Http\Controllers\Fund\FundController</primary><secondary>__construct</secondary></indexterm>
+<para><computeroutput>App\Http\Controllers\Fund\FundController::__construct (Request $request)</computeroutput></para>
+<para>Class constructor.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>\Illuminate\Http\Request</entry><entry>$request</entry><entry>
+<para>User Request</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>void </para>
+</formalpara>
+</para>
+</section>
+</section>
+<section>
+<title>Member Function Documentation</title>
+<anchor xml:id="_class_app_1_1_http_1_1_controllers_1_1_fund_1_1_fund_controller_1ad9ec7e5ada225dc982dd90e93c8d978b"/><section>
+    <title>index()</title>
+<indexterm><primary>index</primary><secondary>App\Http\Controllers\Fund\FundController</secondary></indexterm>
+<indexterm><primary>App\Http\Controllers\Fund\FundController</primary><secondary>index</secondary></indexterm>
+<para><computeroutput>App\Http\Controllers\Fund\FundController::index ( )</computeroutput></para>
+<para>Show index page.</para>
+
+<para><formalpara><title>Returns</title>
+
+<para>\Illuminate\View\View </para>
+</formalpara>
+</para>
+</section>
+<anchor xml:id="_class_app_1_1_http_1_1_controllers_1_1_fund_1_1_fund_controller_1aa54465bc7045aa2cb5f2994be9476bcb"/><section>
+    <title>notificationHandler()</title>
+<indexterm><primary>notificationHandler</primary><secondary>App\Http\Controllers\Fund\FundController</secondary></indexterm>
+<indexterm><primary>App\Http\Controllers\Fund\FundController</primary><secondary>notificationHandler</secondary></indexterm>
+<para><computeroutput>App\Http\Controllers\Fund\FundController::notificationHandler (Request $request)</computeroutput></para>
+<para>Midtrans notification handler.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>Request</entry><entry>$request</entry><entry></entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>void </para>
+</formalpara>
+</para>
+</section>
+<anchor xml:id="_class_app_1_1_http_1_1_controllers_1_1_fund_1_1_fund_controller_1a2ba116b3f4d2e10df2d89b7089239cde"/><section>
+    <title>show()</title>
+<indexterm><primary>show</primary><secondary>App\Http\Controllers\Fund\FundController</secondary></indexterm>
+<indexterm><primary>App\Http\Controllers\Fund\FundController</primary><secondary>show</secondary></indexterm>
+<para><computeroutput>App\Http\Controllers\Fund\FundController::show (<link linkend="_class_app_1_1_models_1_1_fund">Fund</link> $fund)</computeroutput></para>
+<para>Show Snap UI Page.</para>
+
+<para><formalpara><title>Returns</title>
+
+<para>redirect </para>
+</formalpara>
+</para>
+</section>
+<anchor xml:id="_class_app_1_1_http_1_1_controllers_1_1_fund_1_1_fund_controller_1a4f0f31398fcaec0f6b0132a7f8812096"/><section>
+    <title>submitFund()</title>
+<indexterm><primary>submitFund</primary><secondary>App\Http\Controllers\Fund\FundController</secondary></indexterm>
+<indexterm><primary>App\Http\Controllers\Fund\FundController</primary><secondary>submitFund</secondary></indexterm>
+<para><computeroutput>App\Http\Controllers\Fund\FundController::submitFund (<link linkend="_class_app_1_1_services_1_1_midtrans_service">MidtransService</link> $service)</computeroutput></para>
+<para>Submit fund.</para>
+
+<para><formalpara><title>Returns</title>
+
+<para>array </para>
+</formalpara>
+</para>
+</section>
+<para>
+The documentation for this class was generated from the following file:</para>
+app/Http/Controllers/Fund/FundController.php</section>
+</section>

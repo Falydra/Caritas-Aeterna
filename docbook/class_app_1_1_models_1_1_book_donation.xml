@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_app_1_1_models_1_1_book_donation" xml:lang="en-US">
+<title>App\Models\BookDonation Class Reference</title>
+<indexterm><primary>App\Models\BookDonation</primary></indexterm>
+<para>Inheritance diagram for App\Models\BookDonation:    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="class_app_1_1_models_1_1_book_donation.png"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+<simplesect>
+    <title>Public Member Functions    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_app_1_1_models_1_1_book_donation_1a930ca55975b05f77a4cbc1d204f448d9"/><emphasis role="strong">book</emphasis> ()</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_app_1_1_models_1_1_book_donation_1a7e20d5b2c4ce5508e4e34581a89218d6"/><emphasis role="strong">donation</emphasis> ()</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_app_1_1_models_1_1_book_donation_1a7fea799f558632dadb8a4b70fbcdd5ff"/><emphasis role="strong">donationItem</emphasis> ()</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Protected Attributes    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_app_1_1_models_1_1_book_donation_1aad2a5c270e519a5c52b43dfc9929b928"/><emphasis role="strong">$table</emphasis> = &apos;book_donation&apos;</para>
+</listitem>
+            <listitem><para><link linkend="_class_app_1_1_models_1_1_book_donation_1a1a1f3cb8da61321bfba704059e084f89">$fillable</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Member Data Documentation</title>
+<anchor xml:id="_class_app_1_1_models_1_1_book_donation_1a1a1f3cb8da61321bfba704059e084f89"/><section>
+    <title>$fillable</title>
+<indexterm><primary>$fillable</primary><secondary>App\Models\BookDonation</secondary></indexterm>
+<indexterm><primary>App\Models\BookDonation</primary><secondary>$fillable</secondary></indexterm>
+<para><computeroutput>App\Models\BookDonation::$fillable<computeroutput>[protected]</computeroutput></computeroutput></para><emphasis role="strong">Initial value:</emphasis><programlisting linenumbering="unnumbered">=&#32;[
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&apos;donation_id&apos;</emphasis>,
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&apos;isbn&apos;</emphasis>,
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&apos;status&apos;</emphasis>
+&#32;&#32;&#32;&#32;]
+</programlisting></section>
+<para>
+The documentation for this class was generated from the following file:</para>
+app/Models/BookDonation.php</section>
+</section>

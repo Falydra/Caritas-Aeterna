@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_app_1_1_models_1_1_fund" xml:lang="en-US">
+<title>App\Models\Fund Class Reference</title>
+<indexterm><primary>App\Models\Fund</primary></indexterm>
+<para>Inheritance diagram for App\Models\Fund:    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="class_app_1_1_models_1_1_fund.png"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+<simplesect>
+    <title>Public Member Functions    </title>
+        <itemizedlist>
+            <listitem><para><link linkend="_class_app_1_1_models_1_1_fund_1ad2d2a2342e8076112e934ee5e51ad98c">setPending</link> ()</para>
+</listitem>
+            <listitem><para><link linkend="_class_app_1_1_models_1_1_fund_1a29160ae5835a17f4394ab05a0577a991">setSuccess</link> ()</para>
+</listitem>
+            <listitem><para><link linkend="_class_app_1_1_models_1_1_fund_1ac0bcd85c2a1c5c275218fec6e61fa29d">setFailed</link> ()</para>
+</listitem>
+            <listitem><para><link linkend="_class_app_1_1_models_1_1_fund_1afc81413432d1829235fe7a60e1adfc5f">setExpired</link> ()</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_app_1_1_models_1_1_fund_1aade9b233237233f9de4ddfc1cecae12d"/><emphasis role="strong">donation</emphasis> ()</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_app_1_1_models_1_1_fund_1a2a1dce9a5c47abe91abace2463ee1cb2"/><emphasis role="strong">donorDonation</emphasis> ()</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Protected Member Functions    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_app_1_1_models_1_1_fund_1abef2f8782d5196da13e647fc3956f932"/><emphasis role="strong">casts</emphasis> ()</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Protected Attributes    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_app_1_1_models_1_1_fund_1a00f4ce281465ffacb4c81a5376444e7e"/><emphasis role="strong">$table</emphasis> = &apos;funds&apos;</para>
+</listitem>
+            <listitem><para><link linkend="_class_app_1_1_models_1_1_fund_1afdd19f9247dca882d896689ae2ccd6bb">$fillable</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Member Function Documentation</title>
+<anchor xml:id="_class_app_1_1_models_1_1_fund_1afc81413432d1829235fe7a60e1adfc5f"/><section>
+    <title>setExpired()</title>
+<indexterm><primary>setExpired</primary><secondary>App\Models\Fund</secondary></indexterm>
+<indexterm><primary>App\Models\Fund</primary><secondary>setExpired</secondary></indexterm>
+<para><computeroutput>App\Models\Fund::setExpired ( )</computeroutput></para>
+<para>Set status to Expired</para>
+
+<para><formalpara><title>Returns</title>
+
+<para>void </para>
+</formalpara>
+</para>
+</section>
+<anchor xml:id="_class_app_1_1_models_1_1_fund_1ac0bcd85c2a1c5c275218fec6e61fa29d"/><section>
+    <title>setFailed()</title>
+<indexterm><primary>setFailed</primary><secondary>App\Models\Fund</secondary></indexterm>
+<indexterm><primary>App\Models\Fund</primary><secondary>setFailed</secondary></indexterm>
+<para><computeroutput>App\Models\Fund::setFailed ( )</computeroutput></para>
+<para>Set status to Failed</para>
+
+<para><formalpara><title>Returns</title>
+
+<para>void </para>
+</formalpara>
+</para>
+</section>
+<anchor xml:id="_class_app_1_1_models_1_1_fund_1ad2d2a2342e8076112e934ee5e51ad98c"/><section>
+    <title>setPending()</title>
+<indexterm><primary>setPending</primary><secondary>App\Models\Fund</secondary></indexterm>
+<indexterm><primary>App\Models\Fund</primary><secondary>setPending</secondary></indexterm>
+<para><computeroutput>App\Models\Fund::setPending ( )</computeroutput></para>
+<para>Set status to Pending</para>
+
+<para><formalpara><title>Returns</title>
+
+<para>void </para>
+</formalpara>
+</para>
+</section>
+<anchor xml:id="_class_app_1_1_models_1_1_fund_1a29160ae5835a17f4394ab05a0577a991"/><section>
+    <title>setSuccess()</title>
+<indexterm><primary>setSuccess</primary><secondary>App\Models\Fund</secondary></indexterm>
+<indexterm><primary>App\Models\Fund</primary><secondary>setSuccess</secondary></indexterm>
+<para><computeroutput>App\Models\Fund::setSuccess ( )</computeroutput></para>
+<para>Set status to Success</para>
+
+<para><formalpara><title>Returns</title>
+
+<para>void </para>
+</formalpara>
+</para>
+</section>
+</section>
+<section>
+<title>Member Data Documentation</title>
+<anchor xml:id="_class_app_1_1_models_1_1_fund_1afdd19f9247dca882d896689ae2ccd6bb"/><section>
+    <title>$fillable</title>
+<indexterm><primary>$fillable</primary><secondary>App\Models\Fund</secondary></indexterm>
+<indexterm><primary>App\Models\Fund</primary><secondary>$fillable</secondary></indexterm>
+<para><computeroutput>App\Models\Fund::$fillable<computeroutput>[protected]</computeroutput></computeroutput></para><emphasis role="strong">Initial value:</emphasis><programlisting linenumbering="unnumbered">=&#32;[
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&apos;donation_id&apos;</emphasis>,
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&apos;donation_type&apos;</emphasis>,
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&apos;amount&apos;</emphasis>,
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&apos;snap_token&apos;</emphasis>,
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&apos;redirect_url&apos;</emphasis>,
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&apos;note&apos;</emphasis>,
+&#32;&#32;&#32;&#32;]
+</programlisting></section>
+<para>
+The documentation for this class was generated from the following file:</para>
+app/Models/Fund.php</section>
+</section>

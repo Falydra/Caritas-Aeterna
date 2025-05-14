@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_app_1_1_http_1_1_controllers_1_1_book_controller" xml:lang="en-US">
+<title>App\Http\Controllers\BookController Class Reference</title>
+<indexterm><primary>App\Http\Controllers\BookController</primary></indexterm>
+<para>Inheritance diagram for App\Http\Controllers\BookController:    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="class_app_1_1_http_1_1_controllers_1_1_book_controller.png"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+<simplesect>
+    <title>Public Member Functions    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_app_1_1_http_1_1_controllers_1_1_book_controller_1a10c2670c4b6a814c68c927e2f7e1174e"/><emphasis role="strong">index</emphasis> ()</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_app_1_1_http_1_1_controllers_1_1_book_controller_1a2fc4354370b64705dc8e411d7241ab79"/><emphasis role="strong">create</emphasis> ()</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_app_1_1_http_1_1_controllers_1_1_book_controller_1aa41d253e792b96017dcb778ad2f672cc"/><emphasis role="strong">store</emphasis> (<link linkend="_class_app_1_1_http_1_1_requests_1_1_book_1_1_book_store_request">BookStoreRequest</link> $request)</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_app_1_1_http_1_1_controllers_1_1_book_controller_1a471ccb6728170e70fb3ddf3d5147e1e7"/><emphasis role="strong">search</emphasis> (Request $request)</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Protected Member Functions    </title>
+        <itemizedlist>
+            <listitem><para><link linkend="_class_app_1_1_http_1_1_controllers_1_1_book_controller_1a1ae1e0ddc00f258bd15c2a98afe0617a">storeImage</link> (string $title, UploadedFile $file, string &amp;$filepath)</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_app_1_1_http_1_1_controllers_1_1_book_controller_1a96698695c11324144336e40b70c79d97"/><emphasis role="strong">sanitizeTextInput</emphasis> (string $text)</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Member Function Documentation</title>
+<anchor xml:id="_class_app_1_1_http_1_1_controllers_1_1_book_controller_1a1ae1e0ddc00f258bd15c2a98afe0617a"/><section>
+    <title>storeImage()</title>
+<indexterm><primary>storeImage</primary><secondary>App\Http\Controllers\BookController</secondary></indexterm>
+<indexterm><primary>App\Http\Controllers\BookController</primary><secondary>storeImage</secondary></indexterm>
+<para><computeroutput>App\Http\Controllers\BookController::storeImage (string $title, UploadedFile $file, string &amp; $filepath)<computeroutput>[protected]</computeroutput></computeroutput></para>
+<para>Helper Methods </para>
+</section>
+<para>
+The documentation for this class was generated from the following file:</para>
+app/Http/Controllers/BookController.php</section>
+</section>

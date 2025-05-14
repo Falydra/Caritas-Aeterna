@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_app_1_1_models_1_1_donor_donation" xml:lang="en-US">
+<title>App\Models\DonorDonation Class Reference</title>
+<indexterm><primary>App\Models\DonorDonation</primary></indexterm>
+<para>Inheritance diagram for App\Models\DonorDonation:    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="class_app_1_1_models_1_1_donor_donation.png"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+<simplesect>
+    <title>Public Member Functions    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_app_1_1_models_1_1_donor_donation_1a264d80151e8ea5d6b0e7d6bdba50f8d0"/><emphasis role="strong">donor</emphasis> ()</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_app_1_1_models_1_1_donor_donation_1a282e955ab0a30a36aa4acab5e57d266c"/><emphasis role="strong">donation</emphasis> ()</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_app_1_1_models_1_1_donor_donation_1aa847f62e486615660464411e4878dc80"/><emphasis role="strong">donationItem</emphasis> ()</para>
+</listitem>
+            <listitem><para><anchor xml:id="_class_app_1_1_models_1_1_donor_donation_1a8c19fbff9f244308f4db14acda8f3c84"/><emphasis role="strong">funds</emphasis> ()</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Protected Member Functions    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_app_1_1_models_1_1_donor_donation_1a141e38c159dd747bf174da446842968e"/><emphasis role="strong">casts</emphasis> ()</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Protected Attributes    </title>
+        <itemizedlist>
+            <listitem><para><anchor xml:id="_class_app_1_1_models_1_1_donor_donation_1a6f5f67ad574109ed6effd020f1d9e01f"/><emphasis role="strong">$table</emphasis> = &apos;donor_donation&apos;</para>
+</listitem>
+            <listitem><para><link linkend="_class_app_1_1_models_1_1_donor_donation_1aefcedba101f6113d3517c8615d3db826">$fillable</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Member Data Documentation</title>
+<anchor xml:id="_class_app_1_1_models_1_1_donor_donation_1aefcedba101f6113d3517c8615d3db826"/><section>
+    <title>$fillable</title>
+<indexterm><primary>$fillable</primary><secondary>App\Models\DonorDonation</secondary></indexterm>
+<indexterm><primary>App\Models\DonorDonation</primary><secondary>$fillable</secondary></indexterm>
+<para><computeroutput>App\Models\DonorDonation::$fillable<computeroutput>[protected]</computeroutput></computeroutput></para><emphasis role="strong">Initial value:</emphasis><programlisting linenumbering="unnumbered">=&#32;[
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&apos;donor_id&apos;</emphasis>,
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&apos;donation_id&apos;</emphasis>,
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&apos;verified_at&apos;</emphasis>
+&#32;&#32;&#32;&#32;]
+</programlisting></section>
+<para>
+The documentation for this class was generated from the following file:</para>
+app/Models/DonorDonation.php</section>
+</section>

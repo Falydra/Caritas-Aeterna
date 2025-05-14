@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_app_1_1_http_1_1_requests_1_1_donor_1_1_donor_donate_request" xml:lang="en-US">
+<title>App\Http\Requests\Donor\DonorDonateRequest Class Reference</title>
+<indexterm><primary>App\Http\Requests\Donor\DonorDonateRequest</primary></indexterm>
+<para>Inheritance diagram for App\Http\Requests\Donor\DonorDonateRequest:    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="class_app_1_1_http_1_1_requests_1_1_donor_1_1_donor_donate_request.png"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+<simplesect>
+    <title>Public Member Functions    </title>
+        <itemizedlist>
+            <listitem><para><link linkend="_class_app_1_1_http_1_1_requests_1_1_donor_1_1_donor_donate_request_1a514ac0804d68be2f0b2c15983dd10508">authorize</link> ()</para>
+</listitem>
+            <listitem><para><link linkend="_class_app_1_1_http_1_1_requests_1_1_donor_1_1_donor_donate_request_1ac966cf3cd8f4c7d8e394fd73ab51f64a">rules</link> ()</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Member Function Documentation</title>
+<anchor xml:id="_class_app_1_1_http_1_1_requests_1_1_donor_1_1_donor_donate_request_1a514ac0804d68be2f0b2c15983dd10508"/><section>
+    <title>authorize()</title>
+<indexterm><primary>authorize</primary><secondary>App\Http\Requests\Donor\DonorDonateRequest</secondary></indexterm>
+<indexterm><primary>App\Http\Requests\Donor\DonorDonateRequest</primary><secondary>authorize</secondary></indexterm>
+<para><computeroutput>App\Http\Requests\Donor\DonorDonateRequest::authorize ( )</computeroutput></para>
+<para>Determine if the user is authorized to make this request. </para>
+</section>
+<anchor xml:id="_class_app_1_1_http_1_1_requests_1_1_donor_1_1_donor_donate_request_1ac966cf3cd8f4c7d8e394fd73ab51f64a"/><section>
+    <title>rules()</title>
+<indexterm><primary>rules</primary><secondary>App\Http\Requests\Donor\DonorDonateRequest</secondary></indexterm>
+<indexterm><primary>App\Http\Requests\Donor\DonorDonateRequest</primary><secondary>rules</secondary></indexterm>
+<para><computeroutput>App\Http\Requests\Donor\DonorDonateRequest::rules ( )</computeroutput></para>
+<para>Get the validation rules that apply to the request.</para>
+
+<para><formalpara><title>Returns</title>
+
+<para>array&lt;string, \Illuminate\Contracts\Validation\ValidationRule|array&lt;mixed&gt;|string&gt; </para>
+</formalpara>
+</para>
+</section>
+<para>
+The documentation for this class was generated from the following file:</para>
+app/Http/Requests/Donor/DonorDonateRequest.php</section>
+</section>

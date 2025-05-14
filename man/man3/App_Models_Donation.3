@@ -1,0 +1,143 @@
+.TH "App\Models\Donation" 3 "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+App\Models\Donation
+.SH SYNOPSIS
+.br
+.PP
+.PP
+Inherits Model\&.
+.PP
+Inherited by \fBApp\\Models\\Fundraiser\fP, and \fBApp\\Models\\ProductDonation\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBcasts\fP ()"
+.br
+.ti -1c
+.RI "\fBnewInstance\fP ($attributes=[], $exists=false)"
+.br
+.ti -1c
+.RI "\fBnewFromBuilder\fP ($attributes=[], $connection=null)"
+.br
+.ti -1c
+.RI "\fBinitiator\fP ()"
+.br
+.ti -1c
+.RI "\fBreviewer\fP ()"
+.br
+.ti -1c
+.RI "\fBdonors\fP ()"
+.br
+.ti -1c
+.RI "\fBdonorDonations\fP ()"
+.br
+.ti -1c
+.RI "\fBtype\fP ()"
+.br
+.ti -1c
+.RI "\fBcategory\fP ()"
+.br
+.ti -1c
+.RI "\fBtypeAttributes\fP ()"
+.br
+.ti -1c
+.RI "\fBsetPending\fP (\fBUser\fP $user)"
+.br
+.ti -1c
+.RI "\fBsetOnProgress\fP (\fBUser\fP $user)"
+.br
+.ti -1c
+.RI "\fBsetDenied\fP (\fBUser\fP $user)"
+.br
+.ti -1c
+.RI "\fBsetFinished\fP (\fBUser\fP $user)"
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fB$table\fP = 'donations'"
+.br
+.ti -1c
+.RI "\fB$guarded\fP"
+.br
+.ti -1c
+.RI "\fB$fillable\fP"
+.br
+.in -1c
+.SH "Member Function Documentation"
+.PP 
+.SS "App\\Models\\Donation::initiator ()"
+Relationship 
+.SS "App\\Models\\Donation::newFromBuilder ( $attributes = \fR[]\fP,  $connection = \fRnull\fP)"
+Create a new model instance that is existing\&.
+
+.PP
+\fBParameters\fP
+.RS 4
+\fI$attributes\fP 
+.br
+\fI$connection\fP 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+static 
+.RE
+.PP
+
+.SS "App\\Models\\Donation::newInstance ( $attributes = \fR[]\fP,  $exists = \fRfalse\fP)"
+Create a new instance of the given model\&.
+
+.PP
+\fBParameters\fP
+.RS 4
+\fI$attributes\fP 
+.br
+\fI$exists\fP 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+static 
+.RE
+.PP
+
+.SS "App\\Models\\Donation::type ()"
+Class Methods 
+.SH "Member Data Documentation"
+.PP 
+.SS "App\\Models\\Donation::$fillable\fR [protected]\fP"
+\fBInitial value:\fP
+.nf
+= [
+        'title',
+        'type',
+        'type_attributes',
+        'text_descriptions',
+        'image_descriptions',
+        'header_image',
+        'status',
+        'reviewed_by',
+        'reviewed_at',
+    ]
+.PP
+.fi
+
+.SS "App\\Models\\Donation::$guarded\fR [protected]\fP"
+\fBInitial value:\fP
+.nf
+= [
+        'type'
+    ]
+.PP
+.fi
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.
