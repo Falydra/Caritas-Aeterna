@@ -13,6 +13,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\BookCollection;
 use App\Models\ProductDonation;
+use App\Services\ImageService;
 use Illuminate\Support\Facades\Storage;
 
 class BookController extends Controller {
@@ -68,9 +69,13 @@ class BookController extends Controller {
         // store cover image
         $coverImage = data_get($validated, 'data.cover_image');
         $coverImagePath = '';
-        $this->storeImage(
+
+        $service = new ImageService();
+        $storePath = 'image/books/' . $titleSlug;
+        $service->storeImage(
             $titleSlug,
             $coverImage,
+            $storePath,
             $coverImagePath
         );
         // \Log::info("Cover Image Path: " . $coverImagePath);
@@ -116,17 +121,6 @@ class BookController extends Controller {
     /**
      * Helper Methods
      */
-    protected function storeImage(
-        string $title,
-        UploadedFile $file,
-        string &$filepath
-    ) {
-        $storePath = 'image/books/' . $title;
-        $filename = $file->hashName();
-        $path = $file->storeAs($storePath, $filename, 'public');
-        $filepath = Storage::url($path);
-    }
-
     protected function sanitizeTextInput(string $text): string {
         $text = strip_tags($text);
         $text = trim($text);

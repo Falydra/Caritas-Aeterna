@@ -177,13 +177,18 @@ class DonationService {
     }
 
     protected function createDonationItem(DonorDonation $donation, array $donationData): DonationItem {
-        $donationTitle = Str::of($donation->donation->title)->snake();
+        $donationTitle = Str::of($donation->donation->title)->slug();
 
         $packagePicture = data_get($donationData, 'data.package_picture');
         $packagePicturePath = '';
-        $this->storeImage(
+
+        $service = new ImageService();
+        $storePath = 'image/donations/' . $donationTitle . '/items';
+
+        $service->storeImage(
             $donationTitle,
             $packagePicture,
+            $storePath,
             $packagePicturePath
         );
 
@@ -219,15 +224,5 @@ class DonationService {
 
         return $pivot;
     }
-
-    protected function storeImage(
-        string $title,
-        UploadedFile $file,
-        string &$filepath
-    ) {
-        $storePath = 'image/donations/' . $title . '/items';
-        $filename = $file->hashName();
-        $path = $file->storeAs($storePath, $filename, 'public');
-        $filepath = Storage::url($path);
-    }
 }
+

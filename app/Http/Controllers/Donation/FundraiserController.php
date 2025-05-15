@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Query\Builder;
 use App\Http\Resources\Donation\DonationCollection;
 use App\Http\Requests\Donation\DonationStoreRequest;
+use App\Services\ImageService;
 use Illuminate\Contracts\Database\Query\Builder as QueryBuilder;
 
 class FundraiserController extends Controller {
@@ -37,13 +38,16 @@ class FundraiserController extends Controller {
 
     public function latest() {
         $donations = Fundraiser::select(
-            'id', 'initiator_id',
-            'type', 'type_attributes',
-            'title', 'header_image',
+            'id',
+            'initiator_id',
+            'type',
+            'type_attributes',
+            'title',
+            'header_image',
         )->with('initiator:id,username')
-        ->whereNot(function (QueryBuilder $q) {
-            $q->where('status', 'pending')->orWhere('status', 'denied');
-        })->latest()->paginate(10);
+            ->whereNot(function (QueryBuilder $q) {
+                $q->where('status', 'pending')->orWhere('status', 'denied');
+            })->latest()->paginate(10);
 
         return (new DonationCollection($donations))->additional([
             'status' => 'success',
@@ -85,15 +89,18 @@ class FundraiserController extends Controller {
 
         // get general data
         $title = $validated['data']['title'];
-        $titleSnake = Str::snake($title);
+        $titleSlug = Str::slug($title);
         $descriptions = $validated['data']['text_descriptions'];
         $headerImage = $validated['data']['header_image'];
 
         // store header image
         $headerImagePath = '';
-        $this->storeImage(
-            $titleSnake,
+        $storePath = 'image/donations/' . $titleSlug;
+        $service = new ImageService();
+        $service->storeImage(
+            $titleSlug,
             $headerImage,
+            $storePath,
             $headerImagePath
         );
 
@@ -102,10 +109,11 @@ class FundraiserController extends Controller {
         $imageDescriptions = array();
         foreach ($images as $index => $image) {
             $filePath = '';
-            $this->storeImage(
-                $titleSnake,
-                $image,
-                $filePath
+            $service->storeImage(
+                $titleSlug,
+                $headerImage,
+                $storePath,
+                $headerImagePath
             );
             $imageDescriptions[$index] = $filePath;
         }
