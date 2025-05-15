@@ -108,10 +108,11 @@ class DonationService {
             // make midtrans snap token request payload
             $fullName = Str::of($user->userProfile->full_name)->explode(' ');
             $firstName = $fullName[0];
-            $lastName = count($fullName) > 0 ? $fullName[count($fullName)-1] : $firstName;
+            $lastName = count($fullName) > 0 ? $fullName[count($fullName) - 1] : $firstName;
+            $orderId = $fund->donation->id . now()->timestamp;
             $payload = [
                 'transaction_details' => [
-                    'order_id' => $fund->id . now()->timestamp,
+                    'order_id' => $orderId,
                     'gross_amount' => floatval($fund->amount)
                 ],
                 'customer_details' => [
@@ -128,6 +129,10 @@ class DonationService {
                         'name' => $donation->title,
                         'category' => $donation->category(),
                     ]
+                ],
+                'callbacks' => [
+                    'finish' => route('midtrans.finish'),
+                    'error' => route('midtrans.error')
                 ]
             ];
 
@@ -139,6 +144,7 @@ class DonationService {
             $snapToken = $response['token'];
             $url = $response['redirect_url'];
             $fund->update([
+                'order_id' => $orderId,
                 'snap_token' => $snapToken,
                 'redirect_url' => $url
             ]);
@@ -225,4 +231,3 @@ class DonationService {
         return $pivot;
     }
 }
-

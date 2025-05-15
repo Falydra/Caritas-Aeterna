@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Midtrans\Snap;
 use App\Models\Fund;
+use App\Services\MidtransService;
 use Midtrans\Config;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -59,17 +60,24 @@ class PaymentController extends Controller {
     /**
      *
      */
-    public function finish(Request $request) {
-        \Log::info("Request data: ", [$request->query()]);
-
-        return redirect('/');
+    public function finish(Request $request, MidtransService $service) {
+        $validated = $request->validate([
+            "order_id" => "bail|required|string",
+            "status_code" => "bail|required",
+            "transaction_status" => "bail|required"
+        ]);
+        $service->finishPayment($validated);
+        $orderId = data_get($validated, 'order_id');
+        $fund = Fund::where('order_id', $orderId)->first();
+        $donation = $fund->donation;
+        return redirect()->route('donations.show', $donation);
     }
 
     /**
      *
      */
     public function error(Request $request) {
-        \Log::info("Request data: ", [$request->all()]);
+        \Log::info("Error Request data: ", [$request->all()]);
 
         return redirect('/');
     }

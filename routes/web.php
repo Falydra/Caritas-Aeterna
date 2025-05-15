@@ -93,8 +93,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // midtrans url endpoints
     Route::get('/donations/payment/pay/{fund}', [PaymentController::class, 'show'])->name('donation.pay');
     Route::post('/donations/payment/notifications/handling');
-    Route::get('/donations/payment/finish', [PaymentController::class, 'finish'])->name('donation.finish');
-    Route::post('/donations/payment/error', [PaymentController::class, 'error'])->name('donation.error');
+    Route::get('/donations/payment/finish', [PaymentController::class, 'finish'])->name('midtrans.finish');
+    Route::post('/donations/payment/error', [PaymentController::class, 'error'])->name('midtrans.error');
 });
 Route::get('/donations', [DonationController::class, 'index'])->name('donations.index');
 Route::get('/donations/fundraiser/latest', [FundraiserController::class, 'latest'])->name('fundraiser.latest');

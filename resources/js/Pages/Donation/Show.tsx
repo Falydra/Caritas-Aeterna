@@ -22,7 +22,6 @@ function combineDescriptionSorted(
         }
     }
 
-    console.log(combined);
     return combined;
 }
 
@@ -65,7 +64,7 @@ export default function ShowDonation() {
     );
     const amount = [10000, 25000, 50000, 75000, 100000, 125000, 150000, 200000];
 
-    // console.log(donation);
+    console.log(donation);
 
     function handleModalButtonClick() {
         setPaymentModal(true);
