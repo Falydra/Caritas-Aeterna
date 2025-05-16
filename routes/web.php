@@ -2,6 +2,7 @@
 
 
 
+use App\Http\Controllers\DonationDetailController;
 use App\Http\Controllers\Donee\InitController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
@@ -16,6 +17,7 @@ use App\Http\Controllers\Fund\FundController;
 use App\Http\Controllers\SuperAdmin\DashboardController;
 use App\Http\Controllers\GeneralNewsController;
 use App\Http\Controllers\Donee\DoneeDashboardController;
+use App\Models\Donation;
 
 
 use function PHPUnit\Framework\isEmpty;
@@ -30,11 +32,14 @@ Route::get('/', function () {
     //     'role' => $user->role(),
     // ] : null;
     $role = $user ? $user->roleName() : "";
+    $donations = Donation::with('initiator:id,username')->get();
+    
     return Inertia::render('Welcome', [
         'auth' => [
             'user' => $user,
             'roles' => $role,
         ],
+        'donations' => $donations,
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
@@ -43,6 +48,10 @@ Route::get('/', function () {
 })->name('welcome');
 
 Route::get('/news', [GeneralNewsController::class, 'index'])->name('news');
+
+Route::get('/donation', function () {
+    return Inertia::render('Donation');
+})->name('donation');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard/Dashboard');
@@ -72,7 +81,9 @@ Route::get('/dashboard/super-admin', [DashboardController::class, 'index'])
 
 
 
-    Route::middleware('auth')->group(function () {
+
+
+Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -83,6 +94,8 @@ Route::middleware(['auth','verified'])->group(function() {
     Route::get('/dashboard/donee/create-donation', [InitController::class, 'index'])->name('donee.init');
 });
 
+Route::get('/donations/{id}', [DonationDetailController::class, 'index'])->name('donation.detail'); 
+      
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/donations', [DonationController::class, 'store'])->name('donations.store');
     Route::get('/donations/create', [DonationController::class, 'create'])->name('donations.create');
