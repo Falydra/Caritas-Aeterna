@@ -1,5 +1,5 @@
-import GeneralCardNews from '@/Components/GeneralCardNews';
-import Guest from '@/Layouts/GuestLayout';
+import GeneralCardNews from "@/Components/GeneralCardNews";
+import Guest from "@/Layouts/GuestLayout";
 
 export default function GeneralNews() {
     const MultiCard = () => {
@@ -10,9 +10,12 @@ export default function GeneralNews() {
 
     return (
         <Guest>
-            <div className="pt-[60px] w-full "> 
+            <div className="pt-[60px] w-full ">
                 <h1 className="text-2xl font-bold px-8">Berita Terbaru</h1>
-                <p className="text-sm px-8">Berita terbaru dari Universitas Diponegoro tentang aktivitas, prestasi, dan informasi penting lainnya.</p>
+                <p className="text-sm px-8">
+                    Berita terbaru dari Yayasan Nurul Hidayah tentang aktivitas,
+                    prestasi, dan informasi penting lainnya.
+                </p>
                 {MultiCard()}
             </div>
         </Guest>

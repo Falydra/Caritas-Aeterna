@@ -16,6 +16,7 @@ export default {
         extend: {
             lineHeight: {
                 tight: '0.81',
+                small: '1.2',
             },
             fontFamily: {
                 sans: [

@@ -1,6 +1,7 @@
-export interface User {
+
+export type User = {
     id?: number;
-    name?: string;
+    username?: string;
     email?: string;
     role: stirng;
 
@@ -106,14 +107,38 @@ export type DonorDonation = {
     funds: Fund[];
 }
 
+export type Initiator = {
+    id:number;
+    username : string;
+
+}
+
 export type Donation = {
-    user?: User;
-    amount: number;
-    username: string;
+    initiator_id: User;
+    id: number;
+    type_attributes: {
+        [key: string]: number;
+    };
+    title: string;
+    header_image: string;
+    text_descriptions: {
+        [key: number]: string;
+    };
+    image_descriptions: {
+        [key: number]: string;
+    };
+    status: string;
+    reviewed_by: User;
+    initiator: Initiator;
+   
+
+
+    
 };
 
 export type InitiatorDonation = {
     user: User;
+    id: number;
     organization?: string;
     isVerified?: boolean;
     donationLimit?: number;
