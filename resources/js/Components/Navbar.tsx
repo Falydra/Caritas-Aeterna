@@ -50,7 +50,7 @@ export default function Navbar() {
                             className="flex items-center justify-start flex-row"
                         >
                             <img
-                                src="images/LogoYayasan.png"
+                                src="/images/LogoYayasan.png"
                                 className="w-auto flex h-12"
                             />
                         </Link>
