@@ -1,9 +1,22 @@
+import { PageProps } from "@/types";
 import { Inertia } from "@inertiajs/inertia";
 import { Link, usePage } from "@inertiajs/react";
 import { IoPersonOutline } from "react-icons/io5";
 
+interface CustomPageProps extends PageProps {
+    auth: {
+        roles: string;
+        user?: {
+            name?: string;
+            email?: string;
+            role: string;
+        };
+    };
+    url?: string;
+}
+
 export default function Navbar() {
-    const { auth } = usePage().props;
+    const { auth, url = "" } = usePage<CustomPageProps>().props;
 
     const dashboardIdentifier =
         auth.roles === "super-admin"
@@ -16,35 +29,71 @@ export default function Navbar() {
             ? "/dashboard/donee"
             : "/";
 
-    console.log(auth.user);
-    console.log(auth);
-    if (auth.roles) {
-        console.log("Role:", auth.roles);
-    }
+    const isActiveUrl = (path: string) => {
+        if (path === "/") {
+            return currentPath === "/" || currentPath === "";
+        }
+
+        return currentPath.startsWith(path);
+    };
+
+    const currentPath =
+        typeof window !== "undefined" ? window.location.pathname : "";
 
     return (
-        <div className="w-full fixed h-[80px] bg-primary-fg top-0 left-0 z-20 ">
-            <div className="flex-row flex w-full h-[80px] backdrop-blur-sm z-15 text-primary-bg   items-center justify-center top-0 left-0 sticky">
+        <div className="w-full fixed h-[80px] bg-primary-fg top-0 left-0 z-20">
+            <div className="flex-row flex w-full h-[80px] backdrop-blur-sm z-15 text-primary-bg items-center justify-center top-0 left-0 sticky">
                 <div className="flex w-full h-full items-center justify-center">
-                    <Link
-                        href={route("welcome")}
-                        className="flex w-full items-center justify-start flex-row px-8"
-                    >
-                        <img
-                            src="/images/Logo_Undip_Full-removebg-preview.png"
-                            className="w-auto flex h-12"
-                        />
-                    </Link>
-                    <div className="flex w-full items-center justify-around ">
-                        <h1>Home</h1>
-                        <h2>About</h2>
-                        <h3>Contact</h3>
+                    <div className="flex w-full items-center justify-start flex-row px-8">
+                        <Link
+                            href={route("welcome")}
+                            className="flex items-center justify-start flex-row"
+                        >
+                            <img
+                                src="images/LogoYayasan.png"
+                                className="w-auto flex h-12"
+                            />
+                        </Link>
                     </div>
+
+                    <div className="flex w-full items-center justify-around">
+                        <Link
+                            href={route("welcome")}
+                            className={`hover:text-primary-accent px-4 py-2 ${
+                                isActiveUrl("/")
+                                    ? "border-b-4 border-primary-bg"
+                                    : ""
+                            }`}
+                        >
+                            Home
+                        </Link>
+                        <Link
+                            href={route("news")}
+                            className={`hover:text-primary-accent px-4 py-2 ${
+                                isActiveUrl("/news")
+                                    ? "border-b-4 border-primary-bg"
+                                    : ""
+                            }`}
+                        >
+                            News
+                        </Link>
+                        <Link
+                            href={route("donation")}
+                            className={`hover:text-primary-accent px-4 py-2 ${
+                                isActiveUrl("/donation")
+                                    ? "border-b-4 border-primary-bg"
+                                    : ""
+                            }`}
+                        >
+                            Donation
+                        </Link>
+                    </div>
+
                     {!auth.user ? (
                         <div className="flex w-full items-end justify-end px-4">
                             <Link
                                 href={route("login")}
-                                className="items-center justify-end mr-3 hover:text-primary-accent cursor-pointer "
+                                className="items-center justify-end mr-3 hover:text-primary-accent cursor-pointer"
                                 onClick={() => Inertia.get("/login")}
                             >
                                 Login
