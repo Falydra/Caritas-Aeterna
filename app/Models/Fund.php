@@ -11,11 +11,13 @@ class Fund extends Model {
     protected $table = 'funds';
 
     protected $fillable = [
+        'order_id',
         'donation_id',
         'donation_type',
         'amount',
         'snap_token',
         'redirect_url',
+        'status',
         'note',
     ];
 

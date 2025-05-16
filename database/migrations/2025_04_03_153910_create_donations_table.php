@@ -17,7 +17,7 @@ return new class extends Migration {
             )->onDelete('cascade');
             $table->string('type');
             $table->json('type_attributes');
-            $table->string('title', 255)->unique();
+            $table->string('title', 50)->unique();
             $table->string('header_image')->nullable();
             $table->json('text_descriptions');
             $table->json('image_descriptions');

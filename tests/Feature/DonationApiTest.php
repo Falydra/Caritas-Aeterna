@@ -109,7 +109,7 @@ class DonationApiTest extends TestCase {
         $user = Donee::inRandomOrder()->first();
         $user->markEmailAsVerified();
 
-        $title = Str::of(fake()->sentence(random_int(4, 6)))->replace('.', '');
+        $title = Str::of(fake()->sentence(random_int(3, 4)))->replace('.', '');
         $target = 720000;
 
         $data = $this->generateDonation(

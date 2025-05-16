@@ -8,10 +8,8 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 
-class AdminDashboardController extends Controller
-{
-    public function index()
-    {
+class AdminDashboardController extends Controller {
+    public function index() {
         return Inertia::Render('Admin/Dashboard');
     }
 }

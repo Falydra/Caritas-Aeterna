@@ -11,6 +11,7 @@ return new class extends Migration {
     public function up(): void {
         Schema::create('funds', function (Blueprint $table) {
             $table->id();
+            $table->string('order_id')->unique()->nullable();
             $table->foreignId('donation_id')->constrained(
                 'donations',
                 'id',

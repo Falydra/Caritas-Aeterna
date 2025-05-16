@@ -9,6 +9,7 @@ use App\Models\Donee;
 use App\Models\Donation;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Services\ImageService;
 use App\Models\ProductDonation;
 use Illuminate\Support\Facades\DB;
 use App\Traits\HandleDonationsData;
@@ -17,6 +18,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Query\Builder;
 use App\Http\Resources\Donation\DonationCollection;
 use App\Http\Requests\Donation\DonationStoreRequest;
+use Illuminate\Contracts\Database\Query\Builder as QueryBuilder;
 
 class ProductDonationController extends Controller {
     use HandleDonationsData;
@@ -37,12 +39,32 @@ class ProductDonationController extends Controller {
         ]);
     }
 
+
+    public function latest() {
+        $donations = ProductDonation::select(
+            'id',
+            'initiator_id',
+            'type',
+            'type_attributes',
+            'title',
+            'header_image',
+        )->with('initiator:id,username')
+            ->whereNot(function (QueryBuilder $q) {
+                $q->where('status', 'pending')->orWhere('status', 'denied');
+            })->latest()->paginate(10);
+
+        return (new DonationCollection($donations))->additional([
+            'status' => 'success',
+            'message' => 'Lists donation retrieved successfully'
+        ]);
+    }
+
     public function show(ProductDonation $donation) {
         $data = ProductDonation::with(
             'books',
             'facilities'
         )->where('id', $donation->id)
-        ->first();
+            ->first();
 
         // return $data;
         return Inertia::render('Donation/Show', [
@@ -142,15 +164,18 @@ class ProductDonationController extends Controller {
     protected function storeDonation(Request $request, $validated): Donation {
         // get general data
         $title = $validated['data']['title'];
-        $titleSnake = Str::snake($title);
+        $titleSlug = Str::slug($title);
         $descriptions = $validated['data']['text_descriptions'];
         $headerImage = $validated['data']['header_image'];
 
         // store header image
         $headerImagePath = '';
-        $this->storeImage(
-            $titleSnake,
+        $storePath = 'image/donations/' . $titleSlug;
+        $service = new ImageService();
+        $service->storeImage(
+            $titleSlug,
             $headerImage,
+            $storePath,
             $headerImagePath
         );
 
@@ -159,10 +184,11 @@ class ProductDonationController extends Controller {
         $imageDescriptions = array();
         foreach ($images as $index => $image) {
             $filePath = '';
-            $this->storeImage(
-                $titleSnake,
-                $image,
-                $filePath
+            $service->storeImage(
+                $titleSlug,
+                $headerImage,
+                $storePath,
+                $headerImagePath
             );
             $imageDescriptions[$index] = $filePath;
         }

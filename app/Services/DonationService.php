@@ -108,10 +108,11 @@ class DonationService {
             // make midtrans snap token request payload
             $fullName = Str::of($user->userProfile->full_name)->explode(' ');
             $firstName = $fullName[0];
-            $lastName = count($fullName) > 0 ? $fullName[count($fullName)-1] : $firstName;
+            $lastName = count($fullName) > 0 ? $fullName[count($fullName) - 1] : $firstName;
+            $orderId = $fund->donation->id . now()->timestamp;
             $payload = [
                 'transaction_details' => [
-                    'order_id' => $fund->id . now()->timestamp,
+                    'order_id' => $orderId,
                     'gross_amount' => floatval($fund->amount)
                 ],
                 'customer_details' => [
@@ -128,6 +129,10 @@ class DonationService {
                         'name' => $donation->title,
                         'category' => $donation->category(),
                     ]
+                ],
+                'callbacks' => [
+                    'finish' => route('midtrans.finish'),
+                    'error' => route('midtrans.error')
                 ]
             ];
 
@@ -139,6 +144,7 @@ class DonationService {
             $snapToken = $response['token'];
             $url = $response['redirect_url'];
             $fund->update([
+                'order_id' => $orderId,
                 'snap_token' => $snapToken,
                 'redirect_url' => $url
             ]);
@@ -177,13 +183,18 @@ class DonationService {
     }
 
     protected function createDonationItem(DonorDonation $donation, array $donationData): DonationItem {
-        $donationTitle = Str::of($donation->donation->title)->snake();
+        $donationTitle = Str::of($donation->donation->title)->slug();
 
         $packagePicture = data_get($donationData, 'data.package_picture');
         $packagePicturePath = '';
-        $this->storeImage(
+
+        $service = new ImageService();
+        $storePath = 'image/donations/' . $donationTitle . '/items';
+
+        $service->storeImage(
             $donationTitle,
             $packagePicture,
+            $storePath,
             $packagePicturePath
         );
 
@@ -218,16 +229,5 @@ class DonationService {
         }
 
         return $pivot;
-    }
-
-    protected function storeImage(
-        string $title,
-        UploadedFile $file,
-        string &$filepath
-    ) {
-        $storePath = 'image/donations/' . $title . '/items';
-        $filename = $file->hashName();
-        $path = $file->storeAs($storePath, $filename, 'public');
-        $filepath = Storage::url($path);
     }
 }

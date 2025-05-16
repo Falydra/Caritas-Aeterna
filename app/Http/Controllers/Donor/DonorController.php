@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers\Donor;
 
-use App\Exceptions\DonateOwnDonationException;
-use App\Exceptions\InvalidUserTypeException;
-use App\Exceptions\UnverifiedUserException;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Donor\DonorDonateRequest;
+use Exception;
+use Inertia\Inertia;
 use App\Models\Fundraiser;
+use Illuminate\Http\Request;
 use App\Models\ProductDonation;
 use App\Services\DonationService;
-use Exception;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Exceptions\UnverifiedUserException;
+use App\Exceptions\InvalidUserTypeException;
+use App\Exceptions\DonateOwnDonationException;
+use App\Http\Requests\Donor\DonorDonateRequest;
 
 class DonorController extends Controller {
     public function donate(DonorDonateRequest $request, DonationService $service) {
@@ -39,10 +40,12 @@ class DonorController extends Controller {
         } catch (InvalidUserTypeException $e) {
             abort(403, $e->getMessage());
         } catch (Exception $e) {
+            dd($e->getMessage());
             abort(500, $e->getMessage());
         }
 
-        return redirect($fund->redirect_url);
+        // return redirect($fund->redirect_url);
+        return Inertia::location($fund->redirect_url);
     }
 
     public function donateProduct(DonorDonateRequest $request, DonationService $service) {

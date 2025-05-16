@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { Link } from "react-scroll";
-import { CardWithForm } from "./CharityCard";
-import { BookCharityCard } from "./BookDonationCard";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Charity() {
@@ -9,10 +7,11 @@ export default function Charity() {
     const [isBook, setIsBook] = useState(false);
 
     return (
-        <div id="charity" className="w-full min-h-screen flex justify-center items-center bg-primary-bg overflow-hidden">
+        <div
+            id="charity"
+            className="w-full min-h-screen flex justify-center items-center bg-primary-bg overflow-hidden"
+        >
             <section className="w-full  h-full flex flex-col items-center justify-start py-16 px-4 relative">
-
-
                 <div className="transform w-2/12 top-0 items-center justify-center flex flex-col">
                     <div className="relative w-full flex items-center justify-center px-1 py-1 bg-gray-700 border border-gray-600 rounded-full">
                         <div
@@ -60,7 +59,6 @@ export default function Charity() {
                                 initial={{ x: 300, opacity: 0 }}
                                 animate={{ x: 0, opacity: 1 }}
                                 exit={{ x: 900, opacity: 0 }}
-
                                 transition={{ duration: 0.5 }}
                                 className="absolute w-full h-full flex flex-col items-center justify-start py-4"
                             >
@@ -68,7 +66,7 @@ export default function Charity() {
                                     Berita Terkini
                                 </h1>
                                 <div className="w-full flex justify-center">
-                                    <CardWithForm />
+                                    {/* <CardWithForm /> */}
                                 </div>
                             </motion.div>
                         )}
@@ -79,7 +77,6 @@ export default function Charity() {
                                 initial={{ x: -300, opacity: 0 }}
                                 animate={{ x: 0, opacity: 1 }}
                                 exit={{ x: -900, opacity: 0 }}
-
                                 transition={{ duration: 0.5 }}
                                 className="absolute w-full h-full flex flex-col items-center justify-start py-4"
                             >
@@ -87,13 +84,12 @@ export default function Charity() {
                                     Berita Terkini
                                 </h1>
                                 <div className="w-full flex justify-center">
-                                    <BookCharityCard />
+                                    {/* <BookCharityCard /> */}
                                 </div>
                             </motion.div>
                         )}
                     </AnimatePresence>
                 </div>
-
             </section>
         </div>
     );

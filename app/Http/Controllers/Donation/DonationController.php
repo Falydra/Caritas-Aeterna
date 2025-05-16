@@ -21,11 +21,13 @@ class DonationController extends Controller {
 
     public function index() {
         $donations = Donation::select(
+            'id',
+            'initiator_id',
             'type',
             'type_attributes',
             'title',
             'header_image'
-        )->whereNot(function (Builder $query) {
+        )->with('initiator:id,username')->whereNot(function (Builder $query) {
             $query->where('status', 'pending')->orWhere('status', 'denied');
         })->latest()->paginate(10);
 
@@ -42,7 +44,7 @@ class DonationController extends Controller {
                     $q->select(
                         'id', 'donor_id', 'donation_id', 'verified_at'
                     )->whereHas('funds', function ($q) {
-                        $q->where('status', 'pending'); ####### IMPORTANT!!! CHANGE TO SUCCESS ##########
+                        $q->where('status', 'on_progress'); ####### IMPORTANT!!! CHANGE TO SUCCESS ##########
                     })->latest('created_at')->take(10);
                 },
                 'donorDonations.donor' => function ($q) {
