@@ -77,4 +77,26 @@ class MidtransService {
 
         return $fund;
     }
+
+    /**
+     * Error payment
+     *
+     * @return void
+     */
+    public function errorPayment(array $data): void {
+        DB::beginTransaction();
+        try {
+            $orderId = data_get($data, 'order_id');
+            $fund = Fund::where('order_id', $orderId)->first();
+            $fund->update([
+                'status' => 'failed'
+            ]);
+            $fund->save();
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+    }
 }

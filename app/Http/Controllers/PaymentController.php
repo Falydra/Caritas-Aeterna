@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Midtrans\Snap;
 use App\Models\Fund;
 use App\Services\MidtransService;
+use Exception;
 use Midtrans\Config;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -66,7 +67,13 @@ class PaymentController extends Controller {
             "status_code" => "bail|required",
             "transaction_status" => "bail|required"
         ]);
-        $service->finishPayment($validated);
+
+        try {
+            $service->finishPayment($validated);
+        } catch (Exception $e) {
+            abort(500, $e->getMessage());
+        }
+
         $orderId = data_get($validated, 'order_id');
         $fund = Fund::where('order_id', $orderId)->first();
         $donation = $fund->donation;
@@ -76,9 +83,22 @@ class PaymentController extends Controller {
     /**
      *
      */
-    public function error(Request $request) {
-        \Log::info("Error Request data: ", [$request->all()]);
+    public function error(Request $request, MidtransService $service) {
+        $validated = $request->validate([
+            "order_id" => "bail|required|string",
+            "status_code" => "bail|required",
+            "transaction_status" => "bail|required"
+        ]);
 
-        return redirect('/');
+        try {
+            $service->errorPayment($validated);
+        } catch (Exception $e) {
+            abort(500, $e->getMessage());
+        }
+
+        $orderId = data_get($validated, 'order_id');
+        $fund = Fund::where('order_id', $orderId)->first();
+        $donation = $fund->donation;
+        return redirect()->route('donations.show', $donation);
     }
 }
