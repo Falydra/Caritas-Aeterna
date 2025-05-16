@@ -42,6 +42,12 @@ export const PageData = {
                 isActive: false,
                 route: "book-details",
             },
+            {
+                title: "Profile",
+                url: "/profile",
+                isActive: false,
+                route: "profile",
+            },
         ] as MenuItem[],
     },
 };
