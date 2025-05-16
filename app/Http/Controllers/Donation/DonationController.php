@@ -21,11 +21,13 @@ class DonationController extends Controller {
 
     public function index() {
         $donations = Donation::select(
+            'id',
+            'initiator_id',
             'type',
             'type_attributes',
             'title',
             'header_image'
-        )->whereNot(function (Builder $query) {
+        )->with('initiator:id,username')->whereNot(function (Builder $query) {
             $query->where('status', 'pending')->orWhere('status', 'denied');
         })->latest()->paginate(10);
 
