@@ -43,7 +43,7 @@ export function VersionSwitcher({
                             <span className="font-semibold">
                                 Oriesy
                             </span>
-                            <span className="">Universitas Diponegro</span>
+                            <span className="">Yayasan Nurul Hidayah</span>
                         </div>
                     
                     </SidebarMenuButton>

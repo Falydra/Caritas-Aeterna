@@ -202,7 +202,7 @@ export function CardWithForm() {
                                                         )
                                                     }
                                                 >
-                                                    Rp. {nominal.nominal}
+                                                    Rp {nominal.nominal.toLocaleString('id-ID')}
                                                 </Button>
                                             )
                                     )}
@@ -225,7 +225,7 @@ export function CardWithForm() {
                                                         }
                                                     </h1>
                                                     <h1 className="text-sm font-semibold">
-                                                        {initiator.user.name}
+                                                        {initiator.user.username}
                                                     </h1>
                                                     <p className="text-xs text-muted-foreground">
                                                         {initiator.organization}

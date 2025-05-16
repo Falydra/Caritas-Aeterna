@@ -109,7 +109,7 @@ export function BookCharityCard() {
                         className="text-primary-bg hover:bg-primary-fg bg-muted-foreground/50"
                         onClick={() => setDonationAmount(nominal.nominal.toString())}
                       >
-                        Rp. {nominal.nominal}
+                        Rp {nominal.nominal}
                       </Button>
                     )
                   )}

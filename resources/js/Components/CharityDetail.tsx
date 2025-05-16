@@ -38,7 +38,7 @@ export default function CharityDetail({isDetail, setIsDetail} : {isDetail: boole
                     <IoPersonOutline className="w-5 h-5" />
                     </div>
                     <div className="w-full flex-col items-start justify-center flex ">
-                      <h1 className="text-md font-semibold">{initiator.user.name}</h1>
+                      {/* <h1 className="text-md font-semibold">{initiator.user.name}</h1> */}
                       <p className="text-sm text-muted-foreground">{initiator.organization}</p>
 
 
@@ -89,7 +89,7 @@ export default function CharityDetail({isDetail, setIsDetail} : {isDetail: boole
           
               
               <div className="w-full flex flex-col shadow-lg">
-              {donation_data.map(
+              {/* {donation_data.map(
                     (donation, index) =>
                       index < 3 && (
                         <div className="w-full h-[75px] flex  rounded-xl items-center flex-row gap-4 justify-start" key={index}>
@@ -107,7 +107,7 @@ export default function CharityDetail({isDetail, setIsDetail} : {isDetail: boole
                           </div>
                         </div>
                       )
-                  )}
+                  )} */}
               </div>
             </div>
             
