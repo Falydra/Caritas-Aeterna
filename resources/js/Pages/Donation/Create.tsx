@@ -5,6 +5,7 @@ import AddImageDescriptionButton from "./AddImageDescriptionButton";
 import DynamicImageDescription from "./DynamicImageDescription";
 import { router, usePage } from "@inertiajs/react";
 import { PageProps, User } from "@/types";
+import { Select, SelectContent, SelectTrigger, SelectValue, SelectItem, SelectGroup, SelectLabel } from "@/Components/ui/select";
 
 export default function CreateDonation() {
     // donation data
@@ -154,30 +155,51 @@ export default function CreateDonation() {
     };
 
     return (
-        <div className="bg-foreground w-full min-h-screen flex flex-col p-4 gap-4">
-            <h2 className="text-background text-2xl font-bold mx-auto">
+        <div className=" w-full min-h-screen flex flex-col p-4 gap-4">
+            <h2 className="text-primary-fg text-2xl font-bold self-start">
                 Buat Donasi Baru
             </h2>
 
-            <div className="flex flex-col w-full gap-8 text-background">
-                <label htmlFor="type" className="flex flex-col">
+            <div className="flex flex-col w-full gap-8 bg-transparent ">
+                <label htmlFor="type" className="flex flex-col text-primary-fg bg-transparent ">
                     Jenis Donasi
-                    <select
+                    {/* <select
                         name="type"
-                        className="capitalize p-2"
+                        className="capitalize p-2 text-primary-fg text-opacity-75 outline-none cursor-pointer bg-transparent border border-primary-fg/50 focus:border-primary-fg rounded-md"
                         onChange={handleTypeChange}
                     >
-                        <option value="" disabled selected>
+                        <option value="" className="bg-transparent text-primary-bg flex border border-primary-fg border-y-none" disabled selected>
                             --- Pilih Jenis Donasi ---
                         </option>
-                        <option value="fundraiser">Fundraiser</option>
-                        <option value="product_donation">Donasi Produk</option>
-                    </select>
+                        <option value="fundraiser" className="bg-transparent flex border border-primary-fg border-y-none">Fundraiser</option>
+                        <option value="product_donation" className="bg-transparent flex border border-primary-fg border-y-none">Donasi Produk</option>
+                    </select> */}
+                    <Select
+                        name="type"
+                        onValueChange={() => {handleTypeChange}}
+                        
+                    >
+                    <SelectTrigger className="w-full border border-primary-fg/50 focus:border-primary-fg text-primary-fg">
+                        <SelectValue className="text-md text-primary-fg" placeholder="--- Pilih Jenis Donasi ---" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectGroup>
+                        <SelectLabel>--- Pilih Jenis Donasi ---</SelectLabel>
+                        <SelectItem value="fundraiser" className="cursor-pointer ">Fundraiser</SelectItem>
+                        <SelectItem value="product_donation" className="cursor-pointer ">Donasi Produk</SelectItem>
+                        </SelectGroup>
+                    </SelectContent>
+                    </Select>
+
+                        
+                    <span className="text-primary-fg text-opacity-55 text-sm py-2">
+                        Pilih jenis donasi yang ingin dibuat
+                    </span>
                 </label>
                 <label htmlFor="title" className="flex flex-col">
                     Judul
                     <input
-                        className="capitalize p-2"
+                        className="capitalize py-2 px-3 outline-none text-sm text-primary-fg text-opacity-75 bg-transparent border border-primary-fg/50 focus:border-primary-fg rounded-md  cursor-text"
                         type="text"
                         name="title"
                         id="title"
@@ -187,6 +209,9 @@ export default function CreateDonation() {
                             setData({ ...data, title: e.target.value })
                         }
                     />
+                    <span className="text-primary-fg text-opacity-55 text-sm py-2">
+                        Judul donasi yang akan ditampilkan
+                    </span>
                 </label>
                 <label htmlFor="header_image" className="flex flex-col">
                     Header Image
@@ -196,6 +221,7 @@ export default function CreateDonation() {
                         id="header"
                         accept="image/*"
                         onChange={handleHeaderImageUpload}
+                        className="p-2 bg-transparent border border-primary-fg rounded-md"
                     />
                     {previewImage && (
                         <img
@@ -227,7 +253,7 @@ export default function CreateDonation() {
                     )
                 )}
 
-                <div className="flex flex-row gap-4 mx-auto">
+                <div className="flex flex-row gap-4 ">
                     <AddTextDescriptionButton
                         onClick={handleAddTextDescription}
                     ></AddTextDescriptionButton>

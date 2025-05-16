@@ -1,5 +1,5 @@
 
-import { usePage } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 import { PropsWithChildren, ReactNode, useState } from "react";
 import { AppSidebar } from "@/Components/app-sidebar";
 import {
@@ -20,6 +20,10 @@ import {
 import DonationHistory from "@/Components/DonationHistory";
 import SelectedBooks from "@/Components/SelectedBooks";
 import { SearchForm } from "@/Components/search-form";
+
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuTrigger } from "@/Components/ui/dropdown-menu";
+import { Button } from "@/Components/ui/button";
+import { IoIosLogOut } from "react-icons/io";
 
 export default function Authenticated({
     header,
@@ -55,6 +59,23 @@ export default function Authenticated({
                             </Breadcrumb>
                         </div>
                         <SearchForm className="self-center w-full " />
+                        <div className="flex flex-row items-center justify-center ">
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild className="w-full h-full">
+                                    <Button className="w-8 h-8 aspect-square rounded-full bg-primary-fg"/>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent className="w-48">
+                                    <DropdownMenuLabel>Account</DropdownMenuLabel>
+                                        <DropdownMenuSeparator />
+                                        <DropdownMenuGroup>
+                                        <Link method="post" href={route("logout")} className="flex justify-between w-full h-8 items-center bg-transparent hover:bg-red-600/75 rounded-md text-primary-bg px-2 font-semibold text-sm ">
+                                            Logout
+                                           <IoIosLogOut className="w-4 h-4 aspect-square self-center" />
+                                        </Link>
+                                        </DropdownMenuGroup>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        </div>
                     </header>
                     {children}
                 </div>
