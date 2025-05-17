@@ -15,7 +15,7 @@ class DashboardController extends Controller
     {
 
         $user = auth()->user();
-        $role = $user? $user->roles()->first() : null;
+        $role = $user? $user->roleName() : null;
         return Inertia::render('SuperAdmin/Dashboard', [
             'user' => $user,
             'roles' => $role

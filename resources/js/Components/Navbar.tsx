@@ -19,7 +19,7 @@ export default function Navbar() {
     const { auth, url = "" } = usePage<CustomPageProps>().props;
 
     const dashboardIdentifier =
-        auth.roles === "super-admin"
+        auth.roles === "superadmin"
             ? "/dashboard/super-admin"
             : auth.roles === "admin"
             ? "/dashboard/admin"
@@ -37,6 +37,7 @@ export default function Navbar() {
         return currentPath.startsWith(path);
     };
 
+    console.log(auth.roles);
     const currentPath =
         typeof window !== "undefined" ? window.location.pathname : "";
 

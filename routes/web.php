@@ -24,17 +24,12 @@ use App\Models\Donation;
 
 use function PHPUnit\Framework\isEmpty;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 Route::get('/', function () {
     $user = auth()->user();
-    // $roleModel = $user? $user->roles()->withPivot('id')->first() : null;
-    // $role = $roleModel? [
-    //     'id' => $roleModel->pivot->id,
-    //     'name' => $user,
-    //     'role' => $user->role(),
-    // ] : null;
     $role = $user ? $user->roleName() : "";
-    $donations = Donation::with('initiator:id,username')->get();
+    $donations = Donation::getActiveDonation();
 
     return Inertia::render('Welcome', [
         'auth' => [
@@ -80,11 +75,6 @@ Route::get('/dashboard/super-admin', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('super-admin.dashboard');
 
-
-
-
-
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -125,3 +115,4 @@ Route::fallback(function () {
     return Inertia::render('404');
 })->name('fallback');
 require __DIR__ . '/auth.php';
+require __DIR__ . '/superadmin.php';

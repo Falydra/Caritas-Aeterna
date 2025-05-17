@@ -44,6 +44,7 @@ export default function Login({
     const handleGetStartedClickSignUp = () => {
         setShowSignUpForm(true);
     };
+
     return (
         <Layout>
             <Head title="Login - Magistra" />
