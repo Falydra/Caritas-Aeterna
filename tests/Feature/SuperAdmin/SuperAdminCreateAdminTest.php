@@ -18,11 +18,11 @@ class SuperAdminCreateAdminTest extends TestCase {
 
     #[\PHPUnit\Framework\Attributes\Test]
     public function SuperAdminCanCreateAdmin() {
-            $superAdmin = SuperAdmin::create([
-                'username' => 'superadmin_1',
-                'email' => 'superadmin@example.com',
-                'password' => 'admin',
-            ]);
+        $superAdmin = SuperAdmin::create([
+            'username' => 'superadmin_1',
+            'email' => 'superadmin@example.com',
+            'password' => 'admin',
+        ]);
 
         $this->actingAs($superAdmin);
 
@@ -61,7 +61,7 @@ class SuperAdminCreateAdminTest extends TestCase {
     }
 
     #[\PHPUnit\Framework\Attributes\Test]
-    public function CreateAdminRequiresUnqueUsernameEmail() {
+    public function CreateAdminRequiresUniqueUsernameEmail() {
         $superAdmin = SuperAdmin::create([
             'username' => 'superadmin_1',
             'email' => 'superadmin@example.com',

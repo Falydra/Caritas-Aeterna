@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\Donation\FundraiserController;
 use App\Http\Controllers\Donation\ProductDonationController;
+use App\Http\Controllers\Donee\DoneeApplicationController;
 use App\Http\Controllers\Donor\DonorController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\SuperAdmin\DashboardController;
@@ -109,6 +110,12 @@ Route::get('/books', [BookController::class, 'index'])->name('books.index');
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('books/create', [BookController::class, 'create'])->name('books.create');
     Route::post('books', [BookController::class, 'store'])->name('books.store');
+});
+
+// donee application group
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::post('/donee/apply', [DoneeApplicationController::class, 'create'])->name('doneeapplication.create');
+    Route::post('/donor/applications/update', [DoneeApplicationController::class, 'update'])->name('doneeapplication.update');
 });
 
 Route::fallback(function () {

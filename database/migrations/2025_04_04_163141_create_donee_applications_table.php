@@ -12,14 +12,14 @@ return new class extends Migration {
     public function up(): void {
         Schema::create('donee_applications', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained(
+            $table->foreignId('donor_id')->constrained(
                 table: 'users', indexName: 'donee_application_user_id'
             )->onDelete('cascade');
             $table->enum(
                 'status',
                 array_column(DoneeApplicationStatusEnum::cases(), 'value'))
                 ->default(DoneeApplicationStatusEnum::PENDING->value);
-            $table->foreignId('reviewed_by')->constrained(
+            $table->foreignId('reviewed_by')->nullable()->constrained(
                 table: 'users', indexName: 'donee_application_reviewed_by_user_id'
             )->onDelete('cascade');
             $table->timestamp('reviewed_at');

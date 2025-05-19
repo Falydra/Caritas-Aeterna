@@ -54,7 +54,9 @@ class AdminController extends Controller {
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
-            return back()->with('error', $e->getMessage());
+            return back()->withErrors([
+                'database' => $e->getMessage()
+            ]);
         }
 
         return back()->with('success', 'Admin created successfully');
@@ -85,7 +87,9 @@ class AdminController extends Controller {
 
         // check if new pw is same as current pw
         if (Hash::check($request->new_password, $admin->password)) {
-            return back()->withErrors(['new_password' => 'New password cannot be the same as the current password']);
+            return back()->withErrors([
+                'new_password' => 'New password cannot be the same as the current password'
+            ]);
         }
 
         DB::beginTransaction();
@@ -98,7 +102,9 @@ class AdminController extends Controller {
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
-            return back()->with('error', $e->getMessage());
+            return back()->withErrors([
+                'database' => $e->getMessage()
+            ]);
         }
 
         return back()->with('success', $admin->username . "'s password changed successfully");
@@ -124,7 +130,9 @@ class AdminController extends Controller {
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
-            return back()->with('error', $e->getMessage());
+            return back()->withErrors([
+                'database' => $e->getMessage()
+            ]);
         }
 
         return back()->with('success', 'Admin deleted successfully');
