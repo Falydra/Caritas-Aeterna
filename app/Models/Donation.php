@@ -193,4 +193,12 @@ class Donation extends Model {
             $this->save();
         }
     }
+
+    public static function getActiveDonation() {
+        $donation = Donation::with('initiator:id,username')
+            ->where('status', 'on_progress')
+            ->orWhere('status', 'finished')
+            ->get();
+        return $donation;
+    }
 }

@@ -8,19 +8,20 @@ use App\Enums\RoleEnum;
 use Illuminate\Support\Str;
 use Illuminate\Notifications\Notifiable;
 use App\Exceptions\InvalidUserTypeException;
+use App\Traits\ModelHelpers;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, ModelHelpers;
 
     protected $table = 'users';
 
-    protected $guarded = [
-        'type',
-    ];
+    // protected $guarded = [
+    //     'type',
+    // ];
 
     /**
      * The attributes that are mass assignable.
@@ -31,6 +32,7 @@ class User extends Authenticatable {
         'email',
         'password',
         'username',
+        'type'
     ];
 
     /**
@@ -134,5 +136,13 @@ class User extends Authenticatable {
         $slice = Str::afterLast($role, "\\");
         $slice = Str::lower($slice);
         return $slice;
+    }
+
+    public function hasProfile(): bool {
+        return $this->userProfile()->exists();
+    }
+
+    public function hasIdentity(): bool {
+        return $this->userIdentity()->exists();
     }
 }
