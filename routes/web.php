@@ -34,14 +34,14 @@ Route::get('/', function () {
     //     'role' => $user->role(),
     // ] : null;
     $role = $user ? $user->roleName() : "";
-    $donations = Donation::with('initiator:id,username')->get();
+    $donation = Donation::with('initiator:id,username')->get();
 
     return Inertia::render('Welcome', [
         'auth' => [
             'user' => $user,
             'roles' => $role,
         ],
-        'donations' => $donations,
+        'donation' => $donation,
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
@@ -52,7 +52,10 @@ Route::get('/', function () {
 Route::get('/news', [GeneralNewsController::class, 'index'])->name('news');
 
 Route::get('/donation', function () {
-    return Inertia::render('Donation');
+    $donations = Donation::with('initiator:id,username')->get();
+    return Inertia::render('Donation', [
+        'donations' => $donations,
+    ]);
 })->name('donation');
 
 Route::get('/dashboard', function () {
