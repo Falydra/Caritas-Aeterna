@@ -130,10 +130,7 @@ export type Donation = {
     status: string;
     reviewed_by: User;
     initiator: Initiator;
-   
-
-
-    
+    type: string;
 };
 
 export type InitiatorDonation = {

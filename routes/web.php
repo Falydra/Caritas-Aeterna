@@ -94,7 +94,7 @@ Route::middleware(['auth','verified'])->group(function() {
     Route::get('/dashboard/donee/create-donation', [InitController::class, 'index'])->name('donee.init');
 });
 
-Route::get('/donations/{id}', [DonationDetailController::class, 'index'])->name('donation.detail');
+// Route::get('/donations/{id}', [DonationDetailController::class, 'index'])->name('donation.detail');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/donations', [DonationController::class, 'store'])->name('donations.store');

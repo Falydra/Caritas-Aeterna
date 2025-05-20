@@ -56,7 +56,8 @@ class FundraiserController extends Controller {
     }
 
     public function show(Fundraiser $donation) {
-        return Inertia::render('Donation/Show', [
+        $donation = Fundraiser::with('initiator:id,username')->findOrFail($donation->id);
+        return Inertia::render('Donation/DonationDetail', [
             'donation' => $donation
         ]);
     }
@@ -86,7 +87,6 @@ class FundraiserController extends Controller {
 
     public function store(DonationStoreRequest $request) {
         $validated = $request->validated();
-
         // get general data
         $title = $validated['data']['title'];
         $titleSlug = Str::slug($title);
@@ -111,9 +111,9 @@ class FundraiserController extends Controller {
             $filePath = '';
             $service->storeImage(
                 $titleSlug,
-                $headerImage,
+                $image,
                 $storePath,
-                $headerImagePath
+                $filePath
             );
             $imageDescriptions[$index] = $filePath;
         }
