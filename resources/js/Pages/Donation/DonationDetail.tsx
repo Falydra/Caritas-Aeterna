@@ -21,7 +21,7 @@ export default function DonationDetail() {
     const { donation, auth } = usePage<DonationDetailPageProsps>().props;
     console.log("DonationDetail", donation.type_attributes.target_fund);
 
-    
+
 
     return (
         <Guest>
@@ -37,7 +37,7 @@ export default function DonationDetail() {
                                     src={`/storage/app${donation.header_image}`}
                                     className="w-full h-3/5 rounded-b-none object-cover absolute inset-0 rounded-lg"
                                 />
-                            
+
                             </div>
                         </div>
                         <h1 className="text-primary-fg w-11/12 text-xl font-semibold ">
@@ -57,10 +57,10 @@ export default function DonationDetail() {
                                 {donation.text_descriptions[0]}
                             </p>
                         </div>
-            
-                                
+
+
                     </div>
-                    <div className="flex flex-col w-4/12 h-4/6 justify-start items-start">  
+                    <div className="flex flex-col w-4/12 h-4/6 justify-start items-start">
                        <div className="flex flex-col border border-primary-fg p-4 gap-4 rounded-md w-full h-full justify-start items-start">
                             <ProgressBar
                                 className="w-full"
@@ -85,7 +85,7 @@ export default function DonationDetail() {
                                     </div>
                                 <div className="w-full overflow-y-auto h-5/6 flex flex-col py-4 gap-4 shadow-sm rounded-md shadow-primary-fg">
                                     <div className="w-full flex flex-col gap-4">
-                            
+
                                         {[1,2,3,4,5,6,7,8].map((_, idx) => (
                                             <div key={idx} className="w-full h-[55px] py-2 hover:bg-primary-accent flex rounded-md cursor-pointer items-center flex-row gap-4 justify-start px-2">
                                                 <div className="w-10 h-10 flex items-center aspect-square justify-center rounded-full bg-primary-fg cursor-pointer text-primary-fg"></div>
@@ -106,16 +106,16 @@ export default function DonationDetail() {
                             </div>
                        </div>
                     </div>
-                
-                    
+
+
                 </div>
                 <CharityNews isMore={true} />
-                
-                
-                 
-             
 
-               
+
+
+
+
+
             </div>
         </Guest>
     );
