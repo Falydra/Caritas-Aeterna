@@ -30,14 +30,18 @@ use Illuminate\Support\Facades\Session;
 Route::get('/', function () {
     $user = auth()->user();
     $role = $user ? $user->roleName() : "";
+
+    $donation = Donation::with('initiator:id,username')->get();
+
     $donations = Donation::getActiveDonation();
+
 
     return Inertia::render('Welcome', [
         'auth' => [
             'user' => $user,
             'roles' => $role,
         ],
-        'donations' => $donations,
+        'donation' => $donation,
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
@@ -48,7 +52,10 @@ Route::get('/', function () {
 Route::get('/news', [GeneralNewsController::class, 'index'])->name('news');
 
 Route::get('/donation', function () {
-    return Inertia::render('Donation');
+    $donations = Donation::with('initiator:id,username')->get();
+    return Inertia::render('Donation', [
+        'donations' => $donations,
+    ]);
 })->name('donation');
 
 Route::get('/dashboard', function () {
