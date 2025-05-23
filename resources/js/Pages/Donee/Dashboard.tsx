@@ -29,27 +29,27 @@ export default function Page() {
 
   return (
     <Authenticated
-      rightSidebarChildren={
-        <Transition
-          show={selectedBooks}
-          enter="transition transform duration-300 ease-out"
-          enterFrom="translate-x-full"
-          enterTo="translate-x-0"
-          leave="transition transform duration-300 ease-in"
-          leaveFrom="translate-x-0"
-          leaveTo="translate-x-full"
-        >
-          <div className="w-5/12 h-screen overflow-y-auto flex flex-col items-center justify-center border-l relative border-primary-fg">
-            <RxCross2
-              className="transform-y-1/2 top-5 right-4 absolute w-6 h-6 text-primary-fg cursor-pointer self-end"
-              onClick={() => setSelectedBooks(false)}
-            />
-            <SelectedBooks book={selectedBook} />
-          </div>
-        </Transition>
-      }
+    //   rightSidebarChildren={
+    //     <Transition
+    //       show={selectedBooks}
+    //       enter="transition transform duration-300 ease-out"
+    //       enterFrom="translate-x-full"
+    //       enterTo="translate-x-0"
+    //       leave="transition transform duration-300 ease-in"
+    //       leaveFrom="translate-x-0"
+    //       leaveTo="translate-x-full"
+    //     >
+    //       <div className="w-5/12 h-screen overflow-y-auto flex flex-col items-center justify-center border-l relative border-primary-fg">
+    //         <RxCross2
+    //           className="transform-y-1/2 top-5 right-4 absolute w-6 h-6 text-primary-fg cursor-pointer self-end"
+    //           onClick={() => setSelectedBooks(false)}
+    //         />
+    //         <SelectedBooks book={selectedBook} />
+    //       </div>
+    //     </Transition>
+    //   }
     >
-      {selectedBooks ? (
+      {/* {selectedBooks ? (
         <div className="flex flex-col w-full h-full items-center justify-center">
           <div className="grid grid-cols-2 px-8 gap-4 w-full items-center justify-center py-4">
             {book_data.map(
@@ -92,11 +92,11 @@ export default function Page() {
                   </div>
                 )
             )}
-            
+
           </div>
           <div className="flex flex-col w-full items-center justify-center h-full px-8">
           <Scheduler
-                
+
                 view="month"
                 events={[
                   {
@@ -120,10 +120,10 @@ export default function Page() {
           <div className="flex flex-col w-full  items-start justify-end  px-8 py-4">
               <h1 className="text-primary-fg self-start flex text-2xl flex-row  items-center justify-end font-semibold hover:text-primary-accent">
                   Riwayat Pengajuan Donasi
-                
+
               </h1>
                 <span className="">
-                  Riawat pengajuan donasi terbaru 
+                  Riawat pengajuan donasi terbaru
                 </span>
 
           </div>
@@ -174,10 +174,10 @@ export default function Page() {
 
             </div>
           <div className="flex flex-col w-full items-center justify-center h-full px-8">
-            
+
           </div>
         </div>
-      )}
+      )} */}
     </Authenticated>
   );
 }

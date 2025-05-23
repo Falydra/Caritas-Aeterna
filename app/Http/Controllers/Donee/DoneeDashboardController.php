@@ -9,10 +9,8 @@ use Inertia\Inertia;
 use App\Models\Donee;
 
 
-class DoneeDashboardController extends Controller
-{
-    public function index()
-    {
+class DoneeDashboardController extends Controller {
+    public function index() {
         if (Auth::user()->role() != Donee::class) {
             return Inertia::render('Error', [
                 'code' => '403',
@@ -27,9 +25,11 @@ class DoneeDashboardController extends Controller
                 'roles' => Auth::user()->roleName(),
             ],
             'donationStoreUrl' => route('donations.store'),
-            
+
         ]);
     }
 
-   
+    public function donationIndex() {
+        return Inertia::render('Donee/ActiveDonation');
+    }
 }

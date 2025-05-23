@@ -23,14 +23,16 @@ class DonationItem extends Model {
     public function books(): BelongsToMany {
         return $this->belongsToMany(
             BookDonation::class,
-            'book_donation_item'
-        )->withTimestamps();
+            'book_donation_item',
+            'donation_item_id',
+            'book_donation_id'
+        )->withPivot('amount')->withTimestamps();
     }
 
     public function facilities(): BelongsToMany {
         return $this->belongsToMany(
             Facility::class,
             'facility_donation_item'
-        )->withTimestamps();
+        )->withPivot('amount')->withTimestamps();
     }
 }

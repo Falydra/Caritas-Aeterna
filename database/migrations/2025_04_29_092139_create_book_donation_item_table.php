@@ -19,6 +19,7 @@ return new class extends Migration {
                 'book_donation',
                 'id'
             )->cascadeOnDelete();
+            $table->unsignedSmallInteger('amount')->default(1);
             $table->timestamps();
         });
     }

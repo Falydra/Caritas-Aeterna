@@ -169,7 +169,7 @@ class DonationApiTest extends TestCase {
         for ($i = 0; $i < random_int(1, 10); $i++) {
             $facilities[$i] = [
                 'name' => Str::of(fake()->sentence(random_int(2, 5)))->replace('.', ''),
-                'description' => fake()->sentence(random_int(10, 35)),
+                'description' => fake()->sentence(random_int(5, 6)),
                 'dimension' => random_int(1, 4) . 'm x ' . random_int(1, 4) . 'm',
                 'material' => fake()->word(),
                 'price' => random_int(50000, 150000),

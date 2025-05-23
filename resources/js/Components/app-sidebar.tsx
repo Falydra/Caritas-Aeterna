@@ -124,10 +124,10 @@ export function AppSidebar({
                 </SidebarGroup>
                 <Link
                     href={route("welcome")}
-             
+
                     className="flex flex-row gap-2 items-center absolute bottom-0 justify-center px-4 w-full h-16 hover:bg-red-500 cursor-pointer bg-primary-bg"
                 >
-                    
+
                     <IoIosLogOut className="w-6 h-6 text-primary-fg" />
                     <span className="text-primary-fg">Home</span>
                 </Link>

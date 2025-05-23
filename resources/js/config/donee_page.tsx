@@ -21,23 +21,29 @@ export const DoneePage = {
                 route: "donee.init",
             },
             {
-                title: "Payment",
-                url: "/dashboard/payment",
+                title: "Active Donation",
+                url: "/dashboard/donee/donations",
                 isActive: false,
-                route: "payment",
+                route: "donee.donations.index"
             },
-            {
-                title: "Book Donors",
-                url: "/dashboard/donors",
-                isActive: false,
-                route: "donors",
-            },
-            {
-                title: "Book Details",
-                url: "/book-details",
-                isActive: false,
-                route: "book-details",
-            },
+            // {
+            //     title: "Payment",
+            //     url: "/dashboard/payment",
+            //     isActive: false,
+            //     route: "payment",
+            // },
+            // {
+            //     title: "Book Donors",
+            //     url: "/dashboard/donors",
+            //     isActive: false,
+            //     route: "donors",
+            // },
+            // {
+            //     title: "Book Details",
+            //     url: "/book-details",
+            //     isActive: false,
+            //     route: "book-details",
+            // },
             {
                 title: "Profile",
                 url: "/profile",

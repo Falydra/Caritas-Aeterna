@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Book extends Model {
     protected $table = "books";
+    protected $primaryKey = 'isbn';
+    protected $keyType = 'string';
+    public $incrementing = false;
 
     protected $fillable = [
         'isbn',
@@ -33,5 +36,9 @@ class Book extends Model {
 
     public function slug(): string {
         return $this->isbn . '-' . Str::slug($this->title);
+    }
+
+    public function isbn(): string {
+        return $this->isbn;
     }
 }

@@ -15,7 +15,7 @@
                     "isbn": "string max 13",
                     "amount": "unsigned small int min 1"
                 },
-                "...",
+                "...",  
                 {
                     "isbn": "string max 13",
                     "amount": "unsigned small int min 1"

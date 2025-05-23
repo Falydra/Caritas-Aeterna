@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Donation;
 
+use Exception;
 use Throwable;
 use App\Models\Book;
 use Inertia\Inertia;
@@ -11,6 +12,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Services\ImageService;
 use App\Models\ProductDonation;
+use App\Services\DonationService;
 use Illuminate\Support\Facades\DB;
 use App\Traits\HandleDonationsData;
 use App\Http\Controllers\Controller;
@@ -62,12 +64,13 @@ class ProductDonationController extends Controller {
     public function show(ProductDonation $donation) {
         $data = ProductDonation::with(
             'books',
-            'facilities'
+            'facilities',
+            'initiator:id,username'
         )->where('id', $donation->id)
             ->first();
 
         // return $data;
-        return Inertia::render('Donation/Show', [
+        return Inertia::render('Donation/DonationDetail', [
             'donation' => $data
         ]);
     }
@@ -156,6 +159,50 @@ class ProductDonationController extends Controller {
 
             return back()->withErrors('Failed to create product donation');
         }
+    }
+
+    public function verify(Request $request, DonationService $service) {
+        $authUser = Auth::user();
+        if ($authUser->role() !== Donee::class) {
+            abort(403, "You don't have permission to perform this action");
+        }
+
+        $validated = $request->validate([
+            'donation_item_id' => 'bail|required|integer'
+        ]);
+
+        try {
+            $service->verifyProductDonation([
+                'user' => $authUser,
+                'donation_item_id' => data_get($validated, 'donation_item_id')
+            ]);
+        } catch (Exception $e) {
+            abort(500, $e->getMessage());
+        }
+
+        return back()->with('success', 'successfully verify the product');
+    }
+
+    public function finish(Request $request, DonationService $service) {
+                $authUser = Auth::user();
+        if ($authUser->role() !== Donee::class) {
+            abort(403, "You don't have permission to perform this action");
+        }
+
+        $validated = $request->validate([
+            'donation_item_id' => 'bail|required|integer'
+        ]);
+
+        try {
+            $service->finishProductDonation([
+                'user' => $authUser,
+                'donation_item_id' => data_get($validated, 'donation_item_id')
+            ]);
+        } catch (Exception $e) {
+            abort(500, $e->getMessage());
+        }
+
+        return back()->with('success', 'successfully accepts the product');
     }
 
     /**
