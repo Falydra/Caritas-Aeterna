@@ -92,6 +92,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth','verified'])->group(function() {
     Route::get('/dashboard/donee', [DoneeDashboardController ::class, 'index'])->name('donee.dashboard');
     Route::get('/dashboard/donee/create-donation', [InitController::class, 'index'])->name('donee.init');
+    Route::get('/dashboard/donee/donations', [DoneeDashboardController::class, 'donationIndex'])->name('donee.donations.index');
 });
 
 // Route::get('/donations/{id}', [DonationDetailController::class, 'index'])->name('donation.detail');
@@ -106,6 +107,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/donations/payment/notifications/handling');
     Route::get('/donations/payment/finish', [PaymentController::class, 'finish'])->name('midtrans.finish');
     Route::post('/donations/payment/error', [PaymentController::class, 'error'])->name('midtrans.error');
+
+    // product donation handling
+    Route::post('/donations/product/verify', [ProductDonationController::class, 'verify'])->name('product.verify');
+    Route::post('/donations/product/finish', [ProductDonationController::class, 'finish'])->name('product.finish');
 });
 Route::get('/donations', [DonationController::class, 'index'])->name('donations.index');
 Route::get('/donations/fundraiser/latest', [FundraiserController::class, 'latest'])->name('fundraiser.latest');

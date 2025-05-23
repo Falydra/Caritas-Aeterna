@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\DonationItemStatusEnum;
 use Exception;
 use App\Models\Book;
 use App\Models\Donee;
@@ -21,6 +22,7 @@ use App\Exceptions\UnverifiedUserException;
 use App\Exceptions\InvalidUserTypeException;
 use App\Exceptions\DonateOwnDonationException;
 use App\Exceptions\InvalidDonationStatusException;
+use App\Exceptions\InvalidStatusException;
 
 class DonationService {
     public function donateProduct(array $donationData) {
@@ -68,6 +70,11 @@ class DonationService {
                     );
                 }
             }
+
+            $donationItem->update([
+                'status' => DonationItemStatusEnum::WAITING_VERIFICATION->value
+            ]);
+            $donationItem->save();
 
             DB::commit();
         } catch (Exception $e) {
@@ -164,6 +171,100 @@ class DonationService {
         return $fund;
     }
 
+    public function verifyProductDonation(array $donationData) {
+        $user = data_get($donationData, 'user');
+        $donationItemId = data_get($donationData, 'donation_item_id');
+        $donationItem = DonationItem::findOrFail($donationItemId);
+
+        if ($user->id !== $donationItem->donorDonation->donation->initiator_id) {
+            abort(403, "You don't have permission to perform this action");
+        }
+
+        if ($donationItem->status !== 'waiting_verification') {
+            throw new InvalidStatusException("Expecting status waiting verifcation, got " . $donationItem->status . " instead");
+        }
+
+        DB::beginTransaction();
+
+        try {
+            $donationItem->update([
+                'status' => DonationItemStatusEnum::ON_DELIVERY->value
+            ]);
+            $donationItem->save();
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+    }
+
+    public function finishProductDonation(array $donationData) {
+        $user = data_get($donationData, 'user');
+        $donationItemId = data_get($donationData, 'donation_item_id');
+        $donationItem = DonationItem::findOrFail($donationItemId);
+
+        if ($user->id !== $donationItem->donorDonation->donation->initiator_id) {
+            abort(403, "You don't have permission to perform this action");
+        }
+
+        if ($donationItem->status !== 'on_delivery') {
+            throw new InvalidStatusException("Expecting status on delivery, got " . $donationItem->status . " instead");
+        }
+
+        DB::beginTransaction();
+
+        try {
+            $donation = $donationItem->donorDonation->donation;
+
+            $totalDonatedProduct = 0;
+            if (!$donationItem->books->isEmpty()) {
+                foreach ($donationItem->books as $bookDonation) {
+                    $amount = $bookDonation->pivot->amount;
+                    $fulfilledAmount = $bookDonation->fulfilled_amount;
+
+                    $bookDonation->update([
+                        'fulfilled_amount' => $fulfilledAmount + $amount
+                    ]);
+                    $bookDonation->save();
+
+                    $totalDonatedProduct += $amount;
+                }
+            }
+
+            if (!$donationItem->facilities->isEmpty()) {
+                foreach ($donationItem->facilities as $facility) {
+                    $amount = $facility->pivot->amount;
+                    $fulfilledAmount = $facility->fulfilled_amount;
+
+                    $facility->update([
+                        'fulfilled_amount' => $fulfilledAmount + $amount
+                    ]);
+                    $facility->save();
+
+                    $totalDonatedProduct += $amount;
+                }
+            }
+
+            $typeAttr = $donation->type_attributes;
+            $typeAttr['fulfilled_product_amount'] += $totalDonatedProduct;
+            $donation->update([
+                'type_attributes' => $typeAttr
+            ]);
+            $donation->save();
+
+            $donationItem->update([
+                'status' => DonationItemStatusEnum::FINISHED->value
+            ]);
+            $donationItem->save();
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+    }
+
     protected function createBookItemPivot(
         ProductDonation $donation,
         DonationItem $donationItem,
@@ -173,7 +274,7 @@ class DonationService {
         $amount = data_get($bookData, 'amount');
 
         $book = BookDonation::where('donation_id', $donation->id)->where('isbn', $isbn)->first();
-        $donationItem->books()->attach($book->isbn, [
+        $donationItem->books()->attach($book->id, [
             'amount' => $amount
         ]);
     }

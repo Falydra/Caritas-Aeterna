@@ -40,7 +40,6 @@ class DonorController extends Controller {
         } catch (InvalidUserTypeException $e) {
             abort(403, $e->getMessage());
         } catch (Exception $e) {
-            dd($e->getMessage());
             abort(500, $e->getMessage());
         }
 
