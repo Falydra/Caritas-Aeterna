@@ -92,11 +92,11 @@ export default function Page() {
                   </div>
                 )
             )}
-            
+
           </div>
           <div className="flex flex-col w-full items-center justify-center h-full px-8">
           <Scheduler
-                
+
                 view="month"
                 events={[
                   {
@@ -120,10 +120,10 @@ export default function Page() {
           <div className="flex flex-col w-full  items-start justify-end  px-8 py-4">
               <h1 className="text-primary-fg self-start flex text-2xl flex-row  items-center justify-end font-semibold hover:text-primary-accent">
                   Riwayat Pengajuan Donasi
-                
+
               </h1>
                 <span className="">
-                  Riawat pengajuan donasi terbaru 
+                  Riawat pengajuan donasi terbaru
                 </span>
 
           </div>
@@ -174,7 +174,7 @@ export default function Page() {
 
             </div>
           <div className="flex flex-col w-full items-center justify-center h-full px-8">
-            
+
           </div>
         </div>
       )}

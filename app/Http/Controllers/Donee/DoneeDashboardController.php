@@ -27,9 +27,9 @@ class DoneeDashboardController extends Controller
                 'roles' => Auth::user()->roleName(),
             ],
             'donationStoreUrl' => route('donations.store'),
-            
+
         ]);
     }
 
-   
+
 }

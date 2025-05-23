@@ -7,6 +7,7 @@ use App\Models\Book;
 use App\Models\Donee;
 use App\Models\Donor;
 use App\Models\Donation;
+use App\Models\Facility;
 use App\Models\Fundraiser;
 use Illuminate\Support\Str;
 use App\Models\BookDonation;
@@ -60,7 +61,11 @@ class DonationService {
             $facilities = data_get($donationData, 'data.products.facilities');
             if (isset($facilities)) {
                 foreach ($facilities as $facilityData) {
-                    // TODO create method to handle facility pivot transaction
+                    $this->createFacilityItemPivot(
+                        $donation,
+                        $donationItem,
+                        $facilityData
+                    );
                 }
             }
 
@@ -168,9 +173,9 @@ class DonationService {
         $amount = data_get($bookData, 'amount');
 
         $book = BookDonation::where('donation_id', $donation->id)->where('isbn', $isbn)->first();
-        $donationItem->books()->attach($book->isbn);
-
-        // TODO: Handle BookDonation amount transaction
+        $donationItem->books()->attach($book->isbn, [
+            'amount' => $amount
+        ]);
     }
 
     protected function createFacilityItemPivot(
@@ -180,6 +185,11 @@ class DonationService {
     ) {
         $id = data_get($facilityData, 'id');
         $amount = data_get($facilityData, 'amount');
+
+        $facility = Facility::findOrFail($id);
+        $donationItem->facilities()->attach($facility->id, [
+            'amount' => $amount
+        ]);
     }
 
     protected function createDonationItem(DonorDonation $donation, array $donationData): DonationItem {

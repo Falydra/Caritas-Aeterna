@@ -62,12 +62,13 @@ class ProductDonationController extends Controller {
     public function show(ProductDonation $donation) {
         $data = ProductDonation::with(
             'books',
-            'facilities'
+            'facilities',
+            'initiator:id,username'
         )->where('id', $donation->id)
             ->first();
 
         // return $data;
-        return Inertia::render('Donation/Show', [
+        return Inertia::render('Donation/DonationDetail', [
             'donation' => $data
         ]);
     }

@@ -24,13 +24,13 @@ class DonationItem extends Model {
         return $this->belongsToMany(
             BookDonation::class,
             'book_donation_item'
-        )->withTimestamps();
+        )->withPivot('amount')->withTimestamps();
     }
 
     public function facilities(): BelongsToMany {
         return $this->belongsToMany(
             Facility::class,
             'facility_donation_item'
-        )->withTimestamps();
+        )->withPivot('amount')->withTimestamps();
     }
 }
