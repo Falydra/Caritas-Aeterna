@@ -1,7 +1,23 @@
 import CharityNews from "@/Components/CharityNews";
 import Guest from "@/Layouts/GuestLayout";
+import { Donation, User } from "@/types"; 
+import { usePage } from "@inertiajs/react";
 
-export default function Donation() {
+interface DonationPageProps extends Donation {
+    donations: Donation[];
+    auth: {
+        user: User;
+        roles: string;
+    };
+    [key: string]: any;
+}
+
+
+export default function DonationPage() {
+    const {donations}  = usePage<DonationPageProps>().props;
+
+    // console.log(donations.map((item) => item));
+
   
 
     return (
@@ -15,7 +31,8 @@ export default function Donation() {
                     kemanusiaan yang bertujuan untuk meningkatkan kualitas hidup
                     orang lain.
                 </p>
-                <CharityNews />
+                
+               
                 
             
 

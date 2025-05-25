@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-scroll";
-import { CardWithForm } from "./CharityCard";
-import { BookCharityCard } from "./BookDonationCard";
+import { CardWithForm } from "@/Components/CharityCard";
+import { BookCharityCard } from "@/Components/BookDonationCard";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Charity() {
@@ -67,9 +67,9 @@ export default function Charity() {
                                 <h1 className="text-2xl font-bold text-primary-fg">
                                     Berita Terkini
                                 </h1>
-                                <div className="w-full flex justify-center">
+                                {/* <div className="w-full flex justify-center h-full"> */}
                                     <CardWithForm />
-                                </div>
+                                {/* </div> */}
                             </motion.div>
                         )}
 

@@ -105,7 +105,7 @@ export default function DonationDetail() {
                 ) : (
                     <h1 className="text-2xl font-bold">Rincian Donasi Produk</h1>
                 )}
-                <div className="flex flex-row gap-6 w-full h-fit justify-start items-start">
+                <div className="flex flex-row gap-6 w-full h-screen justify-start items-start">
                     <div className="flex flex-col gap-4 w-9/12 h-full justify-start items-start">
                         <div className="w-full h-96 aspect-square bg-gray-300 rounded-lg">
                             <img
@@ -173,32 +173,26 @@ export default function DonationDetail() {
                                     <h1>Jawa</h1>
                                 </div>
                             </div>
-                            <div className="w-full flex flex-col h-full items-start justify-start gap-y-8">
-                                <div className="flex flex-col h-3/6 gap-y-4 w-full justify-between">
-                                    <div className="w-full overflow-y-auto h-full flex flex-col py-4 gap-4 shadow-sm rounded-md shadow-primary-fg">
+                            <div className="w-full flex flex-col h-full items-start justify-start gap-y-8 ">
+                               <div className="flex flex-col h-3/6 gap-y-4 w-full justify-between">
+                                    <div className="w-full flex flex-col py-4 gap-4 shadow-sm rounded-md shadow-primary-fg h-full overflow-y-auto">
                                         <div className="w-full flex flex-col gap-4">
-                                            {[1, 2, 3, 4, 5, 6, 7, 8].map(
-                                                (_, idx) => (
-                                                    <div
-                                                        key={idx}
-                                                        className="w-full h-[55px] py-2 hover:bg-primary-accent flex rounded-md cursor-pointer items-center flex-row gap-4 justify-start px-2"
-                                                    >
-                                                        <div className="w-10 h-10 flex items-center aspect-square justify-center rounded-full bg-primary-fg cursor-pointer text-primary-fg"></div>
-                                                        <div className="w-full flex-col items-start justify-center flex ">
-                                                            <h1 className="text-md font-semibold">
-                                                                {
-                                                                    donation
-                                                                        .initiator
-                                                                        .username
-                                                                }
-                                                            </h1>
-                                                            <h3 className="text-sm text-muted-foreground">
-                                                                Rp 10.000
-                                                            </h3>
-                                                        </div>
+                                            {[1, 2, 3, 4, 5, 6, 7, 8].map((_, idx) => (
+                                                <div
+                                                    key={idx}
+                                                    className="w-full h-[55px] py-2 hover:bg-primary-accent flex rounded-md cursor-pointer items-center flex-row gap-4 justify-start px-2"
+                                                >
+                                                    <div className="w-10 h-10 flex items-center aspect-square justify-center rounded-full bg-primary-fg cursor-pointer text-primary-fg"></div>
+                                                    <div className="w-full flex-col items-start justify-center flex ">
+                                                        <h1 className="text-md font-semibold">
+                                                            {donation.initiator.username}
+                                                        </h1>
+                                                        <h3 className="text-sm text-muted-foreground">
+                                                            Rp 10.000
+                                                        </h3>
                                                     </div>
-                                                )
-                                            )}
+                                                </div>
+                                            ))}
                                         </div>
                                     </div>
                                 </div>

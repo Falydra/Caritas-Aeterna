@@ -6,7 +6,7 @@ import { Donation, User } from "@/types";
 
 
 interface DonationPageProps extends Donation {
-    donations: Donation[];
+    donation: Donation[];
    
     auth: {
         user: User;
@@ -16,17 +16,19 @@ interface DonationPageProps extends Donation {
 }
 
 export default function CharityNews({isMore = true} : {isMore?: boolean}) {
-    const {donations} = usePage<DonationPageProps>().props;
-    if (donations?.length < 3) {
+    const {donation} = usePage<DonationPageProps>().props;
+    if (donation?.length < 3) {
         isMore = false;
     }
+
+     console.log(donation);
     return (
         <div className="flex flex-col items-center w-full h-screen justify-start gap-4 pt-16">
             <h1 className="text-2xl font-bold self-start px-8">Berita Donasi</h1>
 
             <div className="flex flex-row w-full h-3/5 justify-start items-start px-8">
                 <div className="grid-cols-3 flex justify-around gap-4 items-start w-full h-full">
-                    {donations?.map((item, index) => (
+                    {donation?.map((item, index) => (
                         index < 3 && (
                         <div
                             key={index}
