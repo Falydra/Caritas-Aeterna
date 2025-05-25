@@ -75,6 +75,10 @@ Route::get('/dashboard/donors', function () {
     return Inertia::render('Dashboard/Donors');
 })->middleware(['auth', 'verified'])->name('donors');
 
+Route::get('/book-details', function () {
+    return Inertia::render('Book-Details');
+})->middleware(['auth', 'verified'])->name('book-details');
+
 Route::get('/dashboard/admin', [AdminDashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('admin.dashboard');

@@ -3,9 +3,13 @@ import Authenticated from "@/Layouts/AuthenticatedLayout";
 export default function BookDonors() {
     return (
         <Authenticated>
-            <div id="book-donors" className="text-white w-full h-2/5 items-start py-4 flex flex-col justify-start gap-2">
-                Donors
+        {/* <div className="flex flex-col w-full h-full items-center justify-center"> */}
+            <div id="payment" className="flex flex-col w-full items-start justify-end px-8 py-4">
+                <h1 className="text-primary-fg self-start flex text-2xl flex-row items-center justify-end font-semibold hover:text-primary-accent">
+                    Donors
+                </h1>
             </div>
+        {/* </div> */}
         </Authenticated>
     );
 }

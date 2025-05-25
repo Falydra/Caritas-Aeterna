@@ -123,7 +123,7 @@ export default function Page() {
                 
               </h1>
                 <span className="">
-                  Riawat donasi terbaru 
+                  Riwayat Donasi Terbaru 
                 </span>
 
           </div>
