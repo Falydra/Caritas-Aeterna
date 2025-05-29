@@ -1,4 +1,3 @@
-
 import { Link, usePage } from "@inertiajs/react";
 import { PropsWithChildren, ReactNode, useState } from "react";
 import { AppSidebar } from "@/Components/app-sidebar";
@@ -24,16 +23,33 @@ import { SearchForm } from "@/Components/search-form";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuTrigger } from "@/Components/ui/dropdown-menu";
 import { Button } from "@/Components/ui/button";
 import { IoIosLogOut } from "react-icons/io";
+import { DonorPage, DoneePage, AdminPage, SuperAdminPage } from "@/config/page_data";
 
 export default function Authenticated({
     header,
     children,
     rightSidebarChildren,
 }: PropsWithChildren<{ header?: ReactNode, rightSidebarChildren?: ReactNode }>) {
-    const user = usePage().props.auth.user;
+    const { auth } = usePage().props;
+    const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
-    const [showingNavigationDropdown, setShowingNavigationDropdown] =
-        useState(false);
+    // Get the current path
+    const currentPath = window.location.pathname;
+
+    // Get menu items based on role
+    let menuItems = [];
+    if (auth.roles === "donee") {
+        menuItems = DoneePage.mainPage.items;
+    } else if (auth.roles === "donor") {
+        menuItems = DonorPage.mainPage.items;
+    } else if (auth.roles === "admin") {
+        menuItems = AdminPage.mainPage.items;
+    } else {
+        menuItems = SuperAdminPage.mainPage.items;
+    }
+
+    // Find the active menu item based on current path
+    const activeMenuItem = menuItems.find(item => item.url === currentPath);
 
     return (
         <SidebarProvider>
@@ -53,7 +69,9 @@ export default function Authenticated({
                                     </BreadcrumbItem>
                                     <BreadcrumbSeparator className="hidden md:block" />
                                     <BreadcrumbItem>
-                                        <BreadcrumbPage className="hover:text-primary-accent cursor-pointer">Book Donations</BreadcrumbPage>
+                                        <BreadcrumbPage className="hover:text-primary-accent cursor-pointer">
+                                            {activeMenuItem ? activeMenuItem.title : "Dashboard"}
+                                        </BreadcrumbPage>
                                     </BreadcrumbItem>
                                 </BreadcrumbList>
                             </Breadcrumb>
@@ -62,7 +80,7 @@ export default function Authenticated({
                         <div className="flex flex-row items-center justify-center ">
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild className="w-full h-full">
-                                    <Button className="w-8 h-8 aspect-square rounded-full bg-primary-fg"/>
+                                    <Button className="w-10 h-10 aspect-square rounded-full bg-primary-fg"/>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent className="w-48">
                                     <DropdownMenuLabel>Account</DropdownMenuLabel>
@@ -79,11 +97,7 @@ export default function Authenticated({
                     </header>
                     {children}
                 </div>
-                {/* <div className="flex flex-col overflow-y-auto h-full items-start justify-start"> */}
-
-
-                    {rightSidebarChildren}
-                {/* </div> */}
+                {rightSidebarChildren}
             </SidebarInset>
         </SidebarProvider>
     );
