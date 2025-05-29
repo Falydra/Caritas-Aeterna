@@ -18,6 +18,8 @@ use App\Http\Controllers\Donee\DoneeApplicationController;
 use App\Http\Controllers\Donor\DonorController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\SuperAdmin\DashboardController;
+use App\Http\Controllers\SuperAdmin\ManageDonationsController;
+use App\Http\Controllers\SuperAdmin\ManageUserController;
 use App\Http\Controllers\GeneralNewsController;
 use App\Http\Controllers\Donee\DoneeDashboardController;
 use App\Models\Donation;
@@ -79,9 +81,13 @@ Route::get('/dashboard/admin', [AdminDashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('admin.dashboard');
 
-Route::get('/dashboard/super-admin', [DashboardController::class, 'index'])
-    ->middleware(['auth', 'verified'])
-    ->name('super-admin.dashboard');
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard/super-admin', [DashboardController::class, 'index'])->name('super-admin.dashboard');
+    Route::get('/dashboard/super-admin/manage-donations', [ManageDonationsController::class, 'index'])->name('super-admin.manage-donations');
+    Route::get('/dashboard/super-admin/manage-users', [ManageUserController::class, 'index'])->name('super-admin.manage-users');
+    Route::get('/dashboard/super-admin/manage-users/edit', [ManageUserController::class, 'edit'])->name('super-admin.manage-users.edit');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -95,7 +101,6 @@ Route::middleware(['auth','verified'])->group(function() {
     Route::get('/dashboard/donee/donations', [DoneeDashboardController::class, 'donationIndex'])->name('donee.donations.index');
 });
 
-// Route::get('/donations/{id}', [DonationDetailController::class, 'index'])->name('donation.detail');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/donations', [DonationController::class, 'store'])->name('donations.store');
