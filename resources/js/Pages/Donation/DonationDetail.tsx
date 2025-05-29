@@ -95,6 +95,7 @@ export default function DonationDetail() {
         });
 
         console.log(donation.header_image);
+        console.log(donation.image_descriptions);
     };
 
     return (
@@ -105,7 +106,8 @@ export default function DonationDetail() {
                 ) : (
                     <h1 className="text-2xl font-bold">Rincian Donasi Produk</h1>
                 )}
-                <div className="flex flex-row gap-6 w-full h-screen justify-start items-start">
+               
+                <div className="flex flex-row gap-6 w-full h-full justify-start items-start">
                     <div className="flex flex-col gap-4 w-9/12 h-full justify-start items-start">
                         <div className="w-full h-96 aspect-square bg-gray-300 rounded-lg">
                             <img
@@ -113,6 +115,18 @@ export default function DonationDetail() {
                                 className="w-full h-full rounded-lg object-cover"
                                 alt="Header Image"
                             />
+                        </div>
+                        <div className="w-full h-[100px] flex flex-row items-start justify-start space-x-2">
+                            {descriptions.map((item, index) => (
+                                item.type === "image" && (
+                                    <img
+                                        key={index}
+                                        src={item.value}
+                                        className="h-full object-cover rounded-lg"
+                                        alt={`Description ${index}`}
+                                    />
+                                )
+                            ))}
                         </div>
                         <h1 className="text-primary-fg w-full text-3xl font-semibold ">
                             {donation.title}
@@ -127,27 +141,18 @@ export default function DonationDetail() {
                                 {donation.initiator.username}
                             </h3>
                         </div>
-                        {/* <h3 className="text-primary-fg pb-4 text-xs font-semibold">
-                            Sisa Waktu: {donation.type_attributes.elapsedDays}{" "}
-                            Hari
-                        </h3> */}
-                        <div className="flex flex-col gap-2 w-full h-full justify-start items-start">
-                            {descriptions.map((item, index) => (
-                                <div key={index}>
-                                    {item.type === "text" ? (
-                                        <p className="text-primary-fg w-full text-justify font-normal">{item.value}</p>
-                                    ) : (
-                                        <img
-                                            className="w-1/3 mx-auto"
-                                            src={item.value}
-                                            alt=""
-                                        />
-                                    )}
-                                </div>
-                            ))}
-                        </div>
+                      
+                        {descriptions.map((item, index) => (
+                            <div key={index} className="w-full flex flex-col">
+                                {item.type === "text" && (
+                                    <p className="text-primary-fg text-sm font-normal text-justify">
+                                        {item.value}
+                                    </p>
+                                )}
+                            </div>
+                        ))}
                     </div>
-                    <div className="flex flex-col w-3/12 h-5/6 justify-start items-start">
+                    <div className="flex flex-col w-3/12 h-[550px] justify-start items-start">
                         <div className="flex flex-col border border-primary-fg p-4 gap-4 rounded-md w-full h-full justify-start items-start">
                             <ProgressBar
                                 className="w-full"
@@ -208,6 +213,7 @@ export default function DonationDetail() {
                         </div>
                     </div>
                 </div>
+               
                 {/* <CharityNews isMore={true} /> */}
                 {paymentModal && (
                     <div className="fixed z-50 inset-0 bg-black bg-opacity-50 flex text-primary-bg items-center justify-center">
@@ -221,7 +227,7 @@ export default function DonationDetail() {
                                         <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500">
                                             Rp.
                                         </span>
-                                        <Input
+                                        <input
                                             placeholder="0"
                                             className="w-full h-[50px] pl-10 text-primary-bg rounded-b-none"
                                             value={paymentAmount}
@@ -233,9 +239,9 @@ export default function DonationDetail() {
                                     </div>
                                     <div className="w-full h-[50px] flex flex-row items-center rounded-t-none justify-start bg-muted-foreground/30 p-4 rounded-xl">
                                         <IoDocumentTextOutline className="w-5 h-5 text-primary-bg" />
-                                        <Input
+                                        <input
                                             placeholder="Catatan (Opsional)"
-                                            className="w-full focus:border-transparent focus-visible:ring-0 h-[50px] border-none shadow-none"
+                                            className="w-full focus:border-transparent bg-transparent focus-visible:ring-0 h-[50px] border-none shadow-none"
                                         />
                                     </div>
                                     <div className="w-full py-4 grid grid-cols-3 gap-4">
@@ -346,6 +352,7 @@ export default function DonationDetail() {
                     </div>
                 )}
             </div>
+            {/* <CharityNews isMore={true}/> */}
         </Guest>
     );
 }
