@@ -19,6 +19,7 @@ import {
 import { IoIosLogOut } from "react-icons/io";
 import { PageData, MenuItem } from "@/config/page_data";
 import { DoneePage } from "@/config/donee_page";
+import { SuperadminPage } from "@/config/superadmin_page";
 
 export function AppSidebar({
     onMenuItemClick,
@@ -72,53 +73,106 @@ export function AppSidebar({
                         <SidebarMenu>
                             {auth.roles === "donee"
                                 ? DoneePage.mainPage.items.map(
-                                      (doneMenuItem: MenuItem) => (
-                                          <SidebarMenuItem
-                                              key={doneMenuItem.title}
-                                          >
-                                              <SidebarMenuButton
-                                                  asChild
-                                                  isActive={
-                                                      activeItem ===
-                                                      doneMenuItem.title
-                                                  }
-                                                  onClick={() =>
-                                                      handleMenuItemClick(
-                                                          doneMenuItem.title,
-                                                          doneMenuItem.url
-                                                      )
-                                                  }
-                                              >
-                                                  <a href={doneMenuItem.url}>
-                                                      {doneMenuItem.title}
-                                                  </a>
-                                              </SidebarMenuButton>
-                                          </SidebarMenuItem>
-                                      )
-                                  )
+                                    (doneMenuItem: MenuItem) => (
+                                        <SidebarMenuItem
+                                            key={doneMenuItem.title}
+                                        >
+                                            <SidebarMenuButton
+                                                asChild
+                                                isActive={
+                                                    activeItem ===
+                                                    doneMenuItem.title
+                                                }
+                                                onClick={() =>
+                                                    handleMenuItemClick(
+                                                        doneMenuItem.title,
+                                                        doneMenuItem.url
+                                                    )
+                                                }
+                                            >
+                                                <a href={doneMenuItem.url}>
+                                                    {doneMenuItem.title}
+                                                </a>
+                                            </SidebarMenuButton>
+                                        </SidebarMenuItem>
+                                    )
+                                )
+                                : auth.roles === "superadmin"
+                                ? SuperadminPage.mainPage.items.map(
+                                    (SuperadminPage: MenuItem) => (
+                                        <SidebarMenuItem
+                                            key={SuperadminPage.title}
+                                        >
+                                            <SidebarMenuButton
+                                                asChild
+                                                isActive={
+                                                    activeItem ===
+                                                    SuperadminPage.title
+                                                }
+                                                onClick={() =>
+                                                    handleMenuItemClick(
+                                                        SuperadminPage.title,
+                                                        SuperadminPage.url
+                                                    )
+                                                }
+                                            >
+                                                <a href={SuperadminPage.url}>
+                                                    {SuperadminPage.title}
+                                                </a>
+                                            </SidebarMenuButton>
+                                        </SidebarMenuItem>
+                                    )
+                                )
+                                // : auth.roles === "admin"
+                                // ? AdminPage.mainPage.items.map(
+                                //     (adminMenuItem: MenuItem) => (
+                                //         <SidebarMenuItem
+                                //             key={adminMenuItem.title}
+                                //         >
+                                //             <SidebarMenuButton
+                                //                 asChild
+                                //                 isActive={
+                                //                     activeItem ===
+                                //                     adminMenuItem.title
+                                //                 }
+                                //                 onClick={() =>
+                                //                     handleMenuItemClick(
+                                //                         adminMenuItem.title,
+                                //                         adminMenuItem.url
+                                //                     )
+                                //                 }
+                                //             >
+                                //                 <a href={adminMenuItem.url}>
+                                //                     {adminMenuItem.title}
+                                //                 </a>
+                                //             </SidebarMenuButton>
+                                //         </SidebarMenuItem>
+                                //     )
+                                // )
                                 : PageData.mainPage.items.map(
-                                      (menuItem: MenuItem) => (
-                                          <SidebarMenuItem key={menuItem.title}>
-                                              <SidebarMenuButton
-                                                  asChild
-                                                  isActive={
-                                                      activeItem ===
-                                                      menuItem.title
-                                                  }
-                                                  onClick={() =>
-                                                      handleMenuItemClick(
-                                                          menuItem.title,
-                                                          menuItem.url
-                                                      )
-                                                  }
-                                              >
-                                                  <a href={menuItem.url}>
-                                                      {menuItem.title}
-                                                  </a>
-                                              </SidebarMenuButton>
-                                          </SidebarMenuItem>
-                                      )
-                                  )}
+                                    (menuItem: MenuItem) => (
+                                        <SidebarMenuItem key={menuItem.title}>
+                                            <SidebarMenuButton
+                                                asChild
+                                                isActive={
+                                                    activeItem ===
+                                                    menuItem.title
+                                                }
+                                                onClick={() =>
+                                                    handleMenuItemClick(
+                                                        menuItem.title,
+                                                        menuItem.url
+                                                    )
+                                                }
+                                            >
+                                                <a href={menuItem.url}>
+                                                    {menuItem.title}
+                                                </a>
+                                            </SidebarMenuButton>
+                                        </SidebarMenuItem>
+                                    )
+                                )}
+
                         </SidebarMenu>
                     </SidebarGroupContent>
                 </SidebarGroup>
