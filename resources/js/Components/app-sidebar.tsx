@@ -1,8 +1,6 @@
 import * as React from "react";
-import { useState, useEffect } from "react";
 import { Inertia } from "@inertiajs/inertia";
 import { Link, usePage } from "@inertiajs/react";
-import { SearchForm } from "@/Components/search-form";
 import { VersionSwitcher } from "@/Components/version-switcher";
 import {
     Sidebar,
@@ -17,8 +15,8 @@ import {
     SidebarRail,
 } from "@/Components/ui/sidebar";
 import { IoIosLogOut } from "react-icons/io";
-import { PageData, MenuItem } from "@/config/page_data";
-import { DoneePage } from "@/config/donee_page";
+import { DonorPage, MenuItem, DoneePage, AdminPage, SuperAdminPage } from "@/config/page_data";
+import { FaHome } from "react-icons/fa";
 
 export function AppSidebar({
     onMenuItemClick,
@@ -26,35 +24,52 @@ export function AppSidebar({
 }: React.ComponentProps<typeof Sidebar> & {
     onMenuItemClick: (title: string) => void;
 }) {
-    const { component } = usePage();
-    const [activeItem, setActiveItem] = useState<string>(
-        PageData.mainPage.items[0].title
-    );
+    const { auth } = usePage().props;
 
-    useEffect(() => {
-        const activeMenuItem = PageData.mainPage.items.find(
-            (item) => item.route && route().current(item.route)
-        );
-
-        if (activeMenuItem) {
-            setActiveItem(activeMenuItem.title);
-        }
-    }, [component]);
+    // Get the current path
+    const currentPath = window.location.pathname;
 
     const handleMenuItemClick = (title: string, url: string) => {
-        setActiveItem(title);
         onMenuItemClick(title);
         Inertia.visit(url);
     };
 
     const handleLogout = (e: React.MouseEvent) => {
         e.preventDefault();
-        Inertia.visit(route("logout"));
+        Inertia.get(route("welcome") );
     };
 
-    const { auth } = usePage().props;
-    console.log("Roles Appsidebar:", auth.roles);
-    console.log(DoneePage.mainPage.items);
+    let menuItems: MenuItem[] = [];
+    if (auth.roles === "donee") {
+        menuItems = DoneePage.mainPage.items;
+    } else if (auth.roles === "donor") {
+        menuItems = DonorPage.mainPage.items;
+    } else if (auth.roles === "admin") {
+        menuItems = AdminPage.mainPage.items;
+    } else {
+        menuItems = SuperAdminPage.mainPage.items;
+    }
+    
+    const activeMenu = menuItems
+    .filter(item => currentPath.startsWith(item.url))
+    .sort((a, b) => b.url.length - a.url.length)[0];
+
+    // Helper to render menu items for any role
+    const renderMenuItems = (items: MenuItem[]) =>
+    items.map((menuItem: MenuItem) => (
+        <SidebarMenuItem key={menuItem.title}>
+            <SidebarMenuButton
+                asChild
+                isActive={activeMenu && activeMenu.url === menuItem.url}
+                onClick={() => handleMenuItemClick(menuItem.title, menuItem.url)}
+            >
+                <a href={menuItem.url}>{menuItem.title}</a>
+            </SidebarMenuButton>
+        </SidebarMenuItem>
+    ));
+
+
+    console.log("Current Path:", currentPath);
 
     return (
         <Sidebar {...props}>
@@ -63,72 +78,21 @@ export function AppSidebar({
                     versions={["1.0.1", "1.1.0-alpha", "2.0.0-beta1"]}
                     defaultVersion={"1.0.1"}
                 />
-                {/* <SearchForm /> */}
             </SidebarHeader>
             <SidebarContent>
                 <SidebarGroup>
                     <SidebarGroupLabel>Dashboard</SidebarGroupLabel>
                     <SidebarGroupContent>
                         <SidebarMenu>
-                            {auth.roles === "donee"
-                                ? DoneePage.mainPage.items.map(
-                                      (doneMenuItem: MenuItem) => (
-                                          <SidebarMenuItem
-                                              key={doneMenuItem.title}
-                                          >
-                                              <SidebarMenuButton
-                                                  asChild
-                                                  isActive={
-                                                      activeItem ===
-                                                      doneMenuItem.title
-                                                  }
-                                                  onClick={() =>
-                                                      handleMenuItemClick(
-                                                          doneMenuItem.title,
-                                                          doneMenuItem.url
-                                                      )
-                                                  }
-                                              >
-                                                  <a href={doneMenuItem.url}>
-                                                      {doneMenuItem.title}
-                                                  </a>
-                                              </SidebarMenuButton>
-                                          </SidebarMenuItem>
-                                      )
-                                  )
-                                : PageData.mainPage.items.map(
-                                      (menuItem: MenuItem) => (
-                                          <SidebarMenuItem key={menuItem.title}>
-                                              <SidebarMenuButton
-                                                  asChild
-                                                  isActive={
-                                                      activeItem ===
-                                                      menuItem.title
-                                                  }
-                                                  onClick={() =>
-                                                      handleMenuItemClick(
-                                                          menuItem.title,
-                                                          menuItem.url
-                                                      )
-                                                  }
-                                              >
-                                                  <a href={menuItem.url}>
-                                                      {menuItem.title}
-                                                  </a>
-                                              </SidebarMenuButton>
-                                          </SidebarMenuItem>
-                                      )
-                                  )}
+                            {renderMenuItems(menuItems)}
                         </SidebarMenu>
                     </SidebarGroupContent>
                 </SidebarGroup>
                 <Link
                     href={route("welcome")}
-
                     className="flex flex-row gap-2 items-center absolute bottom-0 justify-center px-4 w-full h-16 hover:bg-red-500 cursor-pointer bg-primary-bg"
                 >
-
-                    <IoIosLogOut className="w-6 h-6 text-primary-fg" />
+                    <FaHome className="w-5 h-5 text-primary-fg" />
                     <span className="text-primary-fg">Home</span>
                 </Link>
             </SidebarContent>

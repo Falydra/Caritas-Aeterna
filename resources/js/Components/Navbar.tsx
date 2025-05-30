@@ -37,7 +37,7 @@ export default function Navbar() {
         return currentPath.startsWith(path);
     };
 
-    console.log(auth.roles);
+   
     const currentPath =
         typeof window !== "undefined" ? window.location.pathname : "";
 
