@@ -26,104 +26,48 @@ import { Input } from "./ui/input";
 import { IoDocumentTextOutline } from "react-icons/io5";
 import nominal_donasi from "@/config/nominal_donasi";
 
-interface MidTransResult {
-    transaction_status: string;
-    order_id: string;
-    gross_amount: string;
-    payment_type: string;
-    // Add other fields as needed
+import { Donation, User } from "@/types";
+import { Inertia } from "@inertiajs/inertia";
+
+interface DonationDetailPageProsps extends Donation {
+    donation: Donation[];
+    auth: {
+        user: User;
+        roles: string;
+    };
+    [key: string]: any;
 }
 
 export function CardWithForm() {
-    const { auth } = usePage().props;
-    const [isModalEnableCharity, setIsModalEnableCharity] = useState(false);
-    const [isDetail, setIsDetail] = useState(false);
-    const [donationAmount, setDonationAmount] = useState("");
+    const { donation } = usePage<DonationDetailPageProsps>().props;
+ 
 
-    const [snapToken, setSnapToken] = useState(null);
-
-    const csrfTokenMeta = document.querySelector('meta[name="csrf-token"]');
-    if (csrfTokenMeta) {
-        axios.defaults.headers.common["X-CSRF-TOKEN"] =
-            csrfTokenMeta.getAttribute("content");
-    } else {
-        console.error("CSRF token meta tag not found.");
-    }
-
-    // const handlePayment = async () => {
-    //   try {
-    //     const response = await axios.post('/donation/fund', {
-    //       data: {
-    //         user_id: auth.user.id,
-    //         donation_id: donation_data.id,
-    //         amount: donationAmount
-    //       }
-    //     });
-
-    //     const { snap_token } = response.data;
-
-    //     if (window.snap) {
-    //       window.snap.pay(snap_token, {
-    //         onSuccess: function (result) {
-    //           alert("Pembayaran berhasil!");
-    //           console.log(result);
-    //         },
-    //         onPending: function (result) {
-    //           alert("Menunggu pembayaran...");
-    //           console.log(result);
-    //         },
-    //         onError: function (result) {
-    //           alert("Pembayaran gagal.");
-    //           console.log(result);
-    //         },
-    //         onClose: function () {
-    //           alert("Anda menutup pop-up pembayaran.");
-    //         },
-    //       });
-    //     } else {
-    //       alert("Midtrans Snap belum dimuat.");
-    //     }
-
-    //   } catch (error) {
-    //     console.error("Gagal membuat donasi:", error);
-    //     alert("Terjadi kesalahan saat memproses donasi.");
-    //   }
-    // };
-
-    const handleIsEnableDonasi = () => {
-        setIsModalEnableCharity(true);
+    const handleDetail = (id: number) => {
+    Inertia.get(route("donations.show",  {
+        
+        id: id
+    }))
     };
-
-    const handleDetail = () => {
-        setIsDetail(true);
-    };
+    
+       
 
     return (
         <>
-            <Card className="w-9/12 flex flex-col h-full">
+        {donation.map((donation, index) => (
+            index < 1 && (
+
+            <Card key={index}  className="w-9/12 flex flex-col h-4/5">
                 <div className="flex flex-row w-full h-full ">
-                    <div className="w-6/12 h-full justify-between items-start flex flex-col cursor-pointer hover:text-primary-bg hover:rounded-l-xl">
+                    <div className="w-6/12 h-full justify-between items-start flex flex-col hover:text-primary-bg hover:rounded-l-xl">
                         <CardHeader className="text-start text-xl">
-                            <CardTitle>Bantu Programmer Papua</CardTitle>
+                            <CardTitle>{donation.title}</CardTitle>
                             <CardDescription>
-                                Telah muncul seorang programmer jawa yang setiap
-                                harinya harus mencari rupiah. Programmer
-                                tersebut telah menghabiskan sisa hidupnya untuk
-                                membuat program yang tidak jelas dasarnya.
-                                Hingga pada akhirnya programmer tersebut
-                                memutuskan untuk meledakan diri dan menyebabkan
-                                luka yang sangat serius. Dibutuhkan sejumlah
-                                dana untuk mengatasi kesenjangan sosial di
-                                setiap individu. Masing-masing daerah akan
-                                mendapatkan pembagian dana secara merata
+                                {donation.text_descriptions[0]
+                                    ?.split(" ")
+                                    .slice(0, 50)
+                                    .join(" ") + (donation.text_descriptions[0]?.split(" ").length > 50 ? "..." : "")}
                             </CardDescription>
-                            <a
-                                className="text-primary-accent hover:text-primary-bg/70 font-semibold text-sm flex flex-row self-end"
-                                onClick={handleDetail}
-                            >
-                                Detail
-                                <IoIosArrowForward className="text-md self-center" />
-                            </a>
+                           
                         </CardHeader>
 
                         <CardFooter className="flex w-full justify-end h-full flex-col ">
@@ -149,18 +93,24 @@ export function CardWithForm() {
                                     </h2>
                                 </div>
                             </div>
-                            <Button
-                                className="w-full h-[50px] hover:bg-primary-fg bg-primary-accent"
-                                onClick={handleIsEnableDonasi}
+                            <Link
+                                className="w-full flex h-[50px] hover:bg-primary-bg bg-primary-accent items-center justify-center rounded-md"
+                                
+                                href={route("donations.show", {id: donation.id})}
+                                
                             >
-                                Donasi
-                            </Button>
+                                <h3 className=" text-md font-semibold text-primary-fg text-center items-center justify-center">
+                                    Detail
+                                </h3>
+                            </Link>
                         </CardFooter>
                     </div>
                     <div className="w-9/12 h-full items-center justify-center flex flex-col bg-cover bg-center rounded-r-xl bg-[url(/images/Charity1.jpeg)]"></div>
                 </div>
             </Card>
-            {isModalEnableCharity && (
+            )
+        ))}
+            {/* {isModalEnableCharity && (
                 <div className="fixed z-50 inset-0 bg-black bg-opacity-50 flex text-primary-bg items-center justify-center">
                     <div className="bg-white w-1/3 h-5/6 rounded-xl flex flex-col">
                         {auth.user ? (
@@ -281,10 +231,9 @@ export function CardWithForm() {
                         )}
                     </div>
                 </div>
-            )}
-            {isDetail && (
-                <CharityDetail isDetail={isDetail} setIsDetail={setIsDetail} />
-            )}
+            )} */}
+            
         </>
     );
 }
+

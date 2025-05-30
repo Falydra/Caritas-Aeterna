@@ -196,6 +196,9 @@ class DonationApiTest extends TestCase {
         for ($i = 0; $i < random_int(1, 9); $i++) {
             if ($i === 0) {
                 $text_descriptions["{$i}"] = fake()->sentence(random_int(75, 120));
+                $image_name = 'desc_0' . random_int(1, 6) . '.png';
+                $images["{$i}"] = $image_name;
+
                 continue;
             }
 
