@@ -28,7 +28,7 @@ const DynamicTextDescription: React.FC<DynamicTextDescriptionProps> = ({
                 ></RemoveDescriptionButton>
             </div>
             <textarea
-                className="p-2 w-full"
+                className="p-2 w-full text-black"
                 name={index}
                 value={value}
                 onChange={(e) => onChange(index, e)}
