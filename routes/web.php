@@ -7,21 +7,21 @@ use App\Http\Controllers\Donee\InitController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
-use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\Donation\DonationController;
+use App\Http\Controllers\SuperAdmin\DashboardController;
+use App\Http\Controllers\SuperAdmin\ManageUserController;
+use App\Http\Controllers\SuperAdmin\SuperProfileController;
 use App\Http\Controllers\Admin\AdminDashboardController;
-use App\Http\Controllers\BookController;
+use App\Http\Controllers\Admin\ManageDonationsController;
+use App\Http\Controllers\Admin\ManageUsersController;
+use App\Http\Controllers\Donation\DonationController;
 use App\Http\Controllers\Donation\FundraiserController;
 use App\Http\Controllers\Donation\ProductDonationController;
+use App\Http\Controllers\Donee\DoneeDashboardController;
 use App\Http\Controllers\Donee\DoneeApplicationController;
 use App\Http\Controllers\Donor\DonorController;
 use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\SuperAdmin\DashboardController;
-use App\Http\Controllers\SuperAdmin\ManageDonationsController;
-use App\Http\Controllers\SuperAdmin\ManageUserController;
 use App\Http\Controllers\GeneralNewsController;
-use App\Http\Controllers\Donee\DoneeDashboardController;
 use App\Models\Donation;
 
 
@@ -34,10 +34,6 @@ Route::get('/', function () {
     $role = $user ? $user->roleName() : "";
 
     $donation = Donation::with('initiator:id,username')->get();
-
-
-
-
     return Inertia::render('Welcome', [
         'auth' => [
             'user' => $user,
@@ -81,16 +77,20 @@ Route::get('/book-details', function () {
     return Inertia::render('Book-Details');
 })->middleware(['auth', 'verified'])->name('book-details');
 
-Route::get('/dashboard/admin', [AdminDashboardController::class, 'index'])
-    ->middleware(['auth', 'verified'])
-    ->name('admin.dashboard');
 
+Route::middleware(['auth', 'verified'])->group(function () {
+   Route::get('/dashboard/admin', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('/dashboard/admin/manage-donations', [ManageDonationsController::class, 'index'])->name('admin.manage-donations');
+    Route::get('/dashboard/admin/manage-users', [ManageUsersController::class, 'index'])->name('admin.manage-users');
+});
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard/super-admin', [DashboardController::class, 'index'])->name('super-admin.dashboard');
-    Route::get('/dashboard/super-admin/manage-donations', [ManageDonationsController::class, 'index'])->name('super-admin.manage-donations');
+   
     Route::get('/dashboard/super-admin/manage-users', [ManageUserController::class, 'index'])->name('super-admin.manage-users');
     Route::get('/dashboard/super-admin/manage-users/edit', [ManageUserController::class, 'edit'])->name('super-admin.manage-users.edit');
+    Route::get('/dashboard/super-admin/profile', [SuperProfileController::class, 'index'])->name('super-admin.profile');
+    Route::patch('/dashboard/super-admin/profile', [SuperProfileController::class, 'update'])->name('super-admin.profile.update');
 });
 
 Route::middleware('auth')->group(function () {
