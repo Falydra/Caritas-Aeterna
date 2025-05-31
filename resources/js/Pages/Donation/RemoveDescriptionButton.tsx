@@ -11,7 +11,7 @@ const RemoveDescriptionButton: React.FC<RemoveDescriptionButtonProps> = ({
 }) => {
     return (
         <button
-            className="delete-button text-red-500 bg-white border border-red-500 px-2 hover:bg-red-500 hover:text-white active:bg-red-600 transition-colors duration-100"
+            className="delete-button text-primary-fg rounded-md border border-primary-fg px-2 hover:bg-red-500 hover:text-white transition-colors duration-100"
             onClick={() => onRemove(index)}
         >
             {/* <svg

@@ -12,9 +12,9 @@ import { PiDotsThreeBold } from "react-icons/pi";
 
 
 
-interface SuperAdminDashboardProps {
+interface AdminDashboardProps {
     
-    user: {
+    users: {
         data: User[];
         current_page: number;
         last_page: number;
@@ -33,11 +33,10 @@ interface SuperAdminDashboardProps {
 
 
 export default function ManageUsers() {
-    const { user } = usePage<SuperAdminDashboardProps>().props;
+    const { users } = usePage<AdminDashboardProps>().props;
     const [showModal, setShowModal] = useState(false);
-    console.log(user);
-    console.log(user.next_page_url);
-    console.log(user.prev_page_url);
+    console.log(users);
+    
 
 
     
@@ -60,9 +59,9 @@ export default function ManageUsers() {
                                 </tr>
                             </thead>
                             <tbody className='text-center'>
-                                {user?.data?.map((item, index) => (
+                                {users.data.map((item, index) => (
                                     <tr key={item.id} className='text-center'>
-                                        <td className='p-4 border-b'>{(user.current_page - 1) * user.per_page + index + 1}</td>
+                                        <td className='p-4 border-b'>{(users.current_page - 1) * users.per_page + index + 1}</td>
                                         <td className='p-4 border-b'>{item.id}</td>
                                         <td className='p-4 border-b'>{item.username}</td>
                                         <td className='p-4 border-b'>{item.email}</td>
@@ -70,8 +69,8 @@ export default function ManageUsers() {
                                         <td className='p-4 border-b '>
                                         <DropdownMenu>
                                             <DropdownMenuTrigger asChild className="w-full h-full">
-                                                <Button className="w-8 h-8 aspect-square rounded-full" variant={"ghost"}>
-                                                    <PiDotsThreeBold className="w-4 h-4 aspect-square self-center" />
+                                                <Button className="w-8 h-8 aspect-square rounded-full hover:bg-transparent hover:text-primary-fg" variant={"default"}>
+                                                    <PiDotsThreeBold className="w-4 h-4 aspect-square self-center hover:text-primary-fg" />
                                                 </Button>
                                                 
                                             </DropdownMenuTrigger>
@@ -100,9 +99,9 @@ export default function ManageUsers() {
                     </div>
                 </div>
                 <div className=" flex justify-between items-center sticky bottom-0 z-9 w-full">
-                    {user.prev_page_url ? (
+                    {users.prev_page_url ? (
                         <Link
-                            href={route("super-admin.manage-users", { page: user.current_page - 1 })}
+                            href={route("admin.manage-users", { page: users.current_page - 1 })}
                             className="px-4 py-2 bg-blue-500 text-white rounded"
                         >
                             Previous
@@ -113,11 +112,11 @@ export default function ManageUsers() {
                         </span>
                     )}
                     <span>
-                        Halaman {user.current_page} dari {user.last_page}
+                        Halaman {users.current_page} dari {users.last_page}
                     </span>
-                    {user.next_page_url ? (
+                    {users.next_page_url ? (
                         <Link
-                            href={route("super-admin.manage-users", { page: user.current_page + 1 })}
+                            href={route("admin.manage-users", { page: users.current_page + 1 })}
                             className="px-4 py-2 bg-blue-500 text-white rounded"
                         >
                             Next
@@ -128,6 +127,7 @@ export default function ManageUsers() {
                         </span>
                     )}
                 </div>
+
             </div>
         </Authenticated>
     );

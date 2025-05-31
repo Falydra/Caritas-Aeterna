@@ -263,11 +263,11 @@ export default function CreateDonation() {
                 </div>
 
                 <div className="flex flex-row gap-2 mx-auto w-full">
-                    <button className="p-2 w-full bg-white text-red-500 font-black border border-red-500 hover:bg-red-500 hover:text-white active:bg-red-600 transition-colors duration-100">
+                    <button className="p-2 w-full rounded-md text-red-500 font-black border border-primary-fg hover:bg-red-500 hover:text-white active:bg-red-600 transition-colors duration-100">
                         Kembali
                     </button>
                     <button
-                        className="p-2 w-full bg-white text-green-500 font-black border border-green-500 hover:bg-green-500 hover:text-white active:bg-green-600 transition-colors duration-100"
+                        className="p-2 w-full rounded-md text-green-500 font-black border border-primary-fg hover:bg-green-500 hover:text-white active:bg-green-600 transition-colors duration-100"
                         onClick={handleSubmit}
                     >
                         Konfirmasi

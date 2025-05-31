@@ -9,7 +9,7 @@ const AddTextDescriptionButton: React.FC<AddTextDescriptionButtonProps> = ({
 }) => {
     return (
         <button
-            className="add-btn flex flex-row gap-2 py-2 px-3 place-items-center bg-white text-blue-500 border border-blue-500 hover:bg-blue-500 hover:text-white active:bg-blue-600 transition-colors duration-100"
+            className="add-btn flex flex-row gap-2 py-2 px-3 place-items-center border-primary-fg text-primary-fg border rounded-md hover:bg-blue-500 hover:text-white active:bg-blue-600 transition-colors duration-100"
             onClick={onClick}
         >
             <p className="font-bold">Tambah Paragraf</p>
