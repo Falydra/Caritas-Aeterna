@@ -35,7 +35,7 @@ Route::get('/', function () {
 
     $donation = Donation::with('initiator:id,username')->get();
 
-    $donations = Donation::getActiveDonation();
+
 
 
     return Inertia::render('Welcome', [
