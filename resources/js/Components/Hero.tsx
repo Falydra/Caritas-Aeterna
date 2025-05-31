@@ -23,7 +23,7 @@ export default function Hero() {
   return (
     <div className="relative flex w-full h-screen overflow-y-auto items-center justify-center bg-cover bg-center bg-[url('/images/Charity.jpeg')]">
       <div className="absolute inset-0 bg-gradient-to-r from-primary-bg to-primary-bg/30"></div>
-      <div className="relative flex flex-col items-start w-full justify-center px-4 mt-8">
+      <div className="relative flex flex-col items-start w-full justify-center px-12 mt-8">
         <h1 className="text-4xl font-bold text-primary-fg">Caritas Aeterna</h1>
         <p className="text-primary-fg font-thin">
           Your Generosity Can Change the World - Make a Difference Today by Donating <br />

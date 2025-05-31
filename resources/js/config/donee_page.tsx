@@ -26,24 +26,7 @@ export const DoneePage = {
                 isActive: false,
                 route: "donee.donations.index"
             },
-            // {
-            //     title: "Payment",
-            //     url: "/dashboard/payment",
-            //     isActive: false,
-            //     route: "payment",
-            // },
-            // {
-            //     title: "Book Donors",
-            //     url: "/dashboard/donors",
-            //     isActive: false,
-            //     route: "donors",
-            // },
-            // {
-            //     title: "Book Details",
-            //     url: "/book-details",
-            //     isActive: false,
-            //     route: "book-details",
-            // },
+    
             {
                 title: "Profile",
                 url: "/profile",
