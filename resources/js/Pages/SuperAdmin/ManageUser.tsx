@@ -58,14 +58,14 @@ export default function ManageUsers() {
     return (
         <Authenticated>
             <div className="flex w-full flex-col max-h-screen items-start justify-start px-8 py-4 bg-primary-bg gap-4">
-                <h1 className="text-2xl font-bold">User Manager</h1>
                 <div className="flex justify-between items-center w-full">
-                    <p className="text-lg">Manage all admin users in the system.</p>
+                    <h1 className="text-2xl font-bold">Manage Users</h1>    
+                    {/* <p className="text-lg">Manage all admin users in the system.</p> */}
                     <Link
                         href={route("super-admin.manage-users.create")}
                         className="px-4 py-2 bg-green-500 text-white rounded"
                     >
-                        Add Admin
+                        Tambah Admin
                     </Link>
                 </div>
                 <div className="flex flex-col w-full items-center justify-center">

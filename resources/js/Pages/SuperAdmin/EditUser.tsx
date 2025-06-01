@@ -70,11 +70,11 @@ export default function EditUser() {
 
                     <div>
                         <Label htmlFor="current_password" className="block text-sm font-medium text-gray-700 mb-1">
-                            Your (SuperAdmin) Current Password
+                            Password Saat Ini
                         </Label>
-                        <p className="text-xs text-gray-500 mb-2">
+                        {/* <p className="text-xs text-gray-500 mb-2">
                             Required by the system to verify your action.
-                        </p>
+                        </p> */}
                         <Input
                             id="current_password"
                             type="password"

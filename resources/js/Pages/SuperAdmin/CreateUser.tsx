@@ -33,10 +33,9 @@ export default function CreateAdmin({ auth }: CreateAdminProps) {
         e.preventDefault();
         post(route("super-admin.manage-users.create"), {
             onSuccess: () => {
-                reset(); // Reset form fields
-                // ******* DIRECT REDIRECT ON SUCCESS *******
+                reset(); 
                 alert("Submission succesful!");
-                router.visit(route('super-admin.manage-users')); // Go to the user list
+                router.visit(route('super-admin.manage-users'));
             },
             onError: (formErrors) => {
                 if (!flash?.error && !flash?.errors?.database) {
@@ -52,21 +51,21 @@ export default function CreateAdmin({ auth }: CreateAdminProps) {
             <Head title="Create Admin" />
             <div className="flex w-full flex-col max-h-screen items-start justify-start px-8 py-4 bg-primary-bg gap-4">
                 <div className="flex justify-between items-center w-full">
-                    <h1 className="text-2xl font-bold">Create New Admin</h1>
-                    <Link href={route('super-admin.manage-users')} className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
+                    <h1 className="text-2xl font-bold">Tambah Admin</h1>
+                    {/* <Link href={route('super-admin.manage-users')} className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
                         Back to User List
-                    </Link>
+                    </Link> */}
                 </div>
-                <p className="text-lg">Fill in the details below to create a new admin user.</p>
+                <p className="text-lg">Masukkan informasi yang dibutuhkan dengan benar</p>
                 <form onSubmit={handleSubmit} className="w-full max-w-md rounded-lg shadow-md flex flex-col gap-6 bg-white p-6">
                     {/* ... form fields ... */}
                     <div>
                         <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">
                             Username
                         </label>
-                        <p className="text-xs text-gray-500 mb-2">
+                        {/* <p className="text-xs text-gray-500 mb-2">
                             This will be used for login and display.
-                        </p>
+                        </p> */}
                         <Input
                             id="username"
                             type="text"
@@ -83,9 +82,9 @@ export default function CreateAdmin({ auth }: CreateAdminProps) {
                         <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
                             Email
                         </label>
-                        <p className="text-xs text-gray-500 mb-2">
+                        {/* <p className="text-xs text-gray-500 mb-2">
                             This will be used for login and notifications.
-                        </p>
+                        </p> */}
                         <Input
                             id="email"
                             type="email"
@@ -104,7 +103,7 @@ export default function CreateAdmin({ auth }: CreateAdminProps) {
                         </label>
                         <p className="text-xs text-gray-500 mb-2">
                             Minimum 8 characters.
-                        </p>
+                        </p> 
                         <Input
                             id="password"
                             type="password"
