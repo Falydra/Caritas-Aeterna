@@ -10,12 +10,11 @@ use App\Models\Donation;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Admin;
+use Illuminate\Http\Request;
 
 class ManageDonationsController extends Controller
 {
-    /**
-     * Display a listing of the donations.
-     */
+   
     public function index()
     {
         $donations = Donation::with('initiator:id,username')
@@ -41,7 +40,26 @@ class ManageDonationsController extends Controller
             ],
         ]);
     }
-    /**
-     * Show the form for creating a new donation.
-     */
+
+    public function edit(Request $request)
+    {
+        $donation = Donation::findOrFail($request->id);
+
+        if (Auth::user()->role() != Admin::class) {
+            return Inertia::render('Error', [
+                'code' => '403',
+                'status' => 'forbidden',
+                'message' => 'dih ogah, lu siapa coba'
+            ]);
+        }
+
+        return Inertia::render('Admin/EditDonation', [
+            'donation' => $donation->toArray() + ['initiator' => $donation->initiator->username],
+            'auth' => [
+                'user' => Auth::user(),
+                'roles' => Auth::user()->roleName(),
+            ],
+        ]);
+    }
+    
 }
