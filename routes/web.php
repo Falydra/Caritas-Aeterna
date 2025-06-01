@@ -13,6 +13,7 @@ use App\Http\Controllers\SuperAdmin\ManageUserController;
 use App\Http\Controllers\SuperAdmin\SuperProfileController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\ManageDonationsController;
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\ManageUsersController;
 use App\Http\Controllers\Donation\DonationController;
 use App\Http\Controllers\Donation\FundraiserController;
@@ -84,14 +85,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard/admin/manage-users', [ManageUsersController::class, 'index'])->name('admin.manage-users');
 });
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard/super-admin', [DashboardController::class, 'index'])->name('super-admin.dashboard');
-   
-    Route::get('/dashboard/super-admin/manage-users', [ManageUserController::class, 'index'])->name('super-admin.manage-users');
-    Route::get('/dashboard/super-admin/manage-users/edit', [ManageUserController::class, 'edit'])->name('super-admin.manage-users.edit');
-    Route::get('/dashboard/super-admin/profile', [SuperProfileController::class, 'index'])->name('super-admin.profile');
-    Route::patch('/dashboard/super-admin/profile', [SuperProfileController::class, 'update'])->name('super-admin.profile.update');
-});
+// Route::middleware(['auth', 'verified'])->group(function () {
+//     Route::post('/admin/create', [AdminController::class, 'create'])->name('admin.create');
+//     Route::put('/admin/password/update', [AdminController::class, 'put'])->name('admin.password.update');
+// });
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

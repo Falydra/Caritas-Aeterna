@@ -1,19 +1,11 @@
 import Authenticated from "@/Layouts/AuthenticatedLayout";
 import { User } from "@/types";
-import { usePage } from "@inertiajs/react";
+import { usePage, router } from "@inertiajs/react";
 import { Link } from "@inertiajs/react";
-import { FaRegEdit, FaTrashAlt } from "react-icons/fa";
-import { useState } from "react";
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuGroup } from "@/Components/ui/dropdown-menu";
-import { IoIosLogOut } from "react-icons/io";
-import { Button } from "@/Components/ui/button";
-import { PiDotsThreeBold } from "react-icons/pi";
-
-
-
+import { createColumns } from "./user_column";
+import { DataTable } from "@/Components/ui/data-table";
 
 interface SuperAdminDashboardProps {
-    
     user: {
         data: User[];
         current_page: number;
@@ -23,7 +15,6 @@ interface SuperAdminDashboardProps {
         next_page_url: string | null;
         prev_page_url: string | null;
     };
-  
     auth: {
         user: User;
         roles: string;
@@ -31,75 +22,59 @@ interface SuperAdminDashboardProps {
     [key: string]: any;
 }
 
-
 export default function ManageUsers() {
     const { user } = usePage<SuperAdminDashboardProps>().props;
-    const [showModal, setShowModal] = useState(false);
-    console.log(user);
-    console.log(user.next_page_url);
-    console.log(user.prev_page_url);
 
+    const handleDeleteUser = (userIdToDelete: number) => {
+        if (confirm("Are you sure you want to delete this user?")) {
+            router.delete(
+                route("super-admin.manage-users.destroy", { id: userIdToDelete }),
+                {
+                    data: { id: userIdToDelete },
+                    preserveScroll: true,
+                    onSuccess: () => {
+                    },
+                    onError: (errors) => {
+                        let errorMessage = "An error occurred during deletion.";
+                        if (errors && errors.id) {
+                            errorMessage = errors.id;
+                        } else if (errors && errors.database) {
+                            errorMessage = errors.database;
+                        } else if (errors && Object.keys(errors).length > 0) {
+                            errorMessage = `Error: ${Object.values(errors).join(", ")}`;
+                        }
+                        alert(errorMessage);
+                        console.error("Deletion error:", errors);
+                    },
+                }
+            );
+        }
+    };
 
-    
+    const columns = createColumns({
+        onDelete: handleDeleteUser,
+    });
+
     return (
         <Authenticated>
             <div className="flex w-full flex-col max-h-screen items-start justify-start px-8 py-4 bg-primary-bg gap-4">
                 <h1 className="text-2xl font-bold">User Manager</h1>
-                <p className="text-lg">Manage all users in the system.</p>
+                <div className="flex justify-between items-center w-full">
+                    <p className="text-lg">Manage all admin users in the system.</p>
+                    <Link
+                        href={route("super-admin.manage-users.create")}
+                        className="px-4 py-2 bg-green-500 text-white rounded"
+                    >
+                        Add Admin
+                    </Link>
+                </div>
                 <div className="flex flex-col w-full items-center justify-center">
-                    <div className='w-full max-h-[375px] overflow-y-auto rounded-md '>
-                        <table className="w-full text-center border rounded-full">
-                            <thead className='p-8 bg-primary-bg border border-primary-fg bg-opacity-35'>
-                                <tr className='p-8 bg-primary-accent/50  '>
-                                    <th className='py-3 border-b border-primary-fg '>No</th>
-                                    <th className='py-3 border-b border-primary-fg'>ID</th>
-                                    <th className='py-3 border-b border-primary-fg'>Username</th>
-                                    <th className='py-3 border-b border-primary-fg'>Email</th>
-                                    <th className='py-3 border-b border-primary-fg'>Role</th>
-                                    <th className='py-3 border-b border-primary-fg'>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody className='text-center'>
-                                {user?.data?.map((item, index) => (
-                                    <tr key={item.id} className='text-center'>
-                                        <td className='p-4 border-b'>{(user.current_page - 1) * user.per_page + index + 1}</td>
-                                        <td className='p-4 border-b'>{item.id}</td>
-                                        <td className='p-4 border-b'>{item.username}</td>
-                                        <td className='p-4 border-b'>{item.email}</td>
-                                        <td className='p-4 border-b'>{item.role}</td>
-                                        <td className='p-4 border-b '>
-                                        <DropdownMenu>
-                                            <DropdownMenuTrigger asChild className="w-full h-full">
-                                                <Button className="w-8 h-8 aspect-square rounded-full" variant={"ghost"}>
-                                                    <PiDotsThreeBold className="w-4 h-4 aspect-square self-center" />
-                                                </Button>
-                                                
-                                            </DropdownMenuTrigger>
-                                            <DropdownMenuContent className="w-48 mr-12">
-                                                <DropdownMenuLabel>Quick Actions</DropdownMenuLabel>
-                                                    <DropdownMenuSeparator />
-                                                        <DropdownMenuGroup>
-                                                            <Link  href={route("super-admin.manage-users.edit", {id: item.id})} className="flex justify-between w-full h-8 items-center bg-transparent hover:bg-primary-accent/65 rounded-md text-primary-bg px-2 font-semibold text-sm ">
-                                                                Edit
-                                                                <FaRegEdit className="w-4 h-4 aspect-square " />
-                                                            </Link>
-                                                        </DropdownMenuGroup>
-                                            </DropdownMenuContent>
-                                        </DropdownMenu>
-                                                        
-
-                                        </td>
-                                            
-
-
-                                        
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                    <div className='w-full rounded-md '>
+                        <DataTable columns={columns} data={user.data} />
                     </div>
                 </div>
-                <div className=" flex justify-between items-center sticky bottom-0 z-9 w-full">
+                <div className="flex justify-between items-center sticky bottom-0 z-9 w-full mt-4">
+
                     {user.prev_page_url ? (
                         <Link
                             href={route("super-admin.manage-users", { page: user.current_page - 1 })}
@@ -115,6 +90,7 @@ export default function ManageUsers() {
                     <span>
                         Halaman {user.current_page} dari {user.last_page}
                     </span>
+
                     {user.next_page_url ? (
                         <Link
                             href={route("super-admin.manage-users", { page: user.current_page + 1 })}

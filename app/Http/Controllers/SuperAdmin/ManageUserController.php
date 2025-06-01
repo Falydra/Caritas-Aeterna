@@ -41,4 +41,9 @@ class ManageUserController extends Controller
         ]);
     }
 
+    public function createPage()
+    {
+        return Inertia::render('SuperAdmin/CreateUser');
+    }
+
 }
