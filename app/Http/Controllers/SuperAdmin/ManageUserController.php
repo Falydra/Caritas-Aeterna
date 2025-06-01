@@ -56,4 +56,22 @@ class ManageUserController extends Controller
         ]);
     }
 
+    public function update(Request $request, $id)
+{
+    $user = Admin::findOrFail($id);
+    $validated = $request->validate([
+        'username' => 'required|string|max:255',
+        'email' => 'required|email|max:255',
+        'password' => 'nullable|string|min:6',
+    ]);
+    $user->username = $validated['username'];
+    $user->email = $validated['email'];
+    if (!empty($validated['password'])) {
+        $user->password = bcrypt($validated['password']);
+    }
+    $user->save();
+
+    return redirect()->route('super-admin.manage-users.edit', ['id' => $user->id])->with('success', 'User updated!');
+}
+
 }
