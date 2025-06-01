@@ -124,6 +124,9 @@ class ProductDonationController extends Controller {
             // create the donation
             $donation = $this->storeDonation($request, $validated);
 
+            // add target fund
+            $targetFund = 0;
+
             // attach books if any
             $books = data_get($additional, 'data.products.books');
             if (isset($books)) {
@@ -131,6 +134,7 @@ class ProductDonationController extends Controller {
                     $donation->books()->attach($book['isbn'], [
                         'amount' => $book['amount']
                     ]);
+                    $targetFund += Book::find($book['isbn'])->price * $book['amount'];
                 }
             }
 
@@ -147,8 +151,15 @@ class ProductDonationController extends Controller {
                         'price' => $facility['price'],
                         'amount' => $facility['amount']
                     ]);
+                    $targetFund += $facility['price'];
                 }
             }
+
+            $typeAttr = $donation->type_attributes;
+            $typeAttr['target_fund'] = $targetFund;
+            $donation->update([
+                'type_attributes' => $typeAttr
+            ]);
 
             DB::commit();
 
@@ -233,9 +244,9 @@ class ProductDonationController extends Controller {
             $filePath = '';
             $service->storeImage(
                 $titleSlug,
-                $headerImage,
+                $image,
                 $storePath,
-                $headerImagePath
+                $filePath
             );
             $imageDescriptions[$index] = $filePath;
         }

@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Symfony\Component\Clock\now;
 
 class DatabaseSeeder extends Seeder {
     /**
@@ -18,10 +19,11 @@ class DatabaseSeeder extends Seeder {
         //     'email' => 'test@example.com',
         // ]);
 
-        $this->call([
-            UserSeeder::class,
-            // BookSeeder::class,
-            DonationSeeder::class,
-        ]);
+        User::query()->update(['email_verified_at' => now()]);
+        // $this->call([
+        //     UserSeeder::class,
+        //     // BookSeeder::class,
+        //     DonationSeeder::class,
+        // ]);
     }
 }

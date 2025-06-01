@@ -13,7 +13,9 @@ trait HandleDonationsData {
             $type = Fundraiser::class;
             $typeAttr = [
                 'target_fund' => $target['target_fund'],
-                'current_fund' => 0
+                'current_fund' => 0,
+                'product_amount' => $target['product_amount'],
+                'fulfilled_product_amount' => 0
             ];
         }
 

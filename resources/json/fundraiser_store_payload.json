@@ -3,8 +3,10 @@
 		"type": "string enum(fundraiser, product_donation)",
 		"title": "string max 255",
 		"class_attributes": {
-            "target_fund": "unsigned integer",
-            "current_fund": "unsigned integer"
+            "target_fund": "unsigned small integer",
+            "current_fund": "unsigned small integer",
+            "product_amount": "unsigned small integer",
+            "fulfilled_product_amount": "unsigned small integer"
         },
         "header_image": "File max 2mb",
 		"text_descriptions": [
