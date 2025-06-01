@@ -55,7 +55,7 @@ export function AppSidebar({
     .filter(item => currentPath.startsWith(item.url))
     .sort((a, b) => b.url.length - a.url.length)[0];
 
-    // Helper to render menu items for any role
+    
     const renderMenuItems = (items: MenuItem[]) =>
     items.map((menuItem: MenuItem) => (
         <SidebarMenuItem key={menuItem.title}>

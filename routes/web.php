@@ -99,8 +99,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
    
     Route::get('/dashboard/super-admin/manage-users', [ManageUserController::class, 'index'])->name('super-admin.manage-users');
     Route::get('/dashboard/super-admin/manage-users/edit', [ManageUserController::class, 'edit'])->name('super-admin.manage-users.edit');
+    Route::patch('/dashboard/super-admin/manage-users/{id}', [ManageUserController::class, 'update'])->name('super-admin.manage-users.update');
     Route::get('/dashboard/super-admin/profile', [SuperProfileController::class, 'index'])->name('super-admin.profile');
     Route::patch('/dashboard/super-admin/profile', [SuperProfileController::class, 'update'])->name('super-admin.profile.update');
+    
 });
 
 
