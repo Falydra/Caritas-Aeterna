@@ -35,7 +35,7 @@ export default {
                     bg: '#221e24',
                     fg: '#ddd7e4',
                     accent: '#5f63e8',
-                DEFAULT: '#221e24',
+                    DEFAULT: '#221e24',
                     foreground: 'hsl(var(--primary-foreground))'
                 },
                 hover: {
@@ -99,23 +99,22 @@ export default {
         ]
     },
 
-    // Add custom scrollbar styles
     plugins: [
         require("tailwindcss-animate"),
         function({ addUtilities }) {
             addUtilities({
                 '::-webkit-scrollbar': {
-                    width: '12px',
+                    width: '5px',
                 },
                 '::-webkit-scrollbar-track': {
-                    background: '#221e24',
+                    background: '#ddd7e4',
                 },
                 '::-webkit-scrollbar-thumb': {
-                    background: '#221e24',
+                    background: '#5f63e8',
                     borderRadius: '6px',
                 },
                 '::-webkit-scrollbar-thumb:hover': {
-                    background: '#221e24',
+                    background: '#5f63e8',
                 },
             });
         }
