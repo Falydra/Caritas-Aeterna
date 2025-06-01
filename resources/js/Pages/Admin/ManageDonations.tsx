@@ -56,6 +56,7 @@ export default function ManageDonations() {
                                         <td className='p-4 border-b'>{item.id}</td>
                                         <td className='p-4 border-b'>{item.title}</td>
                                         <td className='p-4 border-b'>{item.initiator.username}</td>
+                                        
                                         <td className='p-4 border-b'>{item.type_attributes.current_fund}</td>
                                         <td className='p-4 border-b '>
                                         <DropdownMenu>
