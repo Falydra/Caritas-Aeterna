@@ -3,21 +3,33 @@
 namespace App\Http\Controllers\SuperAdmin;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Models\Admin;
+use App\Models\User;
 
 class ManageUserController extends Controller
 {
    
     public function index()
     {
-        $user = User::paginate(10)->through(function ($user) {
+        $users = User::where('type', 'App\\Models\\Admin')->paginate(10);
+
+        $data = $users->getCollection()->map(function ($user) {
             return $user->toArray() + ['role' => $user->roleName()];
         });
 
         return Inertia::render('SuperAdmin/ManageUser', [
-            'user' => $user,
+            'user' => [
+                'data' => $data,
+                'current_page' => $users->currentPage(),
+                'last_page' => $users->lastPage(),
+                'per_page' => $users->perPage(),
+                'total' => $users->total(),
+                'next_page_url' => $users->nextPageUrl(),
+                'prev_page_url' => $users->previousPageUrl(),
+            ],
         ]);
     }
 
@@ -25,7 +37,7 @@ class ManageUserController extends Controller
     public function edit(Request $request)
     {
         return Inertia::render('SuperAdmin/EditUser', [
-            'user' => User::findOrFail($request->id)->toArray() + ['role' => User::findOrFail($request->id)->roleName()],
+            'user' => Admin::findOrFail($request->id)->toArray() + ['role' => Admin::findOrFail($request->id)->roleName()],
         ]);
     }
 

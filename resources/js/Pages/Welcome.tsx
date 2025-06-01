@@ -9,7 +9,6 @@ import CharityCard from "@/Components/GeneralCardNews";
 
 
 export default function Welcome() {
-    
     return (
         <Guest>
             <Hero />

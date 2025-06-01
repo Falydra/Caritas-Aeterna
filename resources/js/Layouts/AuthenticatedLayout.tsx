@@ -51,6 +51,8 @@ export default function Authenticated({
     // Find the active menu item based on current path
     const activeMenuItem = menuItems.find(item => item.url === currentPath);
 
+    console.log("Current User Role:", auth.roles);
+
     return (
         <SidebarProvider>
             <AppSidebar onMenuItemClick={() => {}} />

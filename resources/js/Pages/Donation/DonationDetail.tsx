@@ -202,12 +202,10 @@ export default function DonationDetail() {
                                     </div>
                                 </div>
                                 <Button
-                                    className="w-full h-10 bg-primary-accent hover:bg-primary-accent/50"
+                                    className="w-full h-10 bg-primary-accent hover:bg-primary-accent/50 cursor-pointer"
                                     onClick={handleModalButtonClick}
                                 >
-                                    <h1 className="text-primary-fxg font-semibold">
-                                        Donasi Sekarang
-                                    </h1>
+                                    Donasi Sekarang
                                 </Button>
                             </div>
                         </div>
@@ -315,13 +313,15 @@ export default function DonationDetail() {
                                             />
                                         </Button>
                                     </div>
-                                    <div className="mt-auto flex flex-row items-center justify-between">
-                                        <Button className="hover:bg-primary-fg bg-primary-accent">
-                                            <a href="https://sites.google.com/view/termsandpolicy-donasipenggalan?usp=sharing">
-                                                Bantuan
-                                            </a>
+                                    <div className="mt-auto flex flex-col items-center justify-between gap-1">
+                                        <Button className="hover:bg-primary-fg bg-primary-accent w-full"
+                                        onClick={handleSubmit}
+                                        
+                                        >
+                                            Donasi
                                         </Button>
                                         <Button
+                                            className="hover:bg-primary-fg bg-primary-bg w-full"
                                             onClick={() =>
                                                 setPaymentModal(false)
                                             }

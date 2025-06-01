@@ -70,7 +70,7 @@ export function AppSidebar({
 
 
     console.log("Current Path:", currentPath);
-    console.log(auth.roles);
+    console.log("Current User Role:", auth.roles);
 
     return (
         <Sidebar {...props}>
@@ -91,7 +91,7 @@ export function AppSidebar({
                 </SidebarGroup>
                 <Link
                     href={route("welcome")}
-                    className="flex flex-row gap-2 items-center absolute bottom-0 justify-center px-4 w-full h-16 hover:bg-red-500 cursor-pointer bg-primary-bg"
+                    className="flex flex-row gap-2 items-center absolute bottom-0 justify-center px-4 w-full h-16 hover:bg-primary-accent cursor-pointer bg-primary-bg"
                 >
                     <FaHome className="w-5 h-5 text-primary-fg" />
                     <span className="text-primary-fg">Home</span>
