@@ -30,6 +30,7 @@ class UserSeeder extends Seeder {
             'gender' => GenderEnum::OTHER->value,
             'last_updated' => Carbon::now()
         ]);
+         
 
         $super_admin = SuperAdmin::create([
             'username' => 'super_admin',
