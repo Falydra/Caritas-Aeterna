@@ -13,7 +13,8 @@ import {
     SidebarMenuItem,
 } from "@/Components/ui/sidebar";
 import { Inertia } from "@inertiajs/inertia";
-import { Link } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
+import { Separator } from "@/Components/ui/separator";
 
 export function VersionSwitcher({
     versions,
@@ -25,14 +26,16 @@ export function VersionSwitcher({
     const [selectedVersion, setSelectedVersion] =
         React.useState(defaultVersion);
 
+    const {auth} = usePage().props;
+
     return (
         <SidebarMenu>
             <SidebarMenuItem>
-                <Link href={route("welcome")}>
+                <Link href={route("welcome")} >
                 
                     <SidebarMenuButton
                         size="lg"
-                        className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                        className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground px-4"
                         
                     >
                         
@@ -41,12 +44,13 @@ export function VersionSwitcher({
                         </div>
                         <div className="flex flex-col gap-0.5 leading-none">
                             <span className="font-semibold">
-                                Oriesy
+                                {auth.user?.username}
                             </span>
-                            <span className="">Yayasan Nurul Hidayah</span>
+                            <span className="">{auth.user?.email}</span>
                         </div>
                     
                     </SidebarMenuButton>
+                    
                 </Link>
             </SidebarMenuItem>
         </SidebarMenu>
