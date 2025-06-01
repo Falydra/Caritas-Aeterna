@@ -48,10 +48,13 @@ export default function Authenticated({
         menuItems = SuperAdminPage.mainPage.items;
     }
 
-    // Find the active menu item based on current path
-    const activeMenuItem = menuItems.find(item => item.url === currentPath);
+    
+    const activeMenuItem = menuItems
+    .filter(item => currentPath.startsWith(item.url))
+    .sort((a, b) => b.url.length - a.url.length)[0];
 
     console.log("Current User Role:", auth.roles);
+    console.log("Active Menu Item:", activeMenuItem);
 
     return (
         <SidebarProvider>
@@ -65,14 +68,14 @@ export default function Authenticated({
                             <Breadcrumb>
                                 <BreadcrumbList>
                                     <BreadcrumbItem className="hidden md:block">
-                                        <BreadcrumbLink href="#">
+                                        <BreadcrumbLink href={menuItems[0].url}>
                                             Dashboard
                                         </BreadcrumbLink>
                                     </BreadcrumbItem>
                                     <BreadcrumbSeparator className="hidden md:block" />
                                     <BreadcrumbItem>
                                         <BreadcrumbPage className="hover:text-primary-accent cursor-pointer">
-                                            {activeMenuItem ? activeMenuItem.title : "Dashboard"}
+                                            {activeMenuItem?.title}
                                         </BreadcrumbPage>
                                     </BreadcrumbItem>
                                 </BreadcrumbList>

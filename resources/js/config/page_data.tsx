@@ -10,7 +10,7 @@ export const DonorPage = {
         items: [
             {
                 title: "Books",
-                url: "/dashboard",
+                url: "/dashboard/donor",
                 isActive: false,
                 route: "dashboard",
             },

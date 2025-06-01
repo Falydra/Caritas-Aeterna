@@ -2,6 +2,7 @@ import { Input } from "@/Components/ui/input";
 import Authenticated from "@/Layouts/AuthenticatedLayout";
 import { User } from "@/types";
 import { usePage } from "@inertiajs/react";
+import { useForm } from "@inertiajs/react";
 
 interface editUserProps {
     user: User;
@@ -20,65 +21,58 @@ export default function EditUser() {
     const { user } = usePage<editUserProps>().props;
 
     console.log("Users", user)
+const { data, setData, patch, processing, errors } = useForm({
+        username: user.username || "",
+        email: user.email || "",
+        password: "",
+    });
+
+    function handleSubmit(e: React.FormEvent) {
+        e.preventDefault();
+        patch(route("super-admin.manage-users.update", { id: user.id }));
+    }
 
     return (
         <Authenticated>
-            <div className="flex w-full flex-col max-h-screen items-start justify-start px-8 py-4 bg-primary-bg gap-4">
+            <div className="flex w-full flex-col max-h-screen items-center justify-center p-8 bg-primary-bg gap-4">
                 <h1 className="text-2xl font-bold">Edit User</h1>
                 <p className="text-lg">Modify user details below.</p>
-                <form className="w-full max-w-md rounded-lg shadow-md flex flex-col gap-8">
+                <form onSubmit={handleSubmit} className="w-full max-w-md rounded-lg shadow-md flex flex-col gap-8">
                     <div>
-
-                        <label>
-                            Username
-                        </label>
-                        <p className="text-sm text-gray-500 mb-2">
-                            This will be used for login and display.
-                        </p>
+                        <label>Username</label>
                         <Input
-                        placeholder={user.username}
-                        >
-                        </Input>
-
+                            value={data.username}
+                            placeholder="Enter username"
+                            onChange={e => setData("username", e.target.value)}
+                            className="text-primary-fg focus:text-primary-fg"
+                        />
+                        {errors.username && <div className="text-red-500">{errors.username}</div>}
                     </div>
-
                     <div>
-                        <label>
-                            Email
-                        </label>
-                        <p className="text-sm text-gray-500 mb-2">
-                            This will be used for login and notifications.
-                        </p>
-
+                        <label>Email</label>
                         <Input
-                        placeholder={user.email}
-                        >
-
-                        </Input>
-
+                            value={data.email}
+                            onChange={e => setData("email", e.target.value)}
+                            className="text-primary-fg focus:text-primary-fg"
+                        />
+                        {errors.email && <div className="text-red-500">{errors.email}</div>}
                     </div>
-
-
                     <div>
-
-                        <label>
-                            Password
-                        </label>
-                        <p className="text-sm text-gray-500 mb-2">
-                            Leave blank to keep the current password.
-                        </p>
+                        <label>Password</label>
                         <Input
-                        
-                        placeholder="Enter new password"
-                        >
-
-                        </Input>
+                            type="password"
+                            value={data.password}
+                            onChange={e => setData("password", e.target.value)}
+                            placeholder="Enter new password"
+                            className="text-primary-fg focus:text-primary-fg"
+                        />
+                        {errors.password && <div className="text-red-500">{errors.password}</div>}
                     </div>
+                    <button type="submit" disabled={processing} className="bg-primary-accent text-white rounded px-4 py-2 mt-4">
+                        Update User
+                    </button>
                 </form>
-
-                
-                
             </div>
         </Authenticated>
-    )
+    );
 }

@@ -17,6 +17,7 @@ import {
 import { IoIosLogOut } from "react-icons/io";
 import { DonorPage, MenuItem, DoneePage, AdminPage, SuperAdminPage } from "@/config/page_data";
 import { FaHome } from "react-icons/fa";
+import { Separator } from "./ui/separator";
 
 export function AppSidebar({
     onMenuItemClick,
@@ -54,7 +55,7 @@ export function AppSidebar({
     .filter(item => currentPath.startsWith(item.url))
     .sort((a, b) => b.url.length - a.url.length)[0];
 
-    // Helper to render menu items for any role
+    
     const renderMenuItems = (items: MenuItem[]) =>
     items.map((menuItem: MenuItem) => (
         <SidebarMenuItem key={menuItem.title}>
@@ -79,6 +80,7 @@ export function AppSidebar({
                     versions={["1.0.1", "1.1.0-alpha", "2.0.0-beta1"]}
                     defaultVersion={"1.0.1"}
                 />
+                <Separator className=""/>
             </SidebarHeader>
             <SidebarContent>
                 <SidebarGroup>

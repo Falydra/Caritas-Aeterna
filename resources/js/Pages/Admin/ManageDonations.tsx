@@ -27,6 +27,7 @@ interface ManageDonationsProps {
 export default function ManageDonations() {
     const { donations } = usePage<ManageDonationsProps>().props;
     
+    
 
     
 
@@ -39,13 +40,13 @@ export default function ManageDonations() {
                     <div className='w-full max-h-[375px] overflow-y-auto rounded-md '>
                         <table className="w-full text-center border rounded-full">
                             <thead className='p-8 bg-primary-bg border border-primary-fg bg-opacity-35'>
-                                <tr className='p-8 bg-primary-accent/50  '>
+                                <tr className='p-8 bg-primary-accent/65  '>
                                     <th className='py-3 border-b border-primary-fg '>No</th>
                                     <th className='py-3 border-b border-primary-fg'>ID</th>
                                     <th className='py-3 border-b border-primary-fg'>Donation Title</th>
                                     <th className='py-3 border-b border-primary-fg'>Initiator Name</th>
-                                    <th className='py-3 border-b border-primary-fg'>Target Item</th>
-                                    <th className='py-3 border-b border-primary-fg'></th>
+                                    <th className='py-3 border-b border-primary-fg'>Donation Target</th>
+                                    <th className='py-3 border-b border-primary-fg'>Actions</th>
                                 </tr>
                             </thead>
                             <tbody className='text-center'>
@@ -55,6 +56,7 @@ export default function ManageDonations() {
                                         <td className='p-4 border-b'>{item.id}</td>
                                         <td className='p-4 border-b'>{item.title}</td>
                                         <td className='p-4 border-b'>{item.initiator.username}</td>
+                                        
                                         <td className='p-4 border-b'>{item.type_attributes.current_fund}</td>
                                         <td className='p-4 border-b '>
                                         <DropdownMenu>
@@ -68,7 +70,7 @@ export default function ManageDonations() {
                                                 <DropdownMenuLabel>Account</DropdownMenuLabel>
                                                     <DropdownMenuSeparator />
                                                     <DropdownMenuGroup>
-                                                    <Link  href={route("admin.manage-donations", {id: item.id})} className="flex justify-between w-full h-8 items-center bg-transparent hover:bg-primary-accent/65 rounded-md text-primary-bg px-2 font-semibold text-sm ">
+                                                    <Link  href={route("admin.manage-donations.edit", {id: item.id})} className="flex justify-between w-full h-8 items-center bg-transparent hover:bg-primary-accent/65 rounded-md text-primary-bg px-2 font-semibold text-sm ">
                                                         Edit
                                                     <FaRegEdit className="w-4 h-4 aspect-square " />
                                                     </Link>
@@ -89,23 +91,33 @@ export default function ManageDonations() {
                     </div>
                 </div>
                 <div className=" flex justify-between items-center sticky bottom-0 z-9 w-full">
-                    <Link
-                        href={route("super-admin.dashboard", { page: donations.prev_page_url ? donations.current_page - 1 : donations.current_page })}
-                        disabled={!donations.prev_page_url}
-                        className={`px-4 py-2 ${donations.prev_page_url ? 'bg-blue-500' : 'bg-primary-accent'} text-white rounded`}
-                    >
-                        Previous
-                    </Link>
+                     {donations.prev_page_url ? (
+                        <Link
+                            href={route("admin.manage-donations", { page: donations.current_page - 1 })}
+                            className="px-4 py-2 bg-blue-500 text-white rounded"
+                        >
+                            Previous
+                        </Link>
+                    ) : (
+                        <span className="px-4 py-2 bg-gray-300 text-white rounded cursor-not-allowed">
+                            Previous
+                        </span>
+                    )}
                     <span>
                         Halaman {donations.current_page} dari {donations.last_page}
                     </span>
-                    <Link
-                        href={route("super-admin.dashboard", { page: donations.next_page_url ? donations.current_page + 1 : donations.current_page })}
-                        disabled={!donations.next_page_url}
-                        className={`px-4 py-2 ${donations.next_page_url ? 'bg-blue-500' : 'bg-gray-300'} text-white rounded`}
-                    >
-                        Next
-                    </Link>
+                    {donations.next_page_url ? (
+                        <Link
+                            href={route("admin.manage-donations", { page: donations.current_page + 1 })}
+                            className="px-4 py-2 bg-blue-500 text-white rounded"
+                        >
+                            Next
+                        </Link>
+                    ) : (
+                        <span className="px-4 py-2 bg-gray-300 text-white rounded cursor-not-allowed">
+                            Next
+                        </span>
+                    )}
                 </div>
             </div>
         </Authenticated>

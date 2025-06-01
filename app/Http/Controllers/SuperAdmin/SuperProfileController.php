@@ -21,7 +21,7 @@ class SuperProfileController extends Controller
         ]);
     }
 
-    public function update(ProfileUpdateRequest $request)
+        public function update(ProfileUpdateRequest $request)
     {
         $superAdmin = SuperAdmin::findOrFail($request->user()->id);
         $superAdmin->fill($request->validated());
@@ -33,6 +33,5 @@ class SuperProfileController extends Controller
         $superAdmin->save();
 
         return redirect()->route('super-admin.profile')->with('success', 'Profile updated successfully.');
-    
     }
 }

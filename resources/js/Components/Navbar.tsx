@@ -24,7 +24,7 @@ export default function Navbar() {
             : auth.roles === "admin"
             ? "/dashboard/admin"
             : auth.roles === "donor"
-            ? "/dashboard"
+            ? "/dashboard/donor"
             : auth.roles === "donee"
             ? "/dashboard/donee"
             : "/";
