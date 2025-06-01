@@ -70,6 +70,7 @@ export function AppSidebar({
 
 
     console.log("Current Path:", currentPath);
+    console.log(auth.roles);
 
     return (
         <Sidebar {...props}>

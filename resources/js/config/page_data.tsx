@@ -120,12 +120,12 @@ export const SuperAdminPage = {
                 isActive: false,
                 route: "super-admin.dashboard",
             },
-            {
-                title: "Manage Donations",
-                url: "/dashboard/super-admin/manage-donations",
-                isActive: false,
-                route: "super-admin.manage-donations",
-            },
+            // {
+            //     title: "Manage Donations",
+            //     url: "/dashboard/super-admin/manage-donations",
+            //     isActive: false,
+            //     route: "super-admin.manage-donations",
+            // },
             {
                 title: "Manage Users",
                 url: "/dashboard/super-admin/manage-users",
