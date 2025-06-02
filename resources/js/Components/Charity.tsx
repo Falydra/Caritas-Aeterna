@@ -67,9 +67,9 @@ export default function Charity() {
                                 <h1 className="text-2xl font-bold text-primary-fg">
                                     Berita Terkini
                                 </h1>
-                                {/* <div className="w-full flex justify-center h-full"> */}
-                                    <CardWithForm />
-                                {/* </div> */}
+                               
+                                <CardWithForm/>
+                                
                             </motion.div>
                         )}
 
