@@ -61,5 +61,26 @@ class ManageDonationsController extends Controller
             ],
         ]);
     }
-    
+
+        public function update(Request $request, $id)
+    {
+        $donation = Donation::findOrFail($id);
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'header_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'text_description' => 'nullable|string',
+            'image_description' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'target_amount' => 'required|numeric',
+
+        ]);
+        $donation->title = $validated['title'];
+        $donation->text_descriptions = $validated['description'];
+        $donation->type_attributes = array_merge($donation->type_attributes ?? [], [
+            'target_amount' => $validated['target_amount'],
+        ]);
+        $donation->save();
+
+        return redirect()->route('admin.manage-donations.edit', ['id' => $donation->id])->with('success', 'Donation updated!');
+    }
+        
 }
