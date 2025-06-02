@@ -112,7 +112,7 @@ export default function BookCollection({
                                                 type="number"
                                                 name="amount"
                                                 id="amount"
-                                                className="max-w-6 bg-transparent border-b text-center appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none focus:outline-none focus:ring-0"
+                                                className="max-w-6 m-2 bg-transparent border-b border-primary-bg focus:border-primary-fg text-center appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none focus:outline-none focus:ring-0 transition-all duration-100"
                                                 value={data.amount}
                                             />
 

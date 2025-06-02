@@ -24,11 +24,12 @@ export type BookWithAmount = {
 };
 
 export type Facility = {
+    id: number | string;
     name: string;
     description: string;
     dimensions: string;
     material: string;
-    price: number;
+    price: number | string;
     amount: number;
     status: boolean;
 };
