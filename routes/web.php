@@ -36,11 +36,13 @@ Route::get('/', function () {
     $role = $user ? $user->roleName() : "";
 
     $donation = Donation::with('initiator:id,username')->get();
+    $bookDonation = Donation::where('type', 'App\\Models\\ProductDonation')->get();
     return Inertia::render('Welcome', [
         'auth' => [
             'user' => $user,
             'roles' => $role,
         ],
+        'bookDonation' => $bookDonation,
         'donation' => $donation,
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
