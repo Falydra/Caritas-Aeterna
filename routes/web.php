@@ -15,6 +15,7 @@ use App\Http\Controllers\SuperAdmin\SuperProfileController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\ManageDonationsController;
 use App\Http\Controllers\Admin\ManageUsersController;
+use App\Http\Controllers\BookController;
 use App\Http\Controllers\Donation\DonationController;
 use App\Http\Controllers\Donation\FundraiserController;
 use App\Http\Controllers\Donation\ProductDonationController;
@@ -83,12 +84,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Route::get('/dashboard/donor/donations/{donation}', [DonationDetailController::class, 'show'])->name('donor.donations.show');
     // Route::get('/dashboard/donor/profile', [ProfileController::class, 'index'])->name('donor.profile');
     // Route::patch('/dashboard/donor/profile', [ProfileController::class, 'update'])->name('donor.profile.update');
-   
-    
+
+
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
-   Route::get('/dashboard/admin', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('/dashboard/admin', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('/dashboard/admin/manage-donations', [ManageDonationsController::class, 'index'])->name('admin.manage-donations');
     Route::get('/dashboard/admin/manage-donations/edit', [ManageDonationsController::class, 'edit'])->name('admin.manage-donations.edit');
     Route::get('/dashboard/admin/manage-users', [ManageUsersController::class, 'index'])->name('admin.manage-users');
@@ -96,18 +97,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard/super-admin', [DashboardController::class, 'index'])->name('super-admin.dashboard');
-   
+
     Route::get('/dashboard/super-admin/manage-users', [ManageUserController::class, 'index'])->name('super-admin.manage-users');
     Route::get('/dashboard/super-admin/manage-users/edit', [ManageUserController::class, 'edit'])->name('super-admin.manage-users.edit');
     Route::patch('/dashboard/super-admin/manage-users/{id}', [ManageUserController::class, 'update'])->name('super-admin.manage-users.update');
     Route::get('/dashboard/super-admin/profile', [SuperProfileController::class, 'index'])->name('super-admin.profile');
     Route::patch('/dashboard/super-admin/profile', [SuperProfileController::class, 'update'])->name('super-admin.profile.update');
-    
 });
 
 
-Route::middleware(['auth','verified'])->group(function() {
-    Route::get('/dashboard/donee', [DoneeDashboardController ::class, 'index'])->name('donee.dashboard');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard/donee', [DoneeDashboardController::class, 'index'])->name('donee.dashboard');
     Route::get('/dashboard/donee/create-donation', [InitController::class, 'index'])->name('donee.init');
     Route::get('/dashboard/donee/donations', [DoneeDashboardController::class, 'donationIndex'])->name('donee.donations.index');
 });
@@ -123,7 +123,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/donations/payment/notifications/handling');
     Route::get('/donations/payment/finish', [PaymentController::class, 'finish'])->name('midtrans.finish');
     Route::post('/donations/payment/error', [PaymentController::class, 'error'])->name('midtrans.error');
-    
+
     // product donation handling
     Route::post('/donations/product/verify', [ProductDonationController::class, 'verify'])->name('product.verify');
     Route::post('/donations/product/finish', [ProductDonationController::class, 'finish'])->name('product.finish');
@@ -134,26 +134,25 @@ Route::get('/donations/product/latest', [ProductDonationController::class, 'late
 Route::get('/donations/{donation}', [DonationController::class, 'show'])->name('donations.show');
 Route::get('/donations/search', [DonationController::class, 'search'])->name('donations.search');
 
-// Route::get('/books', [BookController::class, 'index'])->name('books.index');
-// Route::middleware(['auth', 'verified'])->group(function () {
-    //     Route::get('books/create', [BookController::class, 'create'])->name('books.create');
-    //     Route::post('books', [BookController::class, 'store'])->name('books.store');
-    // });
-    
-    // donee application group
-    Route::middleware(['auth', 'verified'])->group(function () {
-        Route::post('/donee/apply', [DoneeApplicationController::class, 'create'])->name('doneeapplication.create');
-        Route::post('/donor/applications/update', [DoneeApplicationController::class, 'update'])->name('doneeapplication.update');
-    });
-    
-    Route::fallback(function () {
-        return Inertia::render('404');
-    })->name('fallback');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('books/create', [BookController::class, 'create'])->name('books.create');
+    Route::post('books', [BookController::class, 'store'])->name('books.store');
+});
 
-    Route::middleware('auth')->group(function () {
-        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    });
-    require __DIR__ . '/auth.php';
-    require __DIR__ . '/superadmin.php';
+// donee application group
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::post('/donee/apply', [DoneeApplicationController::class, 'create'])->name('doneeapplication.create');
+    Route::post('/donor/applications/update', [DoneeApplicationController::class, 'update'])->name('doneeapplication.update');
+});
+
+Route::fallback(function () {
+    return Inertia::render('404');
+})->name('fallback');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+require __DIR__ . '/auth.php';
+require __DIR__ . '/superadmin.php';
