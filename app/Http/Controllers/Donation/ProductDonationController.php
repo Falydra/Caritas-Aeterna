@@ -118,7 +118,6 @@ class ProductDonationController extends Controller {
             'data.products.facilities.*.amount' => "bail|required_with:data.products.facilities|integer|min:1|max:255"
         ]);
 
-        \Log::info("Donation Payload: ", [$request->all()]);
         DB::beginTransaction();
 
         try {
