@@ -4,8 +4,20 @@ import AddTextDescriptionButton from "./AddTextDescriptionButton";
 import AddImageDescriptionButton from "./AddImageDescriptionButton";
 import DynamicImageDescription from "./DynamicImageDescription";
 import { router, usePage } from "@inertiajs/react";
-import { PageProps, User } from "@/types";
-import { Select, SelectContent, SelectTrigger, SelectValue, SelectItem, SelectGroup, SelectLabel } from "@/Components/ui/select";
+import { PageProps, User, Book, BookWithAmount, Facility } from "@/types";
+import {
+    Select,
+    SelectContent,
+    SelectTrigger,
+    SelectValue,
+    SelectItem,
+    SelectGroup,
+    SelectLabel,
+} from "@/Components/ui/select";
+import SearchBook from "../Book/Search";
+import { Inertia } from "@inertiajs/inertia";
+import BookCollection from "../Book/Collection";
+import FacilityCollection from "../Facility/Collection";
 
 export default function CreateDonation() {
     // donation data
@@ -38,26 +50,75 @@ export default function CreateDonation() {
         product_amount: "",
     });
 
-    // handle type change
-    const handleTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setData({ ...data, type: e.target.value });
-        if (e.target.value === "fundraiser") {
-            setFundraiserAttr({
-                ...fundraiserAttr,
-                target_fund: "10000000",
-            });
-        } else {
-            setProductDonationAttr({
-                ...productDonationAttr,
-                product_amount: "10",
-            });
-        }
-    };
-
     // const [descriptions, setDescriptions] = useState([{ value: "" }]);
     const [descriptions, setDescriptions] = useState<
         { value: string | File }[]
     >([{ value: "" }]);
+
+    // books with amount
+    const [selectedBooks, setSelectedBooks] = useState<BookWithAmount[]>([]);
+
+    // facilities data
+    const [addedFacilities, setAddedFacilities] = useState<Facility[]>([]);
+
+    // update books data
+    const handleAddBook = (book: Book, amount = 1) => {
+        setSelectedBooks((prev) => {
+            const existing = prev.find((item) => item.book.isbn === book.isbn);
+
+            if (existing) {
+                const updatedAmount = existing.amount + amount;
+
+                if (updatedAmount === 0) {
+                    return prev.filter((item) => item.book.isbn !== book.isbn);
+                }
+
+                return prev.map((item) =>
+                    item.book.isbn === book.isbn
+                        ? { ...item, amount: item.amount + amount }
+                        : item
+                );
+            }
+            return [...prev, { book, amount }];
+        });
+    };
+
+    const handleDeleteBook = (book: Book) => {
+        setSelectedBooks((prev) => {
+            return prev.filter((item) => item.book.isbn !== book.isbn);
+        });
+    };
+
+    // update facility data
+    const handleAddFacility = (updatedFacility: Facility) => {
+        setAddedFacilities((prev) => {
+            const exists = prev.some(
+                (facility) => facility.id === updatedFacility.id
+            );
+
+            if (exists) {
+                if (updatedFacility.amount === 0) {
+                    return prev.filter(
+                        (item) => item.id !== updatedFacility.id
+                    );
+                }
+
+                return prev.map((facility) =>
+                    facility.id === updatedFacility.id
+                        ? updatedFacility
+                        : facility
+                );
+            } else {
+                return [...prev, updatedFacility];
+            }
+        });
+    };
+
+    const handleDeleteFacility = (facility: Facility) => {
+        setAddedFacilities((prev) => {
+            return prev.filter((item) => item.id !== facility.id);
+        });
+    };
 
     // update text description field
     const handleTextDescriptionChange = (
@@ -131,18 +192,72 @@ export default function CreateDonation() {
             }
         });
 
+        var product_fund = 0;
+
+        // append books
+        selectedBooks.forEach((bookItem, index) => {
+            payload.append(
+                `data[products][books][${index}][isbn]`,
+                bookItem.book.isbn
+            );
+            payload.append(
+                `data[products][books][${index}][amount]`,
+                String(bookItem.amount)
+            );
+            product_fund += bookItem.book.price;
+        });
+
+        // append facility
+        addedFacilities.forEach((facility, index) => {
+            payload.append(
+                `products[facilities][${index}][name]`,
+                facility.name
+            );
+            payload.append(
+                `products[facilities][${index}][description]`,
+                facility.description
+            );
+            payload.append(
+                `products[facilities][${index}][dimension]`,
+                facility.dimensions
+            );
+            payload.append(
+                `products[facilities][${index}][material]`,
+                facility.material
+            );
+            payload.append(
+                `products[facilities][${index}][price]`,
+                String(facility.price)
+            );
+            payload.append(
+                `products[facilities][${index}][amount]`,
+                String(facility.amount)
+            );
+            product_fund += Number(facility.price);
+        });
+
         // append type attributes
         if (data.type === "fundraiser") {
             payload.append(
                 "data[type_attributes][target_fund]",
                 fundraiserAttr.target_fund.toString()
             );
+            payload.append(
+                "data[type_attributes][product_amount]",
+                "0"
+            );
         } else {
+            payload.append(
+                "data[type_attributes][target_fund]",
+                product_fund.toString()
+            );
             payload.append(
                 "data[type_attributes][product_amount]",
                 productDonationAttr.product_amount.toString()
             );
         }
+
+        var donationStoreUrl = "/donations";
 
         await router.post(donationStoreUrl, payload, {
             onSuccess: () => {
@@ -154,14 +269,18 @@ export default function CreateDonation() {
         });
     };
 
+    console.log("donation url", donationStoreUrl)
     return (
         <div className=" w-full min-h-screen flex flex-col p-4 gap-4">
             <h2 className="text-primary-fg text-2xl font-bold self-start">
                 Buat Donasi Baru
             </h2>
 
-            <div className="flex flex-col w-full gap-8 bg-transparent ">
-                <label htmlFor="type" className="flex flex-col text-primary-fg bg-transparent ">
+            <div className="flex flex-col w-full gap-4 bg-transparent ">
+                <label
+                    htmlFor="type"
+                    className="flex flex-col text-primary-fg bg-transparent "
+                >
                     Jenis Donasi
                     {/* <select
                         name="type"
@@ -176,26 +295,94 @@ export default function CreateDonation() {
                     </select> */}
                     <Select
                         name="type"
-                        onValueChange={() => {handleTypeChange}}
-                        
+                        onValueChange={(value) => {
+                            setData({ ...data, type: value });
+                        }}
                     >
-                    <SelectTrigger className="w-full border border-primary-fg/50 focus:border-primary-fg text-primary-fg">
-                        <SelectValue className="text-md text-primary-fg" placeholder="--- Pilih Jenis Donasi ---" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectGroup>
-                        <SelectLabel>--- Pilih Jenis Donasi ---</SelectLabel>
-                        <SelectItem value="fundraiser" className="cursor-pointer ">Fundraiser</SelectItem>
-                        <SelectItem value="product_donation" className="cursor-pointer ">Donasi Produk</SelectItem>
-                        </SelectGroup>
-                    </SelectContent>
+                        <SelectTrigger className="w-full border border-primary-fg/50 focus:border-primary-fg text-primary-fg">
+                            <SelectValue
+                                className="text-md text-primary-fg"
+                                placeholder="--- Pilih Jenis Donasi ---"
+                            />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectGroup>
+                                <SelectLabel>
+                                    --- Pilih Jenis Donasi ---
+                                </SelectLabel>
+                                <SelectItem
+                                    value="fundraiser"
+                                    className="cursor-pointer "
+                                >
+                                    Fundraiser
+                                </SelectItem>
+                                <SelectItem
+                                    value="product_donation"
+                                    className="cursor-pointer "
+                                >
+                                    Donasi Produk
+                                </SelectItem>
+                            </SelectGroup>
+                        </SelectContent>
                     </Select>
-
-                        
                     <span className="text-primary-fg text-opacity-55 text-sm py-2">
                         Pilih jenis donasi yang ingin dibuat
                     </span>
                 </label>
+
+                {data.type && data.type === "fundraiser" && (
+                    <label htmlFor="target_fund" className="flex flex-col">
+                        Jumlah Donasi
+                        <input
+                            className="capitalize py-2 px-3 outline-none text-sm text-primary-fg text-opacity-75 bg-transparent border border-primary-fg/50 focus:border-primary-fg rounded-md  cursor-text"
+                            type="number"
+                            name="target_fund"
+                            id="target_fund"
+                            placeholder="berupa angka"
+                            onChange={(e) =>
+                                setFundraiserAttr({
+                                    ...fundraiserAttr,
+                                    target_fund: e.target.value,
+                                })
+                            }
+                        />
+                        <span className="text-primary-fg text-opacity-55 text-sm py-2">
+                            Jumlah donasi yang diusulkan
+                        </span>
+                    </label>
+                )}
+
+                {data.type === "product_donation" && (
+                    <div className="flex flex-col gap-4">
+                        <div className="flex flex-col">
+                            Tambahkan Buku
+                            <div className="flex flex-row gap-4">
+                                <BookCollection
+                                    className="w-2/3"
+                                    selectedBooks={selectedBooks}
+                                    onChangeAmount={handleAddBook}
+                                    onDeleteBook={handleDeleteBook}
+                                />
+                                <SearchBook
+                                    className="w-1/3"
+                                    onAddbook={handleAddBook}
+                                />
+                            </div>
+                        </div>
+                        <div className="flex flex-col">
+                            Tambahkan Barang
+                            <div className="flex flex-row gap-4">
+                                <FacilityCollection
+                                    className="w-full"
+                                    addedFacilities={addedFacilities}
+                                    onAddFacility={handleAddFacility}
+                                    onDeleteFacility={handleDeleteFacility}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                )}
+
                 <label htmlFor="title" className="flex flex-col">
                     Judul
                     <input

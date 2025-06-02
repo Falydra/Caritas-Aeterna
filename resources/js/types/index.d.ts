@@ -1,4 +1,3 @@
-
 export type User = {
     id?: number;
     username?: string;
@@ -6,7 +5,7 @@ export type User = {
     role: stirng;
 
     email_verified_at?: string;
-}
+};
 
 //Fixed Book
 export type Book = {
@@ -15,18 +14,25 @@ export type Book = {
     authors: string[];
     published_year: string;
     synopsis: string;
+    cover_image: string;
     price: number;
-}
+};
+
+export type BookWithAmount = {
+    book: Book;
+    amount: number;
+};
 
 export type Facility = {
+    id: number | string;
     name: string;
     description: string;
     dimensions: string;
     material: string;
-    price: number;
+    price: number | string;
     amount: number;
     status: boolean;
-}
+};
 
 export type PageProps<
     T extends Record<string, unknown> = Record<string, unknown>
@@ -36,7 +42,6 @@ export type PageProps<
         roles?: string;
         // roles?: UserRoles;
     };
-
 };
 
 export interface AddToCartProps {
@@ -72,12 +77,12 @@ export type Fund = {
     amount: number;
     // user_id: User.id;
     // transfer_date: string;
-}
+};
 
 export type Donor = {
     id: number;
     username: string;
-}
+};
 
 export type Fundraiser = {
     user: user;
@@ -97,7 +102,7 @@ export type Fundraiser = {
     status: string;
     created_at: string;
     donor_donations: DonorDonations[];
-}
+};
 
 export type DonorDonation = {
     id: number;
@@ -105,13 +110,12 @@ export type DonorDonation = {
     verified_at: string;
     donor: Donor[];
     funds: Fund[];
-}
+};
 
 export type Initiator = {
-    id:number;
-    username : string;
-
-}
+    id: number;
+    username: string;
+};
 
 export type Donation = {
     initiator_id: User;
@@ -149,30 +153,27 @@ export type InitiatorBookDonation = {
     donationLimit?: number;
     donation_title?: string;
     book_type: string;
-}
+};
 
 export type NominalDonation = {
     id: number;
     nominal: number;
 };
 
-
 export type Roles = {
     id: number;
     name: string;
-}
+};
 
 export type UserRoles = {
     id: number;
     user: User;
     role: Roles;
-}
-
+};
 
 export type News = {
     id: number;
     title: string;
     description: string;
     image: string;
-}
-
+};
