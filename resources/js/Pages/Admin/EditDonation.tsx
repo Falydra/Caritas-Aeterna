@@ -1,86 +1,91 @@
+import { useForm, usePage } from "@inertiajs/react";
 import Authenticated from "@/Layouts/AuthenticatedLayout";
 import { Donation, User } from "@/types";
-import { usePage } from "@inertiajs/react";
 
 interface EditDonationProps {
     donation: Donation;
-    auth: {
-        user: User;
-        roles: string;
-    };
+    auth: { user: User; roles: string };
     [key: string]: any;
 }
 
 export default function EditDonation() {
     const { donation } = usePage<EditDonationProps>().props;
+    const { data, setData, patch, processing, errors } = useForm({
+        title: donation.title || "",
+        header_image: donation.header_image || "",
+        text_description: Array.isArray(donation.text_descriptions)
+        ? donation.text_descriptions.join("\n")
+        : typeof donation.text_descriptions === "object"
+            ? Object.values(donation.text_descriptions).join("\n")
+            : donation.text_descriptions || "",
+        image_description: donation.image_descriptions || "",
+        target_amount: donation.type_attributes?.target_amount || "",
 
-    console.log("Editing Donation:", donation);
-    
+
+    });
+
+    function handleSubmit(e: React.FormEvent) {
+        e.preventDefault();
+        patch(route("admin.manage-donations.update", { id: donation.id }));
+    }
+
     return (
         <Authenticated>
-            <div className="text-primary-fg p-8 w-full h-full items-start flex flex-col justify-start gap-2">
-                <h1 className="text-2xl font-bold">Edit Donation</h1>
-                <p className="text-sm text-primary-fg/50">
-                    This page allows you to edit the details of a donation.
-                </p>
+             <div className="flex w-full flex-col max-h-screen items-center justify-center p-8 bg-primary-bg gap-4">
+                <h1 className="text-2xl font-bold">Edit User</h1>
+                <p className="text-lg">Modify user details below.</p>
+                <form onSubmit={handleSubmit} className="w-full max-w-md rounded-lg shadow-md flex flex-col gap-8">
+                    <div>
+                        <label>Title</label>
+                        <input
+                            type="text"
+                            value={data.title}
+                            onChange={e => setData("title", e.target.value)}
+                            className="w-full p-2 border bg-transparent rounded-md mb-2"
+                            placeholder="Donation Title"
+                        />
+                        {errors.title && <div className="text-red-500">{errors.title}</div>}
+                    </div>
+                    <div>
+                        <label>Header Image URL</label>
+                        <input
+                            type="text"
+                            value={data.header_image}
+                            onChange={e => setData("header_image", e.target.value)}
+                            className="w-full p-2 border bg-transparent rounded-md mb-2"
+                            placeholder="Header Image URL"
+                        />
+                        {errors.header_image && <div className="text-red-500">{errors.header_image}</div>}
+                    </div>
+                    <div>
+                        <label>Description</label>
+                        <textarea
+                            value={data.text_description}
+                            onChange={e => setData("text_description", e.target.value)}
+                            className="w-full p-2 border bg-transparent rounded-md mb-2"
+                            placeholder="Donation Description"
+                        />
+                        {errors.text_description && <div className="text-red-500">{errors.text_description}</div>}
+                    </div>
 
-                <div className="w-full max-w-2xl bg-primary-bg rounded-lg shadow-md">
-                    <form>
-                        <div className="mb-4">
-                            <label className="block text-sm font-medium text-primary-fg mb-2" htmlFor="title">
-                                Donation Title
-                            </label>
-                            <input
-                                type="text"
-                                id="title"
-                                placeholder={donation.title}
-                                className="w-full p-2 border border-primary-fg rounded-md bg-primary-bg text-primary-fg"
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label className="block text-sm font-medium text-primary-fg mb-2" htmlFor="title">
-                                Header Image
-                            </label>
-                           
-                            <input
-                                type="file"
-                                id="headerImage"
-                                accept="image/*"
-                                className="w-full p-2 border border-primary-fg rounded-md bg-primary-bg text-primary-fg"
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label className="block text-sm font-medium text-primary-fg mb-2" htmlFor="description">
-                                Description
-                            </label>
-                            <textarea
-                                id="description"
-                                placeholder={donation.text_descriptions || ""}
-                                className="w-full p-2 border border-primary-fg rounded-md bg-primary-bg text-primary-fg"
-                            />
-                            
-                        </div>
-                        <div className="mb-4">
-                            <label className="block text-sm font-medium text-primary-fg mb-2" htmlFor="targetAmount">
-                                Target Amount
-                            </label>
-                            <input
-                                type="number"
-                                id="targetAmount"
-                                defaultValue={donation.type_attributes.target_amount}
-                                className="w-full p-2 border border-primary-fg rounded-md bg-primary-bg text-primary-fg"
-                            />
-                        </div>
-                        <button
-                            type="submit"
-                            className="px-4 py-2 bg-primary-accent text-white rounded-md hover:bg-opacity-80 transition-colors"
-                        >
-                            Save Changes
-                        </button>
-                    </form>
-
-                </div>
+                    <div>
+                        <label>Target Amount</label>
+                        <input
+                            type="number"
+                            value={data.target_amount}
+                            onChange={e => setData("target_amount", e.target.value)}
+                            className="w-full p-2 border bg-transparent rounded-md mb-2"
+                            placeholder="Target Amount"
+                        />
+                        {errors.target_amount && <div className="text-red-500">{errors.target_amount}</div>}
+                    </div>
+                    {/* Add more fields as necessary */}
+                    <button type="submit" disabled={processing} className="px-4 py-2 bg-primary-accent text-white rounded-md">
+                        Save Changes
+                    </button>   
+                   
+                </form>
             </div>
         </Authenticated>
-    )
+    );
 }
