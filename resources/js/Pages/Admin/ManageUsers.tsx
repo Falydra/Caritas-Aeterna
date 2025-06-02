@@ -78,7 +78,7 @@ export default function ManageUsers() {
                                                 <DropdownMenuLabel>Quick Actions</DropdownMenuLabel>
                                                     <DropdownMenuSeparator />
                                                     <DropdownMenuGroup>
-                                                    <Link  href={route("super-admin.manage-users.edit", {id: item.id})} className="flex justify-between w-full h-8 items-center bg-transparent hover:bg-primary-accent/65 rounded-md text-primary-bg px-2 font-semibold text-sm ">
+                                                    <Link  href={route("admin.manage-users.edit", {id: item.id})} className="flex justify-between w-full h-8 items-center bg-transparent hover:bg-primary-accent/65 rounded-md text-primary-bg px-2 font-semibold text-sm ">
                                                         Edit
                                                     <FaRegEdit className="w-4 h-4 aspect-square " />
                                                     </Link>

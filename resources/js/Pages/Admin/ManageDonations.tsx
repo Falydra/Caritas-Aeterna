@@ -26,6 +26,8 @@ interface ManageDonationsProps {
 
 export default function ManageDonations() {
     const { donations } = usePage<ManageDonationsProps>().props;
+
+    console.log(donations);
     
     
 
@@ -57,7 +59,13 @@ export default function ManageDonations() {
                                         <td className='p-4 border-b'>{item.title}</td>
                                         <td className='p-4 border-b'>{item.initiator.username}</td>
                                         
-                                        <td className='p-4 border-b'>{item.type_attributes.current_fund}</td>
+                                        <td className='p-4 border-b'>
+                                        {item.type === "App\\Models\\ProductDonation"
+                                            ? item.type_attributes.product_amount
+                                            : item.type === "App\\Models\\Fundraiser"
+                                            ? item.type_attributes.target_fund
+                                            : "-"}
+                                        </td>
                                         <td className='p-4 border-b '>
                                         <DropdownMenu>
                                             <DropdownMenuTrigger asChild className="w-full h-full">

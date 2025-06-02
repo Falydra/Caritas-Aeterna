@@ -19,12 +19,28 @@ import { progressCompleted, totalDays, totalDonation, donationLimit, totalDonati
 import { Input } from "./ui/input";
 import { IoDocumentTextOutline } from "react-icons/io5";
 import nominal_donasi from "@/config/nominal_donasi";
+import { Donation, User } from "@/types";
+
+
+
+interface DonationDetailPageProsps extends Donation {
+    bookDonation: Donation[];
+    auth: {
+        user: User;
+        roles: string;
+    };
+    [key: string]: any;
+}
+
+
 
 export function BookCharityCard() {
   const { auth } = usePage().props;
+  const {bookDonation} = usePage<DonationDetailPageProsps>().props;
   const [isModalEnableCharity, setIsModalEnableCharity] = useState(false);
   const [isDetail, setIsDetail] = useState(false);
   const [donationAmount, setDonationAmount] = useState("");
+
 
   const handleIsEnableDonasi = () => {
     setIsModalEnableCharity(true);
@@ -36,6 +52,9 @@ export function BookCharityCard() {
 
   return (
     <>
+    {bookDonation.map((donation, index) => (
+      index < 1 && (
+
       <Card className="w-9/12 flex flex-col h-full">
         <div className="flex flex-row w-full h-full ">
           <div className="w-6/12 h-full justify-between items-start flex flex-col cursor-pointer hover:text-primary-bg hover:rounded-l-xl">
@@ -71,13 +90,24 @@ export function BookCharityCard() {
                   </h2>
                 </div>
               </div>
-              <Button className="w-full h-[50px] hover:bg-primary-fg bg-primary-accent" onClick={handleIsEnableDonasi}>Donasi</Button>
+              <Link
+                  className="w-full flex h-[50px] hover:bg-primary-bg bg-primary-accent items-center justify-center rounded-md"
+                  
+                  href={route("donations.show", {id: donation.id})}
+                  
+              >
+                  <h3 className=" text-md font-semibold text-primary-fg text-center items-center justify-center">
+                      Detail
+                  </h3>
+              </Link>
             </CardFooter>
           </div>
           <div className="w-9/12 h-full items-center justify-center flex flex-col bg-cover bg-center rounded-r-xl bg-[url(/images/Perpus.jpeg)]">
           </div>
         </div>
       </Card>
+      )
+    ))}
       {isModalEnableCharity && (
         <div className="fixed z-50 inset-0 bg-black bg-opacity-50 flex text-primary-bg items-center justify-center">
           <div className="bg-white w-1/3 h-5/6 rounded-xl flex flex-col">
@@ -129,7 +159,7 @@ export function BookCharityCard() {
                         </div>
                         <div className="w-full flex-col items-start justify-center flex">
                           <h1 className="text-lg font-bold">{initiator.donation_title}</h1>
-                          <h1 className="text-sm font-semibold">{initiator.user.name}</h1>
+                          <h1 className="text-sm font-semibold">{initiator.user.username}</h1>
                           <p className="text-xs text-muted-foreground">{initiator.organization}</p>
 
 

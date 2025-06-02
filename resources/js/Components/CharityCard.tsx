@@ -42,12 +42,7 @@ export function CardWithForm() {
     const { donation } = usePage<DonationDetailPageProsps>().props;
  
 
-    const handleDetail = (id: number) => {
-    Inertia.get(route("donations.show",  {
-        
-        id: id
-    }))
-    };
+    
     
        
 

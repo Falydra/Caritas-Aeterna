@@ -15,7 +15,7 @@ use App\Http\Controllers\SuperAdmin\SuperProfileController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\ManageDonationsController;
 use App\Http\Controllers\Admin\ManageUsersController;
-use App\Http\Controllers\BookController;
+use App\Http\Controllers\Admin\AdminProfileController;
 use App\Http\Controllers\Donation\DonationController;
 use App\Http\Controllers\Donation\FundraiserController;
 use App\Http\Controllers\Donation\ProductDonationController;
@@ -36,11 +36,13 @@ Route::get('/', function () {
     $role = $user ? $user->roleName() : "";
 
     $donation = Donation::with('initiator:id,username')->get();
+    $bookDonation = Donation::where('type', 'App\\Models\\ProductDonation')->get();
     return Inertia::render('Welcome', [
         'auth' => [
             'user' => $user,
             'roles' => $role,
         ],
+        'bookDonation' => $bookDonation,
         'donation' => $donation,
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
@@ -92,7 +94,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard/admin', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('/dashboard/admin/manage-donations', [ManageDonationsController::class, 'index'])->name('admin.manage-donations');
     Route::get('/dashboard/admin/manage-donations/edit', [ManageDonationsController::class, 'edit'])->name('admin.manage-donations.edit');
+
+    Route::patch('/dashboard/admin/manage-donations/{id}', [ManageDonationsController::class, 'update'])->name('admin.manage-donations.update');
+    Route::patch('/dashboard/admin/manage-users/{id}', [ManageUsersController::class, 'update'])->name('admin.manage-users.update');
     Route::get('/dashboard/admin/manage-users', [ManageUsersController::class, 'index'])->name('admin.manage-users');
+    Route::get('/dashboard/admin/manage-users/edit', [ManageUsersController::class, 'edit'])->name('admin.manage-users.edit');
+    Route::patch('/dashboard/admin/profile', [AdminProfileController::class, 'updateProfile'])->name('admin.profile.update');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
