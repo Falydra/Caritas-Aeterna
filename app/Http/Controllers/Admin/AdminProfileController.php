@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 
 use Inertia\Inertia;
 use App\Models\Admin;
@@ -18,10 +18,14 @@ class AdminProfileController extends Controller
         $user = User::where('type', 'App\\Models\\Admin')->first();
         return Inertia::render('Admin/Profile', [
             'user' => $user->toArray() + ['role' => $user->roleName()],
+            'auth' => [
+                'user' => Auth::user(),
+                'roles' => Auth::user()->roleName(),
+            ],
         ]);
     }
 
-        public function update(ProfileUpdateRequest $request)
+    public function update(ProfileUpdateRequest $request)
     {
         $Admin = Admin::findOrFail($request->user()->id);
         $Admin->fill($request->validated());
