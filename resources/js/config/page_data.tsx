@@ -40,9 +40,9 @@ export const DonorPage = {
             },
             {
                 title: "Profile",
-                url: "/profile",
+                url: "/dashboard/donor/profile",
                 isActive: false,
-                route: "profile",
+                route: "donor.profile",
             },
         ] as MenuItem[],
     },
@@ -72,9 +72,9 @@ export const DoneePage = {
 
             {
                 title: "Profile",
-                url: "/profile",
+                url: "/dashboard/donee/profile",
                 isActive: false,
-                route: "profile",
+                route: "donee.profile",
             },
         ] as MenuItem[],
     },
@@ -103,9 +103,9 @@ export const AdminPage = {
             },
             {
                 title: "Profile",
-                url: "/profile",
+                url: "/dashboard/admin/profile",
                 isActive: false,
-                route: "profile",
+                route: "admin.profile",
             },
         ] as MenuItem[],
     },
