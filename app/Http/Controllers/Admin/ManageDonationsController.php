@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 
 class ManageDonationsController extends Controller
 {
-   
+
     public function index()
     {
         $donations = Donation::with('initiator:id,username')
@@ -67,7 +67,7 @@ class ManageDonationsController extends Controller
         $donation = Donation::findOrFail($id);
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'header_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'header_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'text_description' => 'nullable|string',
             'image_description' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'target_amount' => 'required|numeric',
@@ -82,5 +82,5 @@ class ManageDonationsController extends Controller
 
         return redirect()->route('admin.manage-donations.edit', ['id' => $donation->id])->with('success', 'Donation updated!');
     }
-        
+
 }

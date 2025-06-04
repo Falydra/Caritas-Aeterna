@@ -45,6 +45,10 @@ function combineDescriptionSorted(
     return combined;
 }
 
+function formatPrice(value: number): string {
+    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
 export default function DonationDetail() {
     const { donation, auth } = usePage<DonationDetailPageProsps>().props;
     const [paymentModal, setPaymentModal] = useState(false);
@@ -58,7 +62,7 @@ export default function DonationDetail() {
         donation.image_descriptions
     );
 
-    const type = donation.type.split('\\').at(-1);
+    const type = donation.type.split("\\").at(-1);
 
     console.log(donation);
 
@@ -102,11 +106,15 @@ export default function DonationDetail() {
         <Guest>
             <div className="w-full flex flex-col flex-grow gap-4 items-start px-8 pt-12 pb-8 justify-start bg-primary-bg">
                 {type == "Fundraiser" ? (
-                    <h1 className="text-2xl font-bold">Rincian Penggalangan Dana</h1>
+                    <h1 className="text-2xl font-bold">
+                        Rincian Penggalangan Dana
+                    </h1>
                 ) : (
-                    <h1 className="text-2xl font-bold">Rincian Donasi Produk</h1>
+                    <h1 className="text-2xl font-bold">
+                        Rincian Donasi Produk
+                    </h1>
                 )}
-               
+
                 <div className="flex flex-row gap-6 w-full h-full justify-start items-start">
                     <div className="flex flex-col gap-4 w-9/12 h-full justify-start items-start">
                         <div className="w-full h-96 aspect-square bg-gray-300 rounded-lg">
@@ -117,16 +125,17 @@ export default function DonationDetail() {
                             />
                         </div>
                         <div className="w-full h-[100px] flex flex-row items-start justify-start space-x-2">
-                            {descriptions.map((item, index) => (
-                                item.type === "image" && (
-                                    <img
-                                        key={index}
-                                        src={item.value}
-                                        className="h-full object-cover rounded-lg"
-                                        alt={`Description ${index}`}
-                                    />
-                                )
-                            ))}
+                            {descriptions.map(
+                                (item, index) =>
+                                    item.type === "image" && (
+                                        <img
+                                            key={index}
+                                            src={item.value}
+                                            className="h-full object-cover rounded-lg"
+                                            alt={`Description ${index}`}
+                                        />
+                                    )
+                            )}
                         </div>
                         <h1 className="text-primary-fg w-full text-3xl font-semibold ">
                             {donation.title}
@@ -141,7 +150,7 @@ export default function DonationDetail() {
                                 {donation.initiator.username}
                             </h3>
                         </div>
-                      
+
                         {descriptions.map((item, index) => (
                             <div key={index} className="w-full flex flex-col">
                                 {item.type === "text" && (
@@ -169,8 +178,24 @@ export default function DonationDetail() {
                                 Terkumpul
                             </h1>
                             <h2 className="font-thin text-sm text-center text-primary-accent ">
-                                Rp {donation.type_attributes.current_fund} /{" "}
-                                {donation.type_attributes.target_fund}
+                                {/* Rp {donation.type_attributes.current_fund} /{" "}
+                                {donation.type_attributes.target_fund} */}
+                                {donation.type ===
+                                "App\\Models\\ProductDonation"
+                                    ? donation.type_attributes
+                                          .fulfilled_product_amount
+                                    : donation.type ===
+                                      "App\\Models\\Fundraiser"
+                                    ? ("Rp "+formatPrice(donation.type_attributes.current_fund))
+                                    : "-"}{" "}
+                                /{" "}
+                                {donation.type ===
+                                "App\\Models\\ProductDonation"
+                                    ? (donation.type_attributes.product_amount + " Produk")
+                                    : donation.type ===
+                                      "App\\Models\\Fundraiser"
+                                    ? ("Rp "+formatPrice(donation.type_attributes.target_fund))
+                                    : "-"}
                             </h2>
                             <div className="flex flex-row w-full py-4 items-center rounded-md hover:bg-primary-accent/50 h-1/6 border-b border-primary-fg/15 cursor-pointer">
                                 <CardTitle>Donasi</CardTitle>
@@ -179,31 +204,38 @@ export default function DonationDetail() {
                                 </div>
                             </div>
                             <div className="w-full flex flex-col h-full items-start justify-start gap-y-8 ">
-                               <div className="flex flex-col h-3/6 gap-y-4 w-full justify-between">
+                                <div className="flex flex-col h-3/6 gap-y-4 w-full justify-between">
                                     <div className="w-full flex flex-col py-4 gap-4 shadow-sm rounded-md shadow-primary-fg h-full overflow-y-auto">
                                         <div className="w-full flex flex-col gap-4">
-                                            {[1, 2, 3, 4, 5, 6, 7, 8].map((_, idx) => (
-                                                <div
-                                                    key={idx}
-                                                    className="w-full h-[55px] py-2 hover:bg-primary-accent flex rounded-md cursor-pointer items-center flex-row gap-4 justify-start px-2"
-                                                >
-                                                    <div className="w-10 h-10 flex items-center aspect-square justify-center rounded-full bg-primary-fg cursor-pointer text-primary-fg"></div>
-                                                    <div className="w-full flex-col items-start justify-center flex ">
-                                                        <h1 className="text-md font-semibold">
-                                                            {donation.initiator.username}
-                                                        </h1>
-                                                        <h3 className="text-sm text-muted-foreground">
-                                                            Rp 10.000
-                                                        </h3>
+                                            {[1, 2, 3, 4, 5, 6, 7, 8].map(
+                                                (_, idx) => (
+                                                    <div
+                                                        key={idx}
+                                                        className="w-full h-[55px] py-2 hover:bg-primary-accent flex rounded-md cursor-pointer items-center flex-row gap-4 justify-start px-2"
+                                                    >
+                                                        <div className="w-10 h-10 flex items-center aspect-square justify-center rounded-full bg-primary-fg cursor-pointer text-primary-fg"></div>
+                                                        <div className="w-full flex-col items-start justify-center flex ">
+                                                            <h1 className="text-md font-semibold">
+                                                                {
+                                                                    donation
+                                                                        .initiator
+                                                                        .username
+                                                                }
+                                                            </h1>
+                                                            <h3 className="text-sm text-muted-foreground">
+                                                                Rp 10.000
+                                                            </h3>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            ))}
+                                                )
+                                            )}
                                         </div>
                                     </div>
                                 </div>
                                 <Button
-                                    className="w-full h-10 bg-primary-accent hover:bg-primary-accent/50 cursor-pointer"
+                                    className="w-full h-10 disabled:bg-primary-fg/50 select-none bg-primary-accent hover:bg-primary-accent/50 cursor-pointer"
                                     onClick={handleModalButtonClick}
+                                    disabled={donation.status === "finished"}
                                 >
                                     Donasi Sekarang
                                 </Button>
@@ -211,7 +243,7 @@ export default function DonationDetail() {
                         </div>
                     </div>
                 </div>
-               
+
                 {/* <CharityNews isMore={true} /> */}
                 {paymentModal && (
                     <div className="fixed z-50 inset-0 bg-black bg-opacity-50 flex text-primary-bg items-center justify-center">
@@ -314,9 +346,9 @@ export default function DonationDetail() {
                                         </Button>
                                     </div>
                                     <div className="mt-auto flex flex-col items-center justify-between gap-1">
-                                        <Button className="hover:bg-primary-fg bg-primary-accent w-full"
-                                        onClick={handleSubmit}
-                                        
+                                        <Button
+                                            className="hover:bg-primary-fg bg-primary-accent w-full"
+                                            onClick={handleSubmit}
                                         >
                                             Donasi
                                         </Button>

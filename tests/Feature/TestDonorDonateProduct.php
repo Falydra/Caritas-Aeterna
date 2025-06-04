@@ -39,11 +39,11 @@ class TestDonorDonateProduct extends TestCase {
         ];
 
         $response = $this->postJson(
-            'donations/donate',
+            '/donations/donate',
             ['data' => [
-                'type' => ProductDonation::class,
-                'user_id' => $user->id,
-                'donation_id' => $donation->id,
+                'type' => ProductDonation::class, // App\Models\...
+                'user_id' => $user->id, // int
+                'donation_id' => $donation->id, //
                 'package_picture' => $packageImgFile,
                 'resi' => $resi,
                 'products' => [

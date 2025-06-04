@@ -126,6 +126,7 @@ class ProductDonationController extends Controller {
 
             // add target fund
             $targetFund = 0;
+            $productAmount = 0;
 
             // attach books if any
             $books = data_get($additional, 'data.products.books');
@@ -135,6 +136,7 @@ class ProductDonationController extends Controller {
                         'amount' => $book['amount']
                     ]);
                     $targetFund += Book::find($book['isbn'])->price * $book['amount'];
+                    $productAmount += $book['amount'];
                 }
             }
 
@@ -152,11 +154,13 @@ class ProductDonationController extends Controller {
                         'amount' => $facility['amount']
                     ]);
                     $targetFund += $facility['price'];
+                    $productAmount += $facility['amount'];
                 }
             }
 
             $typeAttr = $donation->type_attributes;
             $typeAttr['target_fund'] = $targetFund;
+            $typeAttr['product_amount'] = $productAmount;
             $donation->update([
                 'type_attributes' => $typeAttr
             ]);
