@@ -106,6 +106,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard/admin/manage-users/edit', [ManageUsersController::class, 'edit'])->name('admin.manage-users.edit');
     Route::patch('/dashboard/admin/profile', [AdminProfileController::class, 'updateProfile'])->name('admin.profile.update');
     Route::get('/dashboard/admin/profile', [AdminProfileController::class, 'index'])->name('admin.profile');
+    Route::get('/dashboard/admin/manage-application', [DoneeApplicationController::class, 'index'])->name('admin.manage-application');
+    Route::get('/dashboard/admin/manage-application/user-detail/{userId}', [DoneeApplicationController::class, 'showUserDetail'])->name('admin.manage-application.user-detail');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -158,7 +160,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 // donee application group
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/donee/apply', [DoneeApplicationController::class, 'create'])->name('doneeapplication.create');
-    Route::post('/donor/applications/update', [DoneeApplicationController::class, 'update'])->name('doneeapplication.update');
+    Route::patch('/donor/applications/update', [DoneeApplicationController::class, 'update'])->name('doneeapplication.update');
 });
 
 Route::fallback(function () {

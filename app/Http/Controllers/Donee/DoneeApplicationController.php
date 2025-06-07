@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Donee;
 use App\Enums\DoneeApplicationStatusEnum;
 use App\Models\Admin;
 use App\Models\Donor;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -12,8 +13,48 @@ use App\Models\DoneeApplication;
 use App\Services\DoneeApplicationService;
 use Exception;
 use Illuminate\Support\Facades\Auth;
-
+use Inertia\Inertia;
+use Illuminate\Http\JsonResponse;
 class DoneeApplicationController extends Controller {
+
+    public function index(Request $request)
+    {
+        $authUser = Auth::user();
+
+        if ($authUser->role() !== Admin::class) {
+            return Inertia::render('Error', [
+                'code' => '403',
+                'status' => 'Forbidden',
+                'message' => "You don't have permission to view these resources."
+            ]);
+        }
+
+        $paginatedApplications = DoneeApplication::where('status', DoneeApplicationStatusEnum::PENDING->value)
+            ->select('id', 'donor_id', 'status', 'reviewed_by', 'reviewed_at', 'created_at', 'updated_at')
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        $applicationData = $paginatedApplications->getCollection()->map(function ($application) {
+            return $application->toArray();
+        });
+
+        return Inertia::render('Admin/ManageApplication', [
+            'applications' => [
+                'data' => $applicationData,
+                'current_page' => $paginatedApplications->currentPage(),
+                'last_page' => $paginatedApplications->lastPage(),
+                'per_page' => $paginatedApplications->perPage(),
+                'total' => $paginatedApplications->total(),
+                'next_page_url' => $paginatedApplications->nextPageUrl(),
+                'prev_page_url' => $paginatedApplications->previousPageUrl(),
+            ],
+            'auth' => [
+                'user' => $authUser->toArray() + ['role' => $authUser->roleName()],
+                'roles' => $authUser->roleName(),
+            ],
+        ]);
+    }
+
     public function create(Request $request) {
         $authUser = Auth::user();
 
@@ -79,25 +120,27 @@ class DoneeApplicationController extends Controller {
         $admin = Admin::findOrFail($adminId);
         $application = DoneeApplication::findOrFail($applicationId);
 
+        // dd($authUser);
         // if auth user id and request admin id mismatch, return back
         if (!$authUser->matches($admin)) {
             return back()->withErrors([
                 'admin_id' => 'Admin ID mismatch'
             ]);
         }
-
+        
         DB::beginTransaction();
         try {
             if ($status === 'accept') {
                 $application->accept($admin);
                 $service->acceptApplication($application);
+                DB::commit();
                 return back()->with('success', 'Application accepted successfully');
             } elseif ($status === 'deny') {
                 $application->deny($admin);
+                DB::commit();
                 return back()->with('success', 'Application denied successfully');
             }
-
-            DB::commit();
+            
         } catch (Exception $e) {
             DB::rollBack();
             return back()->withErrors([
@@ -105,4 +148,92 @@ class DoneeApplicationController extends Controller {
             ]);
         }
     }
+
+public function showUserDetail(int $userId): JsonResponse
+    {
+        try {
+            // Eager load relationships to prevent N+1 queries
+            // and ensure related data is available.
+            $user = User::with([
+                'userProfile',
+                'userIdentity',
+                'userIdentity.address' // Eager load address through userIdentity
+            ])->findOrFail($userId); // findOrFail will throw 404 if not found
+
+            // Prepare the data structure
+            $userInfo = [
+                // Core User Details
+                'id' => $user->id,
+                'email' => $user->email,
+                'username' => $user->username,
+                'type' => $user->type, // The actual class name, e.g., App\Models\User, App\Models\Admin
+                'role_class' => $user->role(), // Same as 'type' in your current setup
+                'role_name' => $user->roleName(), // e.g., "user", "admin"
+                'is_admin' => $user->isAdmin(),
+                'is_verified' => $user->isVerified(),
+                'email_verified_at' => $user->email_verified_at?->toIso8601String(), // Format datetime
+                'created_at' => $user->created_at?->toIso8601String(),
+                'updated_at' => $user->updated_at?->toIso8601String(),
+
+                // Helper booleans from User model methods
+                'has_profile' => $user->hasProfile(),
+                'has_identity' => $user->hasIdentity(),
+
+                // User Profile (will be null if not present)
+                'profile' => null,
+
+                // User Identity (will be null if not present)
+                'identity' => null,
+            ];
+
+            
+            if ($user->userProfile) {
+                $userInfo['profile'] = [
+                    'full_name' => $user->userProfile->full_name,
+                    'phone_number' => $user->userProfile->phone_number,
+                    'date_of_birth' => $user->userProfile->date_of_birth?->toDateString(), // Format date
+                    'gender' => $user->userProfile->gender,
+                    'profile_picture' => $user->userProfile->profile_picture,
+                    'last_updated' => $user->userProfile->last_updated?->toIso8601String(),
+                ];
+            }
+            
+            if ($user->userIdentity) {
+                $userInfo['identity'] = [
+                    'nik' => $user->userIdentity->nik,
+                    'full_name' => $user->userIdentity->full_name, // Note: UserIdentity also has full_name
+                    'id_card_image' => $user->userIdentity->id_card_image,
+                    'verified_at' => $user->userIdentity->verified_at?->toIso8601String(),
+                    // User Identity Address (will be null if not present)
+                    'address' => null,
+                ];
+                
+                
+                if ($user->userIdentity->address) {
+                    $userInfo['identity']['address'] = [
+                        'address_detail' => $user->userIdentity->address->address_detail,
+                        'rt' => $user->userIdentity->address->rt,
+                        'rw' => $user->userIdentity->address->rw,
+                        'kelurahan' => $user->userIdentity->address->kelurahan,
+                        'kecamatan' => $user->userIdentity->address->kecamatan,
+                        'city' => $user->userIdentity->address->city,
+                        'province' => $user->userIdentity->address->province,
+                        'postal_code' => $user->userIdentity->address->postal_code,
+                        // Add any other fields from your Address model here
+                    ];
+                }
+            }
+            
+            // dd($userInfo);
+            return response()->json(['user_info' => $userInfo]);
+            
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['error' => 'User not found.'], 404);
+        } catch (\Exception $e) {
+            // Log the exception for debugging
+            // Log::error('Error fetching user details: ' . $e->getMessage());
+            return response()->json(['error' => 'An unexpected error occurred.'], 500);
+        }
+    }
+
 }

@@ -102,6 +102,12 @@ export const AdminPage = {
                 route: "admin.manage-users",
             },
             {
+                title: "Manage Applications",
+                url: "/dashboard/admin/manage-application",
+                isActive: false,
+                route: "admin.manage-application",
+            },
+            {
                 title: "Profile",
                 url: "/dashboard/admin/profile",
                 isActive: false,
