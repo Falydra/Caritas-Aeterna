@@ -277,6 +277,7 @@ class DonationService {
         $donationItem->books()->attach($book->id, [
             'amount' => $amount
         ]);
+        $donationItem->addItem($amount);
     }
 
     protected function createFacilityItemPivot(
@@ -291,6 +292,7 @@ class DonationService {
         $donationItem->facilities()->attach($facility->id, [
             'amount' => $amount
         ]);
+        $donationItem->addItem($amount);
     }
 
     protected function createDonationItem(DonorDonation $donation, array $donationData): DonationItem {

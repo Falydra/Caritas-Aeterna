@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->foreignId('donor_donation_id')->constrained(
                 table: 'donor_donation', indexName: 'donation_item_donor_donation_id'
             )->cascadeOnDelete();
+            $table->unsignedSmallInteger('product_amount')->default(0);
             $table->string('package_picture');
             $table->string('resi');
             $table->enum(

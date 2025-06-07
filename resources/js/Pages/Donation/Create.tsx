@@ -386,7 +386,7 @@ export default function CreateDonation() {
                 <label htmlFor="title" className="flex flex-col">
                     Judul
                     <input
-                        className="capitalize py-2 px-3 outline-none text-sm text-primary-fg text-opacity-75 bg-transparent border border-primary-fg/50 focus:border-primary-fg rounded-md  cursor-text"
+                        className="py-2 px-3 outline-none text-sm text-primary-fg text-opacity-75 bg-transparent border border-primary-fg/50 focus:border-primary-fg rounded-md  cursor-text"
                         type="text"
                         name="title"
                         id="title"

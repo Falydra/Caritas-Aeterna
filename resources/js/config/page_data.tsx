@@ -15,28 +15,10 @@ export const DonorPage = {
                 route: "dashboard",
             },
             {
-                title: "Cart",
-                url: "/dashboard/cart",
+                title: "Riwayat Donasi",
+                url: "/dashboard/donor/donation-history",
                 isActive: false,
-                route: "cart",
-            },
-            {
-                title: "Payment",
-                url: "/dashboard/payment",
-                isActive: false,
-                route: "payment",
-            },
-            {
-                title: "Book Donors",
-                url: "/dashboard/donors",
-                isActive: false,
-                route: "donors",
-            },
-            {
-                title: "Book Details",
-                url: "/book-details",
-                isActive: false,
-                route: "book-details",
+                route: "/dashboard/donor/donation-history"
             },
             {
                 title: "Profile",
@@ -69,7 +51,6 @@ export const DoneePage = {
                 isActive: false,
                 route: "donee.donations.index",
             },
-
             {
                 title: "Profile",
                 url: "/profile",

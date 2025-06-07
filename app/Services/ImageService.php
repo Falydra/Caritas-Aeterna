@@ -44,7 +44,15 @@ class ImageService {
     public function EncodeWebp(UploadedFile $file): EncodedImage {
         $manager = new ImageManager(new Driver());
         $image = $manager->read($file);
+
+        // Resize to max 1920x1080, keep aspect ratio
+        $image->resize(1920, 1080, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        });
+
         $encoded = $image->toWebp(60);
+
         return $encoded;
     }
 }

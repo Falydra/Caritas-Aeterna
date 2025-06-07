@@ -31,6 +31,7 @@ use App\Http\Controllers\SuperAdmin\ManageUserController;
 use App\Http\Controllers\Donee\DoneeApplicationController;
 use App\Http\Controllers\SuperAdmin\SuperProfileController;
 use App\Http\Controllers\Donation\ProductDonationController;
+use App\Http\Controllers\DonationHistoryController;
 
 Route::get('/', function () {
     $user = auth()->user();
@@ -87,8 +88,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Route::get('/dashboard/donor/donations/{donation}', [DonationDetailController::class, 'show'])->name('donor.donations.show');
     // Route::get('/dashboard/donor/profile', [ProfileController::class, 'index'])->name('donor.profile');
     // Route::patch('/dashboard/donor/profile', [ProfileController::class, 'update'])->name('donor.profile.update');
+    Route::get('/dashboard/donor/donation-history', [DonorDashboardController::class, 'donationHistoryIndex'])->name('donor.dashboard.donationHistory');
 
-
+    Route::get('/donation-history/all', [DonationHistoryController::class, 'index'])->name('donor.dashboard.donationHistory.index');
+    Route::get('/donation-history/funds', [DonationHistoryController::class, 'funds'])->name('donor.dashboard.donationHistory.funds');
+    Route::get('/donation-history/items', [DonationHistoryController::class, 'items'])->name('donor.dashboard.donationHistory.items');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {

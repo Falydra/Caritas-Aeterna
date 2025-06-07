@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
@@ -30,11 +31,11 @@ class DonorDonation extends Model {
         return $this->belongsTo(Donation::class);
     }
 
-    public function donationItem(): HasOne {
-        return $this->hasOne(DonationItem::class);
+    public function donationItem(): HasMany {
+        return $this->hasMany(DonationItem::class);
     }
 
-    public function funds(): HasOne {
-        return $this->hasOne(Fund::class);
+    public function funds(): HasMany {
+        return $this->hasMany(Fund::class);
     }
 }
