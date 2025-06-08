@@ -15,7 +15,7 @@ class DoneeDashboardController extends Controller {
             return Inertia::render('Error', [
                 'code' => '403',
                 'status' => 'forbidden',
-                'message' => 'dih ogah, lu siapa coba'
+                'message' => 'You do not have permission to access this resources.'
             ]);
         }
 
@@ -30,6 +30,23 @@ class DoneeDashboardController extends Controller {
     }
 
     public function donationIndex() {
-        return Inertia::render('Donee/ActiveDonation');
+        if (Auth::user()->role() !== Donee::class) {
+            return Inertia::render('Error', [
+                'code' => 403,
+                'status' => 'forbidden',
+                'message' => "You do not have permission to access this resources."
+            ]);
+        }
+
+        $user = Auth::user();
+        $donations = $user->donations()->select(['id', 'initiator_id', 'type', 'title', 'type_attributes', 'status'])->paginate(10);
+
+        return Inertia::render('Donee/ActiveDonation', [
+            'auth' => [
+                'user' => $user,
+                'roles' => $user->roleName()
+            ],
+            'data' => $donations
+        ]);
     }
 }

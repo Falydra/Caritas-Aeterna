@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\Fund\FundController;
+use App\Http\Controllers\DonationHistoryController;
 use App\Http\Controllers\Donation\DonationController;
 
 Route::get('/donations', [DonationController::class, 'index'])->name('donations.index');

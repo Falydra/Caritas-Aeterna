@@ -48,7 +48,7 @@ export default function Authenticated({
         menuItems = SuperAdminPage.mainPage.items;
     }
 
-    
+
     const activeMenuItem = menuItems
     .filter(item => currentPath.startsWith(item.url))
     .sort((a, b) => b.url.length - a.url.length)[0];

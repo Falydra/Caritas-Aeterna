@@ -123,7 +123,7 @@ class Donation extends Model {
     }
 
     public function category(): string {
-        return Str::afterLast(static::class, '\\');
+        return ucwords(preg_replace('/([a-z])([A-Z])/', '$1 $2', Str::afterLast(static::class, '\\')));
     }
 
     public function typeAttributes(): array {

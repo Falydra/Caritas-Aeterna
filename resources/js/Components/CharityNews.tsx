@@ -43,7 +43,7 @@ export default function CharityNews({ isMore = true }: { isMore?: boolean }) {
                                         className="w-full h-3/5 flex"
                                     >
                                         <img
-                                            src="images/Charity1.jpeg"
+                                            src={item.header_image}
                                             className="w-full h-3/5 rounded-b-none object-cover absolute inset-0 rounded-lg"
                                         />
                                         <div className="w-2/12 h-6 bg-primary-accent z-10 top-1 left-1 items-center justify-center flex font-semibold text-xs relative rounded-3xl">
@@ -73,10 +73,15 @@ export default function CharityNews({ isMore = true }: { isMore?: boolean }) {
                                                 Terkumpul
                                             </h1>
                                             <h1 className="text-primary-accent px-4 text-sm font-semibold cursor-pointer absolute bottom-1">
-                                                Rp{" "}
-                                                {totalDonation.toLocaleString(
-                                                    "id-ID"
-                                                )}
+                                                {item.type ===
+                                                "App\\Models\\ProductDonation"
+                                                    ? item.type_attributes
+                                                          .product_amount
+                                                    : item.type ===
+                                                      "App\\Models\\Fundraiser"
+                                                    ? item.type_attributes
+                                                          .target_fund
+                                                    : "-"}
                                             </h1>
                                         </div>
                                     </div>

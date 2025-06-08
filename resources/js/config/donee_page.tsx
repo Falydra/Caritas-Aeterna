@@ -15,18 +15,17 @@ export const DoneePage = {
                 route: "donee.dashboard",
             },
             {
-                title: "Create Donation",
+                title: "Buat Donasi",
                 url: "/dashboard/donee/create-donation",
                 isActive: false,
                 route: "donee.init",
             },
             {
-                title: "Active Donation",
+                title: "Donasi Dibuka",
                 url: "/dashboard/donee/donations",
                 isActive: false,
                 route: "donee.donations.index"
             },
-    
             {
                 title: "Profile",
                 url: "/profile",

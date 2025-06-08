@@ -3,19 +3,17 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
-use App\Models\Book;
 use App\Models\Donor;
 use App\Models\ProductDonation;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class TestDonorDonateProduct extends TestCase {
+class DonateTest extends TestCase {
     /**
      * A basic feature test example.
-     * @test
      */
-    public function test_donor_donate(): void {
+    public function test_donor_donate_book(): void {
         $user = Donor::find(3);
         $user->markEmailAsVerified();
         $this->actingAs($user);
@@ -34,7 +32,11 @@ class TestDonorDonateProduct extends TestCase {
         $donation = ProductDonation::first();
         $books = [
             [
-                'isbn' => $donation->books->first()->isbn(),
+                'isbn' => $donation->books()->select('books.isbn')->first()->isbn(),
+                'amount' => 2
+            ],
+            [
+                'isbn' => $donation->books()->inRandomOrder()->select('books.isbn')->first()->isbn(),
                 'amount' => 2
             ]
         ];
@@ -52,7 +54,6 @@ class TestDonorDonateProduct extends TestCase {
                 ]
             ]]
         );
-
 
         $response->assertRedirect();
         $response->assertSessionHas('message', 'success');

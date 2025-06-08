@@ -13,8 +13,30 @@ class DonationItem extends Model {
     protected $fillable = [
         'package_picture',
         'resi',
+        'product_amount',
         'status'
     ];
+
+    protected function casts(): array {
+        return [
+            'created_at' => 'datetime'
+        ];
+    }
+
+    public function amount(): string {
+        return (string) $this->product_amount;
+    }
+
+    public function getFormattedCreatedAtAttribute() {
+        return $this->created_at->format('Y-m-d H:i:s');
+    }
+
+    public function addItem(int $amount): void {
+        $this->update([
+            'product_amount' => $this->product_amount + $amount
+        ]);
+        $this->save();
+    }
 
     public function donorDonation(): BelongsTo {
         return $this->belongsTo(DonorDonation::class);

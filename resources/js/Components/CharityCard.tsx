@@ -40,11 +40,11 @@ interface DonationDetailPageProsps extends Donation {
 
 export function CardWithForm() {
     const { donation } = usePage<DonationDetailPageProsps>().props;
- 
 
-    
-    
-       
+
+
+
+
 
     return (
         <>
@@ -62,7 +62,7 @@ export function CardWithForm() {
                                     .slice(0, 50)
                                     .join(" ") + (donation.text_descriptions[0]?.split(" ").length > 50 ? "..." : "")}
                             </CardDescription>
-                           
+
                         </CardHeader>
 
                         <CardFooter className="flex w-full justify-end h-full flex-col ">
@@ -90,9 +90,9 @@ export function CardWithForm() {
                             </div>
                             <Link
                                 className="w-full flex h-[50px] hover:bg-primary-bg bg-primary-accent items-center justify-center rounded-md"
-                                
+
                                 href={route("donations.show", {id: donation.id})}
-                                
+
                             >
                                 <h3 className=" text-md font-semibold text-primary-fg text-center items-center justify-center">
                                     Detail
@@ -100,7 +100,7 @@ export function CardWithForm() {
                             </Link>
                         </CardFooter>
                     </div>
-                    <div className="w-9/12 h-full items-center justify-center flex flex-col bg-cover bg-center rounded-r-xl bg-[url(/images/Charity1.jpeg)]"></div>
+                    <div className={`w-9/12 h-full items-center justify-center flex flex-col bg-cover bg-center rounded-r-xl bg-[url(/images/Charity1.jpeg)]`}></div>
                 </div>
             </Card>
             )
@@ -227,7 +227,7 @@ export function CardWithForm() {
                     </div>
                 </div>
             )} */}
-            
+
         </>
     );
 }

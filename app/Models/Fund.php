@@ -23,8 +23,13 @@ class Fund extends Model {
 
     protected function casts(): array {
         return [
-            'transfer_date' => 'datetime'
+            'transfer_date' => 'datetime',
+            'created_at' => 'datetime'
         ];
+    }
+
+    public function getFormattedCreatedAtAttribute() {
+        return $this->created_at->format('Y-m-d H:i:s');
     }
 
     /**

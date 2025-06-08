@@ -33,6 +33,7 @@ use App\Http\Controllers\SuperAdmin\ManageUserController;
 use App\Http\Controllers\Donee\DoneeApplicationController;
 use App\Http\Controllers\SuperAdmin\SuperProfileController;
 use App\Http\Controllers\Donation\ProductDonationController;
+use App\Http\Controllers\DonationHistoryController;
 
 Route::get('/', function () {
     $user = auth()->user();
@@ -91,8 +92,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/dashboard/donor/profile', [DonorProfileController::class, 'update'])->name('donor.profile.update');
     Route::delete('/dashboard/donor/profile', [DonorProfileController::class, 'destroy'])->name('donor.profile.destroy');
     // Route::patch('/dashboard/donor/profile', [ProfileController::class, 'update'])->name('donor.profile.update');
+    Route::get('/dashboard/donor/donation-history', [DonorDashboardController::class, 'donationHistoryIndex'])->name('donor.dashboard.donationHistory');
 
-
+    Route::get('/donation-history/all', [DonationHistoryController::class, 'index'])->name('donor.dashboard.donationHistory.index');
+    Route::get('/donation-history/funds', [DonationHistoryController::class, 'funds'])->name('donor.dashboard.donationHistory.funds');
+    Route::get('/donation-history/items', [DonationHistoryController::class, 'items'])->name('donor.dashboard.donationHistory.items');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -122,7 +126,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard/donee', [DoneeDashboardController::class, 'index'])->name('donee.dashboard');
+    Route::get('/dashboard/donee', function () {
+        return redirect(route("donee.donations.index"));
+    })->name('donee.dashboard');
     Route::get('/dashboard/donee/create-donation', [InitController::class, 'index'])->name('donee.init');
     Route::get('dashboard/donee/profile', [DoneeProfileController:: class, 'index'])->name('donee.profile');
     Route::delete('dashboard/donee/profile', [DoneeProfileController:: class, 'destroy'])->name('donee.profile.destroy');

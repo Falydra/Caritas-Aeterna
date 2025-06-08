@@ -17,7 +17,6 @@ export default function DoneeCreateDonation() {
     return (
         <Authenticated>
             <div id="cart" className="text-white px-8 w-full h-full items-start py-4 flex flex-row justify-start gap-8">
-
                 <CreateDonation/>
             </div>
         </Authenticated>

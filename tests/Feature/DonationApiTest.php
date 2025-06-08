@@ -129,9 +129,7 @@ class DonationApiTest extends TestCase {
         ]);
     }
 
-    protected function startDonation($admin): void {
-        $donation = Donation::inRandomOrder()->first();
-
+    protected function startDonation($admin, $donation): void {
         $donation->setOnProgress($admin);
 
         $this->assertDatabaseHas('donations', [
@@ -146,7 +144,7 @@ class DonationApiTest extends TestCase {
         $admin = Admin::first();
 
         foreach ($donations as $donation) {
-            $this->startDonation($admin);
+            $this->startDonation($admin, $donation);
         }
     }
 
@@ -224,7 +222,9 @@ class DonationApiTest extends TestCase {
         } else {
             $attr = [
                 "target_fund" => $attr_amount,
-                "current_fund" => 0
+                "current_fund" => 0,
+                "product_amount" => 0,
+                "fulfilled_product_amount" => 0
             ];
         }
 
