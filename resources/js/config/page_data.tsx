@@ -34,10 +34,10 @@ export const DoneePage = {
     mainPage: {
         items: [
             {
-                title: "Books",
-                url: "/dashboard/donee",
+                title: "Donasi Dibuka",
+                url: "/dashboard/donee/donations",
                 isActive: false,
-                route: "donee.dashboard",
+                route: "donee.donations.index",
             },
             {
                 title: "Buka Donasi Baru",
@@ -46,10 +46,10 @@ export const DoneePage = {
                 route: "donee.init",
             },
             {
-                title: "Donasi Dibuka",
-                url: "/dashboard/donee/donations",
+                title: "Modifikasi Donasi",
+                url: "/dashboard/donee/edit-donation",
                 isActive: false,
-                route: "donee.donations.index",
+                route: "donee.init",
             },
             {
                 title: "Profile",

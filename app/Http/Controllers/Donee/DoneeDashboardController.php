@@ -39,7 +39,7 @@ class DoneeDashboardController extends Controller {
         }
 
         $user = Auth::user();
-        $donations = $user->donations()->select(['id', 'initiator_id', 'type', 'title', 'type_attributes', 'status'])->paginate(2);
+        $donations = $user->donations()->select(['id', 'initiator_id', 'type', 'title', 'type_attributes', 'status'])->paginate(10);
 
         return Inertia::render('Donee/ActiveDonation', [
             'auth' => [

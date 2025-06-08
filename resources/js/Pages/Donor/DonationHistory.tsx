@@ -221,13 +221,7 @@ export default function DonationHistory() {
                 .finally(() => setLoading(false));
         }
     }, [category, page]);
-
-    useEffect(() => {
-        if (paginatedData) {
-            console.log("history:", paginatedData);
-        }
-    });
-
+    
     const handleCategoryChange = (
         event: React.MouseEvent<HTMLElement>,
         newCategory: string

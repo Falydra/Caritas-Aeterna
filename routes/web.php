@@ -119,7 +119,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard/donee', [DoneeDashboardController::class, 'index'])->name('donee.dashboard');
+    Route::get('/dashboard/donee', function () {
+        return redirect(route("donee.donations.index"));
+    })->name('donee.dashboard');
     Route::get('/dashboard/donee/create-donation', [InitController::class, 'index'])->name('donee.init');
     Route::get('/dashboard/donee/donations', [DoneeDashboardController::class, 'donationIndex'])->name('donee.donations.index');
 });
