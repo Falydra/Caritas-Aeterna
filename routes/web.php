@@ -19,9 +19,11 @@ use App\Http\Controllers\DonationDetailController;
 use App\Http\Controllers\Admin\ManageUsersController;
 use App\Http\Controllers\Donation\DonationController;
 use App\Http\Controllers\Admin\AdminProfileController;
+use App\Http\Controllers\Donor\DonorProfileController;
 use App\Http\Controllers\Donation\FundraiserController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Donee\DoneeDashboardController;
+use App\Http\Controllers\Donee\DoneeProfileController;
 use App\Http\Controllers\Donor\DonorDashboardController;
 use App\Http\Controllers\SuperAdmin\DashboardController;
 use App\Http\Controllers\Admin\ManageDonationsController;
@@ -86,7 +88,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard/donor', [DonorDashboardController::class, 'index'])->name('donor.dashboard');
     // Route::get('/dashboard/donor/donations', [DonorDashboardController::class, 'donationIndex'])->name('donor.donations.index');
     // Route::get('/dashboard/donor/donations/{donation}', [DonationDetailController::class, 'show'])->name('donor.donations.show');
-    // Route::get('/dashboard/donor/profile', [ProfileController::class, 'index'])->name('donor.profile');
+    Route::get('/dashboard/donor/profile', [DonorProfileController::class, 'index'])->name('donor.profile');
+    Route::patch('/dashboard/donor/profile', [DonorProfileController::class, 'update'])->name('donor.profile.update');
+    Route::delete('/dashboard/donor/profile', [DonorProfileController::class, 'destroy'])->name('donor.profile.destroy');
     // Route::patch('/dashboard/donor/profile', [ProfileController::class, 'update'])->name('donor.profile.update');
     Route::get('/dashboard/donor/donation-history', [DonorDashboardController::class, 'donationHistoryIndex'])->name('donor.dashboard.donationHistory');
 
@@ -105,6 +109,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard/admin/manage-users', [ManageUsersController::class, 'index'])->name('admin.manage-users');
     Route::get('/dashboard/admin/manage-users/edit', [ManageUsersController::class, 'edit'])->name('admin.manage-users.edit');
     Route::patch('/dashboard/admin/profile', [AdminProfileController::class, 'updateProfile'])->name('admin.profile.update');
+    Route::get('/dashboard/admin/profile', [AdminProfileController::class, 'index'])->name('admin.profile');
+    Route::get('/dashboard/admin/manage-application', [DoneeApplicationController::class, 'index'])->name('admin.manage-application');
+    Route::get('/dashboard/admin/manage-application/user-detail/{userId}', [DoneeApplicationController::class, 'showUserDetail'])->name('admin.manage-application.user-detail');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -123,7 +130,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return redirect(route("donee.donations.index"));
     })->name('donee.dashboard');
     Route::get('/dashboard/donee/create-donation', [InitController::class, 'index'])->name('donee.init');
+    Route::get('dashboard/donee/profile', [DoneeProfileController:: class, 'index'])->name('donee.profile');
+    Route::delete('dashboard/donee/profile', [DoneeProfileController:: class, 'destroy'])->name('donee.profile.destroy');
     Route::get('/dashboard/donee/donations', [DoneeDashboardController::class, 'donationIndex'])->name('donee.donations.index');
+    Route::patch('/dashboard/donee/profile', [DoneeProfileController::class, 'update'])->name('donee.profile.update');
 });
 
 
@@ -156,7 +166,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 // donee application group
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/donee/apply', [DoneeApplicationController::class, 'create'])->name('doneeapplication.create');
-    Route::post('/donor/applications/update', [DoneeApplicationController::class, 'update'])->name('doneeapplication.update');
+    Route::patch('/donor/applications/update', [DoneeApplicationController::class, 'update'])->name('doneeapplication.update');
 });
 
 Route::fallback(function () {
