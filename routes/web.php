@@ -103,6 +103,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard/admin', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('/dashboard/admin/manage-donations', [ManageDonationsController::class, 'index'])->name('admin.manage-donations');
     Route::get('/dashboard/admin/manage-donations/edit', [ManageDonationsController::class, 'edit'])->name('admin.manage-donations.edit');
+    Route::post('/dashboard/admin/manage-donations/set-status', [ManageDonationsController::class, 'setStatus'])->name('admin.manage-donations.set-status');
+
 
     Route::patch('/dashboard/admin/manage-donations/{id}', [ManageDonationsController::class, 'update'])->name('admin.manage-donations.update');
     Route::patch('/dashboard/admin/manage-users/{id}', [ManageUsersController::class, 'update'])->name('admin.manage-users.update');
