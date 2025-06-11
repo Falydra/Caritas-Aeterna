@@ -32,7 +32,9 @@ interface DonationDetailPageProsps extends Donation {
     [key: string]: any;
 }
 
-
+function formatPrice(value: number): string {
+    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
 
 export function BookCharityCard() {
   const { auth } = usePage().props;
@@ -59,9 +61,9 @@ export function BookCharityCard() {
         <div className="flex flex-row w-full h-full ">
           <div className="w-6/12 h-full justify-between items-start flex flex-col cursor-pointer hover:text-primary-bg hover:rounded-l-xl">
             <CardHeader className="text-start text-xl">
-              <CardTitle>Bantu Perpustakaan Universitas Papua Merdeka</CardTitle>
+              <CardTitle>{donation.title}</CardTitle>
               <CardDescription>
-                Dalam beberapa tahun terakhir, perpustakaan Universitas Papua Merdeka mengalami penurunan jumlah pengunjung yang signifikan. Hal ini disebabkan oleh kurangnya koleksi buku yang relevan dan menarik bagi mahasiswa. Oleh karena itu, kami mengajak Anda untuk berpartisipasi dalam program donasi buku ini. Mari bersama-sama kita tingkatkan minat baca mahasiswa dan kembangkan perpustakaan kita menjadi lebih baik.
+                {donation.text_descriptions[0]?.split(" ").slice(0, 75).join(" ") + (donation.text_descriptions[0]?.split(" ").length > 75 ? "..." : "")}
               </CardDescription>
               <div className="w-full flex flex-row items-center justify-between">
                 <h2 className="text-sm font-semibold">
@@ -82,11 +84,39 @@ export function BookCharityCard() {
                 <p className="text-md text-muted-foreground">
                   {progressCompletedBook} / {totalDaysBook} days elapsed
                 </p>
-                <ProgressBar className="w-full" labelAlignment="outside" isLabelVisible={false} completed={progressCompletedBook} maxCompleted={totalDaysBook} />
+                <ProgressBar className="w-full" labelAlignment="outside" isLabelVisible={false} completed={donation.type ===
+                        "App\\Models\\ProductDonation"
+                            ? donation.type_attributes
+                                  .fulfilled_product_amount
+                            : donation.type ===
+                              "App\\Models\\Fundraiser"
+                            ? (formatPrice(donation.type_attributes.current_fund))
+                            : "-"} maxCompleted={donation.type ===
+                        "App\\Models\\ProductDonation"
+                            ? (donation.type_attributes.product_amount)
+                            : donation.type ===
+                              "App\\Models\\Fundraiser"
+                            ? (formatPrice(donation.type_attributes.target_fund))
+                            : "-"} />
                 <div className="w-full flex flex-row justify-start">
                   <h1 className="font-thin text-xs self-center text-center">Terkumpul sebanyak: </h1>
                   <h2 className="font-thin text-xs self-center text-center px-2">
-                    {totalDonationBook} / {bookDonationLimit} Buku
+                    {donation.type ===
+                        "App\\Models\\ProductDonation"
+                            ? donation.type_attributes
+                                  .fulfilled_product_amount
+                            : donation.type ===
+                              "App\\Models\\Fundraiser"
+                            ? (formatPrice(donation.type_attributes.current_fund))
+                            : "-"} {" "}
+                        /{" "}
+                        {donation.type ===
+                        "App\\Models\\ProductDonation"
+                            ? (donation.type_attributes.product_amount)
+                            : donation.type ===
+                              "App\\Models\\Fundraiser"
+                            ? (formatPrice(donation.type_attributes.target_fund))
+                            : "-"}
                   </h2>
                 </div>
               </div>
@@ -102,7 +132,12 @@ export function BookCharityCard() {
               </Link>
             </CardFooter>
           </div>
-          <div className="w-9/12 h-full items-center justify-center flex flex-col bg-cover bg-center rounded-r-xl bg-[url(/images/Perpus.jpeg)]">
+          <div className="w-9/12 h-full items-center justify-center flex flex-col bg-cover bg-center rounded-r-xl ]">
+            <img
+              src={donation.header_image}
+              alt="Charity Image"
+              className="w-full h-full object-cover rounded-r-xl"
+            />
           </div>
         </div>
       </Card>
