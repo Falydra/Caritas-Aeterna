@@ -204,7 +204,7 @@ class ProductDonationController extends Controller {
     }
 
     public function finish(Request $request, DonationService $service) {
-                $authUser = Auth::user();
+        $authUser = Auth::user();
         if ($authUser->role() !== Donee::class) {
             abort(403, "You don't have permission to perform this action");
         }
