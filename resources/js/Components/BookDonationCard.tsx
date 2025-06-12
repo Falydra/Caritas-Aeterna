@@ -81,9 +81,7 @@ export function BookCharityCard() {
             <CardFooter className="flex w-full justify-end h-full flex-col ">
               <div className="w-full flex flex-col items-start justify-end h-full">
                 <h1 className="text-xl font-bold">Tersedia</h1>
-                <p className="text-md text-muted-foreground">
-                  {progressCompletedBook} / {totalDaysBook} days elapsed
-                </p>
+               
                 <ProgressBar className="w-full" labelAlignment="outside" isLabelVisible={false} 
                 completed={donation.type ===
                         "App\\Models\\ProductDonation"
