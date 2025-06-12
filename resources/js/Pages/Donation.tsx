@@ -14,11 +14,16 @@ interface DonationPageProps extends Donation {
     [key: string]: any;
 }
 
+function formatPrice(value: number): string {
+    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+
 export default function DonationPage() {
     const {donations}  = usePage<DonationPageProps>().props;
 
    
-    console.log(donations);
+    console.log("Donations",donations);
 
   
 
@@ -81,7 +86,29 @@ export default function DonationPage() {
                                         Terkumpul
                                     </h1>
                                     <h1 className="text-primary-accent px-4 text-sm font-semibold cursor-pointer absolute bottom-1">
-                                        Rp {item.collected_amount?.toLocaleString("id-ID") ?? 0}
+                                        Rp {item.type ===
+                                    "App\\Models\\ProductDonation"
+                                    ? item.type_attributes
+                                        .fulfilled_product_amount
+                                    : item.type ===
+                                        "App\\Models\\Fundraiser"
+                                        ? 
+                                        formatPrice(
+                                            item.type_attributes.current_fund
+                                        )
+                                        : "-"}{" "}
+                                /{" "}
+                                {item.type ===
+                                    "App\\Models\\ProductDonation"
+                                    ? item.type_attributes.product_amount +
+                                    " Produk"
+                                    : item.type ===
+                                        "App\\Models\\Fundraiser"
+                                        ? 
+                                        formatPrice(
+                                            item.type_attributes.target_fund
+                                        )
+                                        : "-"}
                                     </h1>
                                 </div>
 

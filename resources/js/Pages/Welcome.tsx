@@ -13,8 +13,6 @@ export default function Welcome() {
         <Guest>
             <Hero />
             <Charity/>
-            <CharityNews  />
-            <News isMoreNews={true}/>
             
             
         </Guest>
