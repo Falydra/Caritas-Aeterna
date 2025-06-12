@@ -62,6 +62,7 @@ class ProductDonationController extends Controller {
     }
 
     public function show(ProductDonation $donation) {
+        
         $data = ProductDonation::with(
             'books',
             'facilities',
@@ -69,9 +70,13 @@ class ProductDonationController extends Controller {
         )->where('id', $donation->id)
             ->first();
 
-        // return $data;
+        
         return Inertia::render('Donation/DonationDetail', [
-            'donation' => $data
+            'donation' => $data,
+            'auth' => [
+                'user' => Auth::user(),
+                'roles' => Auth::user()->roleName(), 
+            ],
         ]);
     }
 
@@ -199,7 +204,7 @@ class ProductDonationController extends Controller {
     }
 
     public function finish(Request $request, DonationService $service) {
-                $authUser = Auth::user();
+        $authUser = Auth::user();
         if ($authUser->role() !== Donee::class) {
             abort(403, "You don't have permission to perform this action");
         }

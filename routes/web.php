@@ -39,7 +39,7 @@ Route::get('/', function () {
     $user = auth()->user();
     $role = $user ? $user->roleName() : "";
 
-    $donation = Donation::with('initiator:id,username')->get();
+    $donation = Donation::with('initiator:id,username')->where('type', 'App\\Models\\Fundraiser')->where('status', '=', 'on_progress')->get();
     $bookDonation = Donation::where('type', 'App\\Models\\ProductDonation')->get();
     return Inertia::render('Welcome', [
         'auth' => [
@@ -120,7 +120,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard/donee/profile', [DoneeProfileController:: class, 'index'])->name('donee.profile');
     Route::delete('dashboard/donee/profile', [DoneeProfileController:: class, 'destroy'])->name('donee.profile.destroy');
     Route::get('/dashboard/donee/donations', [DoneeDashboardController::class, 'donationIndex'])->name('donee.donations.index');
+    Route::get('/dashboard/donee/donations/{donation}/donated-items', [DoneeDashboardController::class, 'donatedItems'])->name('donee.donations.donatedItem');
     Route::patch('/dashboard/donee/profile', [DoneeProfileController::class, 'update'])->name('donee.profile.update');
+    Route::get('/dashboard/donee/edit-donation', [ManageDonationsController::class, 'edit'])->name('donee.donations.edit');
 });
 
 

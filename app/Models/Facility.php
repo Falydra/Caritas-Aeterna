@@ -21,13 +21,15 @@ class Facility extends Model {
     ];
 
     public function donation(): BelongsTo {
-        return $this->belongsTo(ProductDonation::class);
+        return $this->belongsTo(ProductDonation::class, 'product_donation_id');
     }
 
     public function donationItem(): BelongsToMany {
         return $this->belongsToMany(
             DonationItem::class,
-            'facility_donation_item'
+            'facility_donation_item',
+            'facility_id',
+            'donation_item_id'
         );
     }
 }

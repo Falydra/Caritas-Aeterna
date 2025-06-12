@@ -18,7 +18,7 @@ class DonorController extends Controller {
     public function donate(DonorDonateRequest $request, DonationService $service) {
         $typeValidated = $request->validate([
             'data.type' => 'bail|required|string'
-        ]);
+    ]);
         $type = data_get($typeValidated, 'data.type');
 
         if ($type === ProductDonation::class) {

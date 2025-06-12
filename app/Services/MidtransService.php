@@ -40,10 +40,16 @@ class MidtransService {
      * @return void
      */
     public function finishPayment(array $data): Fund {
+        $transactionStatus = data_get($data, "transaction_status");
+        $orderId = data_get($data, 'order_id');
+        $fund = Fund::where('order_id', $orderId)->first();
+
+        if ($transactionStatus === "pending") {
+            return $fund;
+        }
+
         DB::beginTransaction();
         try {
-            $orderId = data_get($data, 'order_id');
-            $fund = Fund::where('order_id', $orderId)->first();
             $donation = $fund->donation;
 
             $typeAttr = $donation->type_attributes;

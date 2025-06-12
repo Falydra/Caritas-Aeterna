@@ -38,6 +38,8 @@ class DonationController extends Controller {
     }
 
     public function show(Donation $donation) {
+    
+
         if (request()->is('api/*')) {
             $donationData = Donation::with([
                 'donorDonations' => function ($q) {

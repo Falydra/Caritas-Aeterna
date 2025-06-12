@@ -19,7 +19,7 @@ class BookDonation extends Pivot {
     ];
 
     public function book(): BelongsTo {
-        return $this->belongsTo(Book::class);
+        return $this->belongsTo(Book::class, 'isbn');
     }
 
     public function donation(): BelongsTo {
@@ -29,7 +29,9 @@ class BookDonation extends Pivot {
     public function donationItem(): BelongsToMany {
         return $this->belongsToMany(
             DonationItem::class,
-            'book_donation_item'
-        )->withTimestamps();
+            'book_donation_item',
+            'book_donation_id',
+            'donation_item_id'
+        )->withPivot('amount')->withTimestamps();
     }
 }

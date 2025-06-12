@@ -16,7 +16,7 @@ class DonationHistoryController extends Controller {
         if (Auth::user()->role() !== Donor::class) {
             return Inertia::render('Error', [
                 'code' => 403,
-                'status' => 'forbiddend',
+                'status' => 'forbidden',
                 'message' => 'You do not have permission to access this resources.'
             ]);
         }
@@ -46,7 +46,7 @@ class DonationHistoryController extends Controller {
         if (Auth::user()->role() !== Donor::class) {
             return Inertia::render('Error', [
                 'code' => 403,
-                'status' => 'forbiddend',
+                'status' => 'forbidden',
                 'message' => 'You do not have permission to access this resources.'
             ]);
         }
