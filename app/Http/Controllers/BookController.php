@@ -123,6 +123,15 @@ class BookController extends Controller {
         ]);
     }
 
+    public function searchByDonation(ProductDonation $donation) {
+        $books = $donation->books()->get();
+
+        return (new BookCollection($books))->additional([
+            'status' => 'success',
+            'message' => 'Lists book retrieved successfully'
+        ]);
+    }
+
     /**
      * Helper Methods
      */
