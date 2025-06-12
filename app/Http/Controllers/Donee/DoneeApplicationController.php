@@ -2,19 +2,21 @@
 
 namespace App\Http\Controllers\Donee;
 
-use App\Enums\DoneeApplicationStatusEnum;
+use Exception;
+use App\Models\User;
+use Inertia\Inertia;
 use App\Models\Admin;
 use App\Models\Donor;
-use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\DoneeApplication;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\DoneeApplication;
-use App\Services\DoneeApplicationService;
-use Exception;
 use Illuminate\Support\Facades\Auth;
-use Inertia\Inertia;
-use Illuminate\Http\JsonResponse;
+use App\Enums\DoneeApplicationStatusEnum;
+use App\Services\DoneeApplicationService;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+
 class DoneeApplicationController extends Controller {
 
     public function index(Request $request)
@@ -127,7 +129,7 @@ class DoneeApplicationController extends Controller {
                 'admin_id' => 'Admin ID mismatch'
             ]);
         }
-        
+
         DB::beginTransaction();
         try {
             if ($status === 'accept') {
@@ -140,7 +142,7 @@ class DoneeApplicationController extends Controller {
                 DB::commit();
                 return back()->with('success', 'Application denied successfully');
             }
-            
+
         } catch (Exception $e) {
             DB::rollBack();
             return back()->withErrors([
@@ -186,7 +188,7 @@ public function showUserDetail(int $userId): JsonResponse
                 'identity' => null,
             ];
 
-            
+
             if ($user->userProfile) {
                 $userInfo['profile'] = [
                     'full_name' => $user->userProfile->full_name,
@@ -197,7 +199,7 @@ public function showUserDetail(int $userId): JsonResponse
                     'last_updated' => $user->userProfile->last_updated?->toIso8601String(),
                 ];
             }
-            
+
             if ($user->userIdentity) {
                 $userInfo['identity'] = [
                     'nik' => $user->userIdentity->nik,
@@ -207,8 +209,8 @@ public function showUserDetail(int $userId): JsonResponse
                     // User Identity Address (will be null if not present)
                     'address' => null,
                 ];
-                
-                
+
+
                 if ($user->userIdentity->address) {
                     $userInfo['identity']['address'] = [
                         'address_detail' => $user->userIdentity->address->address_detail,
@@ -223,10 +225,10 @@ public function showUserDetail(int $userId): JsonResponse
                     ];
                 }
             }
-            
+
             // dd($userInfo);
             return response()->json(['user_info' => $userInfo]);
-            
+
         } catch (ModelNotFoundException $e) {
             return response()->json(['error' => 'User not found.'], 404);
         } catch (\Exception $e) {

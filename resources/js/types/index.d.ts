@@ -135,6 +135,8 @@ export type Donation = {
     reviewed_by: User;
     initiator: Initiator;
     type: string;
+    books: Book[] | null;
+    facilities: Facility[] | null;
 };
 
 export type InitiatorDonation = {
