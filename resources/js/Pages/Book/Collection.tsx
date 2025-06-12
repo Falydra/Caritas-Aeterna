@@ -22,11 +22,11 @@ export default function BookCollection({
         <>
             <div className={`flex flex-col ${className}`}>
                 <div className="flex flex-col w-full items-center justify-center">
-                    <div className="w-full max-h-[375px] overflow-y-auto">
-                        <table className="w-full text-sm text-center border border-primary-fg/50">
+                    <div className="w-full max-h-[375px] overflow-y-auto rounded-md">
+                        <table className="w-full text-sm text-center border border-primary-fg/50 rounded-md">
                             <thead>
-                                <tr className="border border-primary-fg/50">
-                                    <th className="px-2 py-2 border-b border-primary-fg/50">
+                                <tr className="border border-primary-fg/50 rounded-md">
+                                    <th className="px-2 py-2 border-b border-primary-fg/50 rounded-md">
                                         ISBN
                                     </th>
                                     <th className="px-2 py-2 border-b border-primary-fg/50">
