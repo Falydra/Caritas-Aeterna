@@ -3,20 +3,18 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Models\Donation;
-
-
 use Inertia\Inertia;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Admin;
+
+
+use App\Models\Donee;
+use App\Models\Donation;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
-class ManageDonationsController extends Controller
-{
-
-    public function index()
-    {
+ class ManageDonationsController extends Controller {
+    public function index() {
         $donations = Donation::with('initiator:id,username')
             ->orderBy('created_at', 'desc')
             ->paginate(10)
@@ -24,11 +22,11 @@ class ManageDonationsController extends Controller
                 return $donation->toArray() + ['initiator' => $donation->initiator->username];
             });
 
-         if (Auth::user()->role() != Admin::class) {
+        if (Auth::user()->role() != Admin::class) {
             return Inertia::render('Error', [
                 'code' => '403',
                 'status' => 'forbidden',
-                'message' => 'dih ogah, lu siapa coba'
+                'message' => 'You do not have permission to access this resource.'
             ]);
         }
 
@@ -41,15 +39,22 @@ class ManageDonationsController extends Controller
         ]);
     }
 
-    public function edit(Request $request)
-    {
-        $donation = Donation::findOrFail($request->id);
-
-        if (Auth::user()->role() != Admin::class) {
+    public function edit(Request $request) {
+        $user = Auth::user();
+        if ($user->role() !== Admin::class && $user->role() !== Donee::class) {
             return Inertia::render('Error', [
                 'code' => '403',
                 'status' => 'forbidden',
-                'message' => 'dih ogah, lu siapa coba'
+                'message' => 'You do not have permission to access this resource.'
+            ]);
+        }
+
+        $donation = Donation::findOrFail($request->id);
+        if ($user->role() === Donee::class && $user->id !== $donation->initiator_id) {
+            return Inertia::render('Error', [
+                'code' => 403,
+                'status' => 'forbidden',
+                'message' => 'You do not have permission to access this resource.'
             ]);
         }
 
@@ -62,8 +67,7 @@ class ManageDonationsController extends Controller
         ]);
     }
 
-        public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id) {
         $donation = Donation::findOrFail($id);
         $validated = $request->validate([
             'title' => 'required|string|max:255',
@@ -82,5 +86,4 @@ class ManageDonationsController extends Controller
 
         return redirect()->route('admin.manage-donations.edit', ['id' => $donation->id])->with('success', 'Donation updated!');
     }
-
 }

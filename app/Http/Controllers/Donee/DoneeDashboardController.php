@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Donee;
 
 use App\Http\Controllers\Controller;
+use App\Models\Donation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -47,6 +48,37 @@ class DoneeDashboardController extends Controller {
                 'roles' => $user->roleName()
             ],
             'data' => $donations
+        ]);
+    }
+
+    public function donatedItems(Donation $donation) {
+        $user = Auth::user();
+        if ($user->role() !== Donee::class && $user->id !== $donation->initiator_id) {
+            return Inertia::render('Error', [
+                'code' => 403,
+                'status' => 'forbidden',
+                'message' => "You do not have permission to access this resources."
+            ]);
+        }
+
+        $items = $donation->select([
+            'id',
+            'initiator_id',
+            'type',
+            'type_attributes',
+            'title'
+        ])->with([
+            'donorDonations:id,donation_id',
+            'donorDonations.funds:id,order_id,donor_donation_id,amount,status,updated_at',
+            'donorDonations.donationItem:id,donor_donation_id,product_amount,package_picture,resi,status,updated_at'
+        ])->first();
+
+        return Inertia::render('Donation/DonatedItemList', [
+            'auth' => [
+                'user' => $user,
+                'roles' => $user->roleName()
+            ],
+            'data' => $items
         ]);
     }
 }

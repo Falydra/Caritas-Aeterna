@@ -20,18 +20,12 @@ interface ManageDonationsProps {
             user: User;
             roles: string;
         };
-        [key: string]: any; 
+        [key: string]: any;
 }
 
 
 export default function ManageDonations() {
     const { donations } = usePage<ManageDonationsProps>().props;
-
-    console.log(donations);
-    
-    
-
-    
 
     return (
         <Authenticated>
@@ -58,7 +52,7 @@ export default function ManageDonations() {
                                         <td className='p-4 border-b'>{item.id}</td>
                                         <td className='p-4 border-b'>{item.title}</td>
                                         <td className='p-4 border-b'>{item.initiator.username}</td>
-                                        
+
                                         <td className='p-4 border-b'>
                                         {item.type === "App\\Models\\ProductDonation"
                                             ? item.type_attributes.product_amount
@@ -72,7 +66,7 @@ export default function ManageDonations() {
                                                 <Button className="w-8 h-8 aspect-square rounded-full " variant={"ghost"}>
                                                     <PiDotsThreeBold className="w-4 h-4 aspect-square self-center" />
                                                 </Button>
-                                                
+
                                             </DropdownMenuTrigger>
                                             <DropdownMenuContent className="w-48 mr-12">
                                                 <DropdownMenuLabel>Account</DropdownMenuLabel>
@@ -85,13 +79,7 @@ export default function ManageDonations() {
                                                     </DropdownMenuGroup>
                                             </DropdownMenuContent>
                                         </DropdownMenu>
-                                                        
-
                                         </td>
-                                            
-
-
-                                        
                                     </tr>
                                 ))}
                             </tbody>

@@ -18,6 +18,7 @@ import {
     ThemeProvider,
     ToggleButton,
     ToggleButtonGroup,
+    Typography,
 } from "@mui/material";
 import { amber, grey } from "@mui/material/colors";
 import { Inertia } from "@inertiajs/inertia";
@@ -221,7 +222,7 @@ export default function DonationHistory() {
                 .finally(() => setLoading(false));
         }
     }, [category, page]);
-    
+
     const handleCategoryChange = (
         event: React.MouseEvent<HTMLElement>,
         newCategory: string
@@ -325,7 +326,7 @@ export default function DonationHistory() {
                                                     <TableCell>
                                                         {row.type}
                                                     </TableCell>
-                                                    <TableCell>
+                                                    <TableCell className="font-bold">
                                                         {
                                                             row.donor_donation
                                                                 .donation.title
