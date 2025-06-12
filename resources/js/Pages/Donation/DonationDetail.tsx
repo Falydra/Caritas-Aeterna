@@ -257,20 +257,20 @@ export default function DonationDetail() {
                                 className="w-full"
                                 labelAlignment="outside"
                                 isLabelVisible={false}
-                                completed={donation.type ==="App\\Models\\ProductDonation"
-                            ? donation.type_attributes
-                                  .fulfilled_product_amount
-                            : donation.type ===
-                              "App\\Models\\Fundraiser"
-                            ? (formatPrice(donation.type_attributes.current_fund))
-                            : "-"} maxCompleted={donation.type ===
-                        "App\\Models\\ProductDonation"
-                            ? (donation.type_attributes.product_amount)
-                            : donation.type ===
-                              "App\\Models\\Fundraiser"
-                            ? (formatPrice(donation.type_attributes.target_fund))
-                            : "-"}
-                               
+                                completed={
+                                    donation.type === "App\\Models\\ProductDonation"
+                                        ? donation.type_attributes.fulfilled_product_amount
+                                        : donation.type === "App\\Models\\Fundraiser"
+                                        ? donation.type_attributes.current_fund
+                                        : 0
+                                }
+                                maxCompleted={
+                                    donation.type === "App\\Models\\ProductDonation"
+                                        ? donation.type_attributes.product_amount
+                                        : donation.type === "App\\Models\\Fundraiser"
+                                        ? donation.type_attributes.target_fund
+                                        : 100
+                                }
                             />
                             <h1 className="font-thin text-xs text-center">
                                 Terkumpul
@@ -296,36 +296,34 @@ export default function DonationDetail() {
                                     : "-"}
                             </h2>
                             <div className="flex flex-row w-full py-4 items-center rounded-md hover:bg-primary-accent/50 h-1/6 border-b border-primary-fg/15 cursor-pointer">
-                                <CardTitle>Donasi</CardTitle>
-                                <div className="w-2/12 h-[20px] flex flex-col items-center justify-center rounded-3xl bg-primary-accent/40">
-                                    <h1>Jawa</h1>
-                                </div>
+                                <CardTitle>Donasi Terbaru</CardTitle>
                             </div>
                             <div className="w-full flex flex-col h-full items-start justify-start gap-y-8 ">
                                 <div className="flex flex-col h-3/6 gap-y-4 w-full justify-between">
                                     <div className="w-full flex flex-col py-4 gap-4 shadow-sm rounded-md shadow-primary-fg h-full overflow-y-auto">
                                         <div className="w-full flex flex-col gap-4">
-                                            {[1, 2, 3, 4, 5, 6, 7, 8].map(
-                                                (_, idx) => (
+                                            {/* Ganti bagian ini dengan data donasi terbaru dari database */}
+                                            {donation.latest_donations && donation.latest_donations.length > 0 ? (
+                                                donation.latest_donations.map((donor: any, idx: number) => (
                                                     <div
                                                         key={idx}
                                                         className="w-full h-[55px] py-2 hover:bg-primary-accent flex rounded-md cursor-pointer items-center flex-row gap-4 justify-start px-2"
                                                     >
-                                                        <div className="w-10 h-10 flex items-center aspect-square justify-center rounded-full bg-primary-fg cursor-pointer text-primary-fg"></div>
+                                                        <div className="w-10 h-10 flex items-center aspect-square justify-center rounded-full bg-primary-fg cursor-pointer text-primary-fg">
+                                                            {/* Bisa tambahkan avatar jika ada */}
+                                                        </div>
                                                         <div className="w-full flex-col items-start justify-center flex ">
                                                             <h1 className="text-md font-semibold">
-                                                                {
-                                                                    donation
-                                                                        .initiator
-                                                                        .username
-                                                                }
+                                                                {donor.user?.username ?? "Anonim"}
                                                             </h1>
                                                             <h3 className="text-sm text-muted-foreground">
-                                                                Rp 10.000
+                                                                Rp {donor.amount?.toLocaleString("id-ID")}
                                                             </h3>
                                                         </div>
                                                     </div>
-                                                )
+                                                ))
+                                            ) : (
+                                                <div className="text-sm text-muted-foreground px-2">Belum ada donasi terbaru.</div>
                                             )}
                                         </div>
                                     </div>
