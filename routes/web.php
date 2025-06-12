@@ -39,7 +39,7 @@ Route::get('/', function () {
     $user = auth()->user();
     $role = $user ? $user->roleName() : "";
 
-    $donation = Donation::with('initiator:id,username')->get();
+    $donation = Donation::with('initiator:id,username')->where('type', 'App\\Models\\Fundraiser')->where('status', '=', 'on_progress')->get();
     $bookDonation = Donation::where('type', 'App\\Models\\ProductDonation')->get();
     return Inertia::render('Welcome', [
         'auth' => [

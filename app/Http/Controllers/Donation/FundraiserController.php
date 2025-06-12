@@ -56,9 +56,14 @@ class FundraiserController extends Controller {
     }
 
     public function show(Fundraiser $donation) {
+        
         $donation = Fundraiser::with('initiator:id,username')->findOrFail($donation->id);
         return Inertia::render('Donation/DonationDetail', [
-            'donation' => $donation
+            'donation' => $donation,
+            'auth' => [
+                'user' => Auth::user(),
+                'roles' => Auth::user()->roleName(),
+            ],
         ]);
     }
 

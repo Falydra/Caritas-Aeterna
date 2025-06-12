@@ -73,10 +73,15 @@ export type Books = {
 
 export type Fund = {
     id: number;
+    order_id: string;
+    donation_id: number;
     donor_donation_id: number;
+    donation_type: string;
     amount: number;
-    // user_id: User.id;
-    // transfer_date: string;
+    status: string;
+    snap_token: string;
+    redirect_url: string;
+
 };
 
 export type Donor = {
