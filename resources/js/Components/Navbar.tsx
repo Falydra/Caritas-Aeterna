@@ -2,10 +2,11 @@ import { PageProps } from "@/types";
 import { Inertia } from "@inertiajs/inertia";
 import { Link, usePage } from "@inertiajs/react";
 import { IoPersonOutline } from "react-icons/io5";
-import { HoverCard, HoverCardContent, HoverCardTrigger } from "./ui/hover-card";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+
 import { FaHome } from "react-icons/fa";
 import { IoIosLogOut } from "react-icons/io";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/Components/ui/dropdown-menu";
+import { Button } from "@/Components/ui/button";
 
 interface CustomPageProps extends PageProps {
     auth: {
@@ -98,37 +99,46 @@ export default function Navbar() {
                         <div className="flex w-full items-end justify-end px-4">
                             <Link
                                 href={route("login")}
-                                className="items-center justify-center mr-3 bg-primary-bg w-1/4 h-[50px] text-center flex rounded-md  text-primary-fg/50 hover:text-primary-fg/100 cursor-pointer"
+                                className="items-center justify-center mr-3 bg-primary-bg w-1/3 h-[50px] text-center flex   text-primary-fg hover:text-primary-fg/100 cursor-pointer"
                                 onClick={() => Inertia.get("/login")}
                             >
                                 Login
                             </Link>
                         </div>
                     ) : (
-                        <div className="flex w-full items-end justify-end px-4">
-                            <HoverCard>
-                                <HoverCardTrigger asChild>   
-                                    <div
-                                        className="w-12 h-12 flex items-center aspect-square justify-center rounded-full bg-primary-bg cursor-pointer text-primary-fg"
-                                        
+                        <div className="flex w-full items-end justify-end px-4 overflow-y-auto" >
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild className="w-full h-full">
+                                    <Button
+                                        className="w-12 h-12 aspect-square rounded-full bg-primary-bg hover:bg-primary-bg focus:outline-none focus:ring-0 focus:border-none active:outline-none active:ring-0 active:border-none shadow-none"
+                                        tabIndex={0}
+                                        type="button"
                                     >
-                                        <IoPersonOutline className="w-5 h-5" />
-                                    </div>
-                                </HoverCardTrigger>
-                                <HoverCardContent className="w-40 mr-4  flex items-start justify-start">
-                                    <div className="flex flex-col justify-start items-start w-full h-full">
-                                        <Link href={dashboardIdentifier} className="flex gap-4 px-2 justify-start w-full h-[45px] items-center bg-transparent hover:bg-muted-foreground/20 rounded-md text-primary-bg font-semibold text-md ">
-                                            
-                                            Dashboard
+                                        <IoPersonOutline className="w-6 h-6 aspect-square self-center text-primary-fg" />
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent className="w-48 mr-4 overflow-y-auto" >
+                                    <DropdownMenuLabel>Account</DropdownMenuLabel>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuGroup>
+                                        <Link
+                                            href={dashboardIdentifier}
+                                            className="flex justify-between w-full h-8 items-center bg-transparent hover:bg-muted-foreground/20 rounded-md text-primary-bg px-2 font-semibold text-sm"
+                                        >
+                                           Dashboard
+                                            <FaHome className="w-4 h-4 aspect-square self-center" />
                                         </Link>
-                                        
-                                        <Link method="post" href={route("logout")} className="flex gap-4 px-1 justify-start w-full h-[45px] items-center bg-transparent hover:bg-muted-foreground/20 rounded-md text-primary-bg font-semibold text-md ">
-                                           
+                                        <Link
+                                            method="post"
+                                            href={route("logout")}
+                                            className="flex justify-between w-full h-8 items-center bg-transparent hover:bg-muted-foreground/20 rounded-md text-primary-bg px-2 font-semibold text-sm"
+                                        >
                                             Logout
+                                            <IoIosLogOut className="w-4 h-4 aspect-square self-center" />
                                         </Link>
-                                    </div>
-                                </HoverCardContent>
-                            </HoverCard>
+                                    </DropdownMenuGroup>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
 
                         </div>
                     )}
