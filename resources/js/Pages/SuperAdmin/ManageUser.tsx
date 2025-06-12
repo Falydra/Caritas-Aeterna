@@ -60,8 +60,8 @@ export default function ManageUsers() {
                     <p className="text-lg">Manage all users in the system.</p>
                     {/* <p className="text-lg">Manage all admin users in the system.</p> */}
                     <Link
-                        href={route("super-admin.manage-users.create-user")}
-                        className="px-4 py-2 bg-primary-accent/50 text-white rounded"
+                        href={route("super-admin.manage-users.create-user-form")}
+                        className="px-4 py-2 bg-primary-accent text-white rounded"
                     >
                         Tambah Admin
                     </Link>

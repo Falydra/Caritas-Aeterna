@@ -109,7 +109,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard/super-admin/manage-users', [ManageUserController::class, 'index'])->name('super-admin.manage-users');
     Route::get('/dashboard/super-admin/manage-users/edit', [ManageUserController::class, 'edit'])->name('super-admin.manage-users.edit');
     Route::patch('/dashboard/super-admin/manage-users/{id}', [ManageUserController::class, 'update'])->name('super-admin.manage-users.update');
-    Route::get('/dashboard/super-admin/manage-users/create-user', [ManageUserController::class, 'showCreateForm'])->name('super-admin.manage-users.create-user');
+    Route::get('/dashboard/super-admin/manage-users/create-user-form', [ManageUserController::class, 'showCreateForm'])->name('super-admin.manage-users.create-user-form');
+    Route::post('/dashboard/super-admin/manage-users/create-user', [AdminController::class, 'create'])->name('super-admin.manage-users.create-user');
     Route::delete('/dashboard/super-admin/manage-users/delete/{id}', [AdminController:: class, 'destroy'])->name('super-admin.manage-users.delete');
     Route::get('/dashboard/super-admin/profile', [SuperProfileController::class, 'index'])->name('super-admin.profile');
     Route::patch('/dashboard/super-admin/profile', [SuperProfileController::class, 'update'])->name('super-admin.profile.update');
