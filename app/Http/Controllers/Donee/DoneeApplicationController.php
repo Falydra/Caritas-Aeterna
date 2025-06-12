@@ -30,12 +30,20 @@ class DoneeApplicationController extends Controller {
         }
 
         $paginatedApplications = DoneeApplication::where('status', DoneeApplicationStatusEnum::PENDING->value)
+            ->with(['applicant:id,username'])
             ->select('id', 'donor_id', 'status', 'reviewed_by', 'reviewed_at', 'created_at', 'updated_at')
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 
         $applicationData = $paginatedApplications->getCollection()->map(function ($application) {
-            return $application->toArray();
+            $data = $application->toArray();
+
+            if ($application->relationLoaded('applicant') && $application->applicant) {
+                $data['donor_username'] = $application->applicant->username;
+            } else {
+                $data['donor_username'] = null;
+            }
+            return $data;
         });
 
         return Inertia::render('Admin/ManageApplication', [

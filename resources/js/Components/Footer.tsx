@@ -7,10 +7,13 @@ export default function Footer() {
     return (
         <div className="flex w-full h-[325px]  md:flex-row flex-row bg-primary-fg items-start py-4 justify-center px-16 gap-8 overflow-y-hidden ">
             <div className="flex flex-col w-4/12 h-full items-center justify-center gap-4">
-                <img
-                    src="/images/LogoYayasan.png"
-                    className="w-2/5 aspect-square flex h-2/5"
-                />
+                <div className="flex items-center justify-center w-full h-full">
+                    <img
+                        src="/images/LogoYayasan.png"
+                        className="w-2.5/5 aspect-square flex h-2.5/5"
+                    />
+                </div>
+
                 <div className="flex flex-row items-center justify-start w-full gap-8 h-full">
                     <a
                         href="https://www.facebook.com/undip.official"

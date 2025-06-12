@@ -4,12 +4,24 @@ import { usePage } from "@inertiajs/react";
 import { Link } from "@inertiajs/react";
 import { FaRegEdit, FaTrashAlt } from "react-icons/fa";
 import { useState } from "react";
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuGroup } from "@/Components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuGroup } from "@/Components/ui/dropdown-menu";
 import { IoIosLogOut } from "react-icons/io";
 import { Button } from "@/Components/ui/button";
 import { PiDotsThreeBold } from "react-icons/pi";
 
 
+
+import { router } from "@inertiajs/react";
+
+
+const handleDelete = (id: number | undefined) => {
+    if (confirm("Are you sure you want to delete this user?")) {
+        router.delete(route("admin.manage-users.delete", { id }), {
+            data: { id }, // ✅ required for your controller
+            preserveScroll: true,
+        });
+    }
+};
 
 
 interface AdminDashboardProps {
@@ -110,10 +122,19 @@ export default function ManageUsers() {
                                                 <DropdownMenuLabel>Quick Actions</DropdownMenuLabel>
                                                     <DropdownMenuSeparator />
                                                     <DropdownMenuGroup>
-                                                    <Link  href={route("admin.manage-users.edit", {id: item.id})} className="flex justify-between w-full h-8 items-center bg-transparent hover:bg-primary-accent/65 rounded-md text-primary-bg px-2 font-semibold text-sm ">
-                                                        Edit
-                                                    <FaRegEdit className="w-4 h-4 aspect-square " />
-                                                    </Link>
+                                                        <Link  href={route("admin.manage-users.edit", {id: item.id})} className="flex justify-between w-full h-8 items-center bg-transparent hover:bg-primary-accent/65 rounded-md text-primary-bg px-2 font-semibold text-sm ">
+                                                            Edit
+                                                        <FaRegEdit className="w-4 h-4 aspect-square " />
+                                                        </Link>
+                                                    </DropdownMenuGroup>
+                                                    <DropdownMenuGroup>
+                                                        <DropdownMenuItem
+                                                            onClick={() => handleDelete(item.id)}
+                                                            className="flex justify-between w-full h-8 items-center bg-transparent hover:bg-primary-accent/65 rounded-md text-red-600 px-2 font-semibold text-sm"
+                                                        >
+                                                            Hapus
+                                                            <FaTrashAlt className="w-4 h-4 aspect-square" />
+                                                        </DropdownMenuItem>
                                                     </DropdownMenuGroup>
                                             </DropdownMenuContent>
                                         </DropdownMenu>

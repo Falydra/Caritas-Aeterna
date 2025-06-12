@@ -1,7 +1,7 @@
 // Admin/ManageApplication.tsx
 
 import Authenticated from "@/Layouts/AuthenticatedLayout";
-import { User } from "@/types";
+import { User, UserIdentity, UserProfile } from "@/types";
 import { usePage, Link, router } from "@inertiajs/react";
 import { useState, useEffect } from "react"; // Import useEffect
 import { FaTimes, FaSpinner } from "react-icons/fa"; // Added FaSpinner for loading
@@ -10,6 +10,7 @@ import { FaTimes, FaSpinner } from "react-icons/fa"; // Added FaSpinner for load
 interface ApplicationItem {
     id: number;
     donor_id: number;
+    donor_username: string;
     status: string;
     reviewed_by: number | null;
     reviewed_at: string | null;
@@ -53,36 +54,14 @@ interface DonorDetails {
     updated_at: string | null;
     has_profile: boolean;
     has_identity: boolean;
-    profile: {
-        full_name: string;
-        phone_number: string | null;
-        date_of_birth: string | null;
-        gender: string | null;
-        profile_picture: string | null;
-    } | null;
-    identity: {
-        nik: string;
-        full_name: string;
-        id_card_image: string | null;
-        verified_at: string | null;
-        address: { // <--- UPDATE THIS PART
-            address_detail: string | null;
-            rt: string | null;
-            rw: string | null;
-            kelurahan: string | null;
-            kecamatan: string | null;
-            city: string | null;
-            province: string | null;
-            postal_code: string | null;
-            // country: string | null; // You removed 'country' from PHP, so remove/keep as needed
-                                   // Add any other address fields from your PHP function
-        } | null;
-    } | null;
+    profile: UserProfile;
+    identity: UserIdentity;
 }
 
 
 export default function ManageApplication() {
     const { applications, auth, flash, errors } = usePage<CurrentPageProps>().props;
+    console.log(applications)
 
     // State for modal
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -197,6 +176,7 @@ export default function ManageApplication() {
                                     <th className='py-3 border-b border-primary-fg'>No</th>
                                     <th className='py-3 border-b border-primary-fg'>App ID</th>
                                     <th className='py-3 border-b border-primary-fg'>Donor ID</th>
+                                    <th className='py-3 border-b border-primary-fg'>Donor Username</th>
                                     <th className='py-3 border-b border-primary-fg'>Status</th>
                                     <th className='py-3 border-b border-primary-fg'>Reviewed By (Admin ID)</th>
                                     <th className='py-3 border-b border-primary-fg'>Submitted At</th>
@@ -213,6 +193,7 @@ export default function ManageApplication() {
                                         <td className='p-4 border-b border-primary-fg'>{(applications.current_page - 1) * applications.per_page + index + 1}</td>
                                         <td className='p-4 border-b border-primary-fg'>{application.id}</td>
                                         <td className='p-4 border-b border-primary-fg'>{application.donor_id}</td>
+                                        <td className='p-4 border-b border-primary-fg'>{application.donor_username}</td>
                                         <td className='p-4 border-b border-primary-fg'>
                                             <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
                                                 ${application.status === 'pending' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300' : ''}
