@@ -2,15 +2,17 @@ import Guest from "@/Layouts/GuestLayout";
 import { router, usePage } from "@inertiajs/react";
 import initiator_data from "@/config/initiator_data";
 import { Donation, User } from "@/types";
-import CharityNews from "@/Components/CharityNews";
 import ProgressBar from "@ramonak/react-progress-bar";
 import { CardTitle } from "@/Components/ui/card";
 import { Button } from "@/Components/ui/button";
 import GeneralNews from "../GeneralNews";
-import { ChangeEvent, useState } from "react";
-import nominal_donasi from "@/config/nominal_donasi";
-import { Input } from "@headlessui/react";
+import { ChangeEvent, useState, useRef, useEffect } from "react";
 import { IoDocumentTextOutline } from "react-icons/io5";
+import { toast } from "sonner";
+import SearchBook from "@/Pages/Book/Search";
+import BookCollection from "@/Pages/Book/Collection";
+import { Book } from "@/types";
+
 
 interface DonationDetailPageProsps extends Donation {
     donation: Donation;
@@ -51,23 +53,103 @@ function formatPrice(value: number): string {
 
 export default function DonationDetail() {
     const { donation, auth } = usePage<DonationDetailPageProsps>().props;
-    const [paymentModal, setPaymentModal] = useState(false);
-    const [paymentAmount, setPayment] = useState(0);
-    console.log("DonationDetail", donation.type_attributes.target_fund);
-    console.log("DonationDetail", donation.header_image);
-
-    const amount = [10000, 25000, 50000, 75000, 100000, 125000, 150000, 200000];
-    const descriptions = combineDescriptionSorted(
+     const descriptions = combineDescriptionSorted(
         donation.text_descriptions,
         donation.image_descriptions
     );
+    const [paymentModal, setPaymentModal] = useState(false);
+    const [paymentAmount, setPayment] = useState(0);
+    const [selectedBooks, setSelectedBooks] = useState<{ book: Book; amount: number }[]>([]);
+    const imageDescriptions = descriptions.filter(item => item.type === "image");
+    const previewImages = [
+        { type: "header", value: donation.header_image },
+        ...imageDescriptions,
+    ];
+    const [currentImageIdx, setCurrentImageIdx] = useState(0);
+    const intervalRef = useRef<NodeJS.Timeout | null>(null);
+    const amount = [10000, 25000, 50000, 75000, 100000, 125000, 150000, 200000];
+    const [productAmount, setProductAmount] = useState(1);
+    const [producDonationModal, setProductDonationModal] = useState(false);
+    const [resi, setResi] = useState("");
+    const [packagePicture, setPackagePicture] = useState<File | null>(null);
+    const [isbn, setIsbn] = useState("");
+
+    const handleAddBook = (book: Book, amount: number) => {
+    
+    if (!selectedBooks.some((b) => b.book.isbn === book.isbn)) {
+        setSelectedBooks([...selectedBooks, { book, amount }]);
+    }
+    };
+
+     useEffect(() => {
+        if (previewImages.length === 0) return;
+        intervalRef.current = setInterval(() => {
+            setCurrentImageIdx(idx => (idx + 1) % previewImages.length);
+        }, 3000);
+        return () => {
+            if (intervalRef.current) clearInterval(intervalRef.current);
+        };
+    }, [previewImages.length, donation.header_image]);
+
+
+    const handleChangeAmount = (book: Book, delta: number) => {
+        setSelectedBooks((prev) =>
+            prev.map((b) =>
+                b.book.isbn === book.isbn
+                    ? { ...b, amount: Math.max(1, b.amount + delta) }
+                    : b
+            )
+        );
+    };
+
+    const handleDeleteBook = (book: Book) => {
+        setSelectedBooks((prev) => prev.filter((b) => b.book.isbn !== book.isbn));
+    };
+
+    const handleProductDonationSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        const formData = new FormData();
+        formData.append("data[type]", donation.type);
+        formData.append("data[user_id]", String(auth.user.id) );
+        formData.append("data[donation_id]", String(donation.id));
+        formData.append("data[products][books][0][isbn]", isbn);
+        formData.append("data[products][books][0][amount]", String(productAmount));
+        selectedBooks.forEach((b, idx) => {
+            formData.append(`data[products][books][${idx}][isbn]`, b.book.isbn);
+            formData.append(`data[products][books][${idx}][amount]`, String(b.amount));
+        });
+        formData.append("data[resi]", resi);
+        if (packagePicture) {
+            formData.append("data[package_picture]", packagePicture);
+        }
+
+        console.log("Form Data:", formData);
+        console.log("Data sampe sini");
+        setProductDonationModal(false);
+
+
+        router.post(route("donations.donate"), formData, {
+            onSuccess: () => {
+                console.log("Product donation successful");
+                
+                toast.success("Donasi produk berhasil!");
+                router.reload({ only: ['donation'] });
+                
+            },
+        });
+    };
+   
 
     const type = donation.type.split("\\").at(-1);
 
     console.log(donation);
 
     function handleModalButtonClick() {
-        setPaymentModal(true);
+       if (donation.type === "App\\Models\\ProductDonation") {
+            setProductDonationModal(true);
+        } else {
+            setPaymentModal(true);
+        }
     }
 
     function handlePaymentButtonClick(x: number) {
@@ -119,21 +201,29 @@ export default function DonationDetail() {
                     <div className="flex flex-col gap-4 w-9/12 h-full justify-start items-start">
                         <div className="w-full h-96 aspect-square bg-gray-300 rounded-lg">
                             <img
-                                src={donation.header_image}
-                                className="w-full h-full rounded-lg object-cover"
+                                key={currentImageIdx}
+                                src={previewImages[currentImageIdx]?.value}
+                                className="w-full h-full rounded-lg object-cover transition-all duration-700 animate-fade-in"
                                 alt="Header Image"
                             />
                         </div>
                         <div className="w-full h-[100px] flex flex-row items-start justify-start space-x-2">
+                             <img
+                                src={donation.header_image}
+                                className=" h-full rounded-lg object-cover"
+                                alt="Header Image"
+                            />
                             {descriptions.map(
                                 (item, index) =>
                                     item.type === "image" && (
+                                       
                                         <img
                                             key={index}
                                             src={item.value}
                                             className="h-full object-cover rounded-lg"
                                             alt={`Description ${index}`}
                                         />
+                                      
                                     )
                             )}
                         </div>
@@ -167,12 +257,20 @@ export default function DonationDetail() {
                                 className="w-full"
                                 labelAlignment="outside"
                                 isLabelVisible={false}
-                                completed={
-                                    donation.type_attributes.current_fund
-                                }
-                                maxCompleted={
-                                    donation.type_attributes.target_fund
-                                }
+                                completed={donation.type ==="App\\Models\\ProductDonation"
+                            ? donation.type_attributes
+                                  .fulfilled_product_amount
+                            : donation.type ===
+                              "App\\Models\\Fundraiser"
+                            ? (formatPrice(donation.type_attributes.current_fund))
+                            : "-"} maxCompleted={donation.type ===
+                        "App\\Models\\ProductDonation"
+                            ? (donation.type_attributes.product_amount)
+                            : donation.type ===
+                              "App\\Models\\Fundraiser"
+                            ? (formatPrice(donation.type_attributes.target_fund))
+                            : "-"}
+                               
                             />
                             <h1 className="font-thin text-xs text-center">
                                 Terkumpul
@@ -245,21 +343,96 @@ export default function DonationDetail() {
                 </div>
 
                 {/* <CharityNews isMore={true} /> */}
-                {paymentModal && (
-                    <div className="fixed z-50 inset-0 bg-black bg-opacity-50 flex text-primary-bg items-center justify-center">
+                
+                {producDonationModal && (
+                    <div className="fixed z-50 backdrop-blur-md inset-0 bg-black bg-opacity-50 flex text-primary-bg items-center justify-center">
+                        <div className="bg-white w-1/3 h-5/6 rounded-xl flex flex-col p-4 overflow-y-auto">
+                            <form
+                                onSubmit={handleProductDonationSubmit}
+                                className="w-full max-w-md flex flex-col gap-4"
+                            >
+                                <h2 className="text-lg font-bold">Donasi Produk</h2>
+                                <SearchBook onAddbook={handleAddBook} className="border-primary-bg border rounded-md" />
+                                <BookCollection
+                                className="border-primary-bg border rounded-md"
+                                    selectedBooks={selectedBooks}
+                                    onChangeAmount={handleChangeAmount}
+                                    onDeleteBook={handleDeleteBook}
+                                />
+                                <label>
+                                    ISBN Buku
+                                    <input
+                                        type="text"
+                                        value={isbn}
+                                        onChange={e => setIsbn(e.target.value)}
+                                        className="w-full p-2 border rounded-md border-primary-bg"
+                                        required
+                                    />
+                                </label>
+                                <label>
+                                    Jumlah Produk
+                                    <input
+                                        type="number"
+                                        min={1}
+                                        value={productAmount}
+                                        onChange={e => setProductAmount(Number(e.target.value))}
+                                        className="w-full p-2 border rounded-md border-primary-bg"
+                                        required
+                                    />
+                                </label>
+                                <label>
+                                    Resi Pengiriman
+                                    <input
+                                        type="text"
+                                        value={resi}
+                                        onChange={e => setResi(e.target.value)}
+                                        className="w-full p-2 border border-primary-bg rounded-md"
+                                        required
+                                    />
+                                </label>
+                                <label>
+                                    Bukti Pengiriman (Gambar)
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={e => setPackagePicture(e.target.files?.[0] || null)}
+                                        className="w-full p-2 border rounded-md border-primary-bg"
+                                        required
+                                    />
+                                </label>
+                                <button
+                                    type="submit"
+                                    className="bg-primary-accent text-white px-4 py-2 rounded-md transition-shadow duration-200 shadow hover:shadow-[0_0_16px_4px_rgba(37,99,235,0.5)]"
+                                    onClick={handleProductDonationSubmit}
+                                >
+                                    Donasi Produk
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => setProductDonationModal(false)}
+                                    className="bg-primary-bg text-primary-fg hover:text-primary-bg px-4 py-2 rounded transition-colors duration-300 hover:bg-transparent hover:border hover:border-primary-bg"
+                                >
+                                    Tutup
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                )}
+                {paymentModal && auth.user && (
+                    <div className="fixed z-50 inset-0 bg-black backdrop-blur-md bg-opacity-50 flex text-primary-bg items-center justify-center">
                         <div className="bg-white w-1/3 h-5/6 rounded-xl flex flex-col">
                             {auth.user ? (
                                 <div className="w-full h-full flex flex-col p-4 overflow-y-auto">
                                     <h1 className="text-xl font-bold">
                                         Pilih Nominal Donasi
                                     </h1>
-                                    <div className="relative w-full">
-                                        <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500">
+                                    <div className="relative w-full border flex rounded-md border-b-0 rounded-b-none border-primary-bg">
+                                        <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 roounded-md">
                                             Rp.
                                         </span>
                                         <input
                                             placeholder="0"
-                                            className="w-full h-[50px] pl-10 text-primary-bg rounded-b-none"
+                                            className="w-full h-[50px] pl-10 text-primary-bg  rounded-md"
                                             value={paymentAmount}
                                             onFocus={(e) => e.target.select()}
                                             onChange={(e) =>
