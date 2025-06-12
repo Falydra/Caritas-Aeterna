@@ -115,15 +115,15 @@ export default function Navbar() {
                                         <IoPersonOutline className="w-5 h-5" />
                                     </div>
                                 </HoverCardTrigger>
-                                <HoverCardContent className="w-64 mr-4  flex items-start justify-start">
+                                <HoverCardContent className="w-40 mr-4  flex items-start justify-start">
                                     <div className="flex flex-col justify-start items-start w-full h-full">
-                                        <Link href={dashboardIdentifier} className="flex gap-4 px-2 justify-between w-full h-[45px] items-center bg-transparent hover:bg-muted-foreground/20 rounded-md text-primary-bg font-semibold text-md ">
-                                            <FaHome className="w-6 h-6 aspect-square self-center" />
+                                        <Link href={dashboardIdentifier} className="flex gap-4 px-2 justify-start w-full h-[45px] items-center bg-transparent hover:bg-muted-foreground/20 rounded-md text-primary-bg font-semibold text-md ">
+                                            
                                             Dashboard
                                         </Link>
                                         
-                                        <Link method="post" href={route("logout")} className="flex gap-4 px-2 justify-between w-full h-[45px] items-center bg-transparent hover:bg-muted-foreground/20 rounded-md text-primary-bg font-semibold text-md ">
-                                            <IoIosLogOut className="w-6 h-6 aspect-square self-center" />
+                                        <Link method="post" href={route("logout")} className="flex gap-4 px-1 justify-start w-full h-[45px] items-center bg-transparent hover:bg-muted-foreground/20 rounded-md text-primary-bg font-semibold text-md ">
+                                           
                                             Logout
                                         </Link>
                                     </div>

@@ -84,7 +84,8 @@ export function BookCharityCard() {
                 <p className="text-md text-muted-foreground">
                   {progressCompletedBook} / {totalDaysBook} days elapsed
                 </p>
-                <ProgressBar className="w-full" labelAlignment="outside" isLabelVisible={false} completed={donation.type ===
+                <ProgressBar className="w-full" labelAlignment="outside" isLabelVisible={false} 
+                completed={donation.type ===
                         "App\\Models\\ProductDonation"
                             ? donation.type_attributes
                                   .fulfilled_product_amount

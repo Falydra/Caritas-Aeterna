@@ -12,4 +12,5 @@ Route::get('/donations/{donation}', [DonationController::class, 'show'])->name('
 Route::get('/donations/search', [DonationController::class, 'search'])->name('donations.search');
 
 Route::get('/books/search', [BookController::class, 'search'])->name('books.search');
+Route::get('/donations/{donation}/books', [BookController::class, 'searchByDonation'])->name('donations.books.search');
 Route::resource('/books', BookController::class);

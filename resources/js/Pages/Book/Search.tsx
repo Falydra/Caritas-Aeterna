@@ -5,7 +5,7 @@ function formatPrice(value: number): string {
     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
-type SearchBookProps = {
+interface SearchBookProps {
   className?: string;
   onAddbook: (book: Book, amount: number) => void;
 };
