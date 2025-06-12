@@ -75,7 +75,7 @@ export default function DonationDetail() {
     const [isbn, setIsbn] = useState("");
 
     const handleAddBook = (book: Book, amount: number) => {
-    
+
     if (!selectedBooks.some((b) => b.book.isbn === book.isbn)) {
         setSelectedBooks([...selectedBooks, { book, amount }]);
     }
@@ -131,14 +131,14 @@ export default function DonationDetail() {
         router.post(route("donations.donate"), formData, {
             onSuccess: () => {
                 console.log("Product donation successful");
-                
+
                 toast.success("Donasi produk berhasil!");
                 router.reload({ only: ['donation'] });
-                
+
             },
         });
     };
-   
+
 
     const type = donation.type.split("\\").at(-1);
 
@@ -216,14 +216,14 @@ export default function DonationDetail() {
                             {descriptions.map(
                                 (item, index) =>
                                     item.type === "image" && (
-                                       
+
                                         <img
                                             key={index}
                                             src={item.value}
                                             className="h-full object-cover rounded-lg"
                                             alt={`Description ${index}`}
                                         />
-                                      
+
                                     )
                             )}
                         </div>
@@ -270,7 +270,7 @@ export default function DonationDetail() {
                               "App\\Models\\Fundraiser"
                             ? (formatPrice(donation.type_attributes.target_fund))
                             : "-"}
-                               
+
                             />
                             <h1 className="font-thin text-xs text-center">
                                 Terkumpul
@@ -343,8 +343,8 @@ export default function DonationDetail() {
                 </div>
 
                 {/* <CharityNews isMore={true} /> */}
-                
-                {producDonationModal && (
+
+                {/* {producDonationModal && (
                     <div className="fixed z-50 backdrop-blur-md inset-0 bg-black bg-opacity-50 flex text-primary-bg items-center justify-center">
                         <div className="bg-white w-1/3 h-5/6 rounded-xl flex flex-col p-4 overflow-y-auto">
                             <form
@@ -417,7 +417,7 @@ export default function DonationDetail() {
                             </form>
                         </div>
                     </div>
-                )}
+                )} */}
                 {paymentModal && auth.user && (
                     <div className="fixed z-50 inset-0 bg-black backdrop-blur-md bg-opacity-50 flex text-primary-bg items-center justify-center">
                         <div className="bg-white w-1/3 h-5/6 rounded-xl flex flex-col">
