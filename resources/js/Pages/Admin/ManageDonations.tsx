@@ -50,6 +50,7 @@ export default function ManageDonations() {
         setSelectedDonation(donation);
         setShowStatusModal(true);
     };
+    
 
     
     const handleStatusChange = async (status: "on_progress" | "denied") => {
@@ -80,31 +81,7 @@ export default function ManageDonations() {
                 <div className="flex flex-col w-full items-center justify-center">
 
                     <div className="w-full max-h-[375px] overflow-y-auto rounded-md ">
-                        <table className="w-full text-center border rounded-full">
-                            <thead className="p-8 bg-primary-bg border border-primary-fg bg-opacity-35">
-                                <tr className="p-8 bg-primary-accent/65  ">
-                                    <th className="py-3 border-b border-primary-fg ">
-                                        No
-                                    </th>
-                                    <th className="py-3 border-b border-primary-fg">
-                                        ID
-                                    </th>
-                                    <th className="py-3 border-b border-primary-fg">
-                                        Donation Title
-                                    </th>
-                                    <th className="py-3 border-b border-primary-fg">
-                                        Initiator Name
-                                    </th>
-                                    <th className="py-3 border-b border-primary-fg">
-                                        Donation Target
-                                    </th>
-                                    <th className="py-3 border-b border-primary-fg">
-                                        Status
-                                    </th>
-                                    <th className="py-3 border-b border-primary-fg">
-                                        Actions
-                                    </th>
-
+                       
                     <div className='w-full max-h-[325px] overflow-y-auto rounded-md '>
                         <table className="w-full text-center border rounded-full">
                             <thead className='p-8 bg-primary-bg border border-primary-fg bg-opacity-35'>
@@ -167,22 +144,7 @@ export default function ManageDonations() {
 
                                         <td className="p-4 border-b ">
                                             <DropdownMenu>
-                                                <DropdownMenuTrigger
-                                                    asChild
-                                                    className="w-full h-full"
-                                                >
-                                                    <Button
-                                                        className="w-8 h-8 aspect-square rounded-full "
-                                                        variant={"ghost"}
-                                                    >
-                                                        <PiDotsThreeBold className="w-4 h-4 aspect-square self-center" />
-                                                    </Button>
-                                                </DropdownMenuTrigger>
-                                                <DropdownMenuContent className="w-48 mr-12">
-                                                    <DropdownMenuLabel>
-                                                        Account
-                                                    </DropdownMenuLabel>
-                                                    <DropdownMenu>
+                                                
                                                         <DropdownMenuTrigger
                                                             asChild
                                                             className="w-full h-full"
@@ -227,8 +189,8 @@ export default function ManageDonations() {
                                                             </DropdownMenuGroup>
                                                         </DropdownMenuContent>
                                                     </DropdownMenu>
-                                                </DropdownMenuContent>
-                                            </DropdownMenu>
+                                               
+                                            
                                         </td>
                                     </tr>
                                 ))}
@@ -236,7 +198,7 @@ export default function ManageDonations() {
                         </table>
                     </div>
                 </div>
-                <div className=" flex justify-between items-center sticky bottom-0 z-9 w-full">
+                <div className=" flex justify-between items-center sticky pt-4 bottom-0 z-9 w-full">
                     {donations.prev_page_url ? (
                         <Link
                             href={route("admin.manage-donations", {
@@ -309,7 +271,10 @@ export default function ManageDonations() {
                         </div>
                     </div>
                 </div>
+
             )}
+        </div>
         </Authenticated>
+
     );
 }
