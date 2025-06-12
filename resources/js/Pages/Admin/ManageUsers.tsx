@@ -36,7 +36,25 @@ export default function ManageUsers() {
     const { users } = usePage<AdminDashboardProps>().props;
     const [showModal, setShowModal] = useState(false);
     console.log(users);
-    
+
+    const [selectedIds, setSelectedIds] = useState<number[]>([]);
+
+    const isAllSelected = users.data.length > 0 && selectedIds.length === users.data.length;
+
+    const handleSelectAll = () => {
+    if (isAllSelected) {
+        setSelectedIds([]);
+    } else {
+        setSelectedIds(users.data.map(user => user.id).filter((id): id is number => typeof id === "number"));
+    }
+    };
+
+    const handleSelectOne = (id: number) => {
+    setSelectedIds(prev =>
+        prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]
+    );
+    };
+            
 
 
     
@@ -50,8 +68,15 @@ export default function ManageUsers() {
                         <table className="w-full text-center border rounded-full">
                             <thead className='p-8 bg-primary-bg border border-primary-fg bg-opacity-35'>
                                 <tr className='p-8 bg-primary-accent/50  '>
+                                    <th className='py-3 border-b border-primary-fg'>
+                                        <input
+                                            type="checkbox"
+                                            checked={isAllSelected}
+                                            onChange={handleSelectAll}
+                                        />
+                                    </th>
                                     <th className='py-3 border-b border-primary-fg '>No</th>
-                                    <th className='py-3 border-b border-primary-fg'>ID</th>
+                                    <th className='py-3 border-b border-primary-fg'>User ID</th>
                                     <th className='py-3 border-b border-primary-fg'>Username</th>
                                     <th className='py-3 border-b border-primary-fg'>Email</th>
                                     <th className='py-3 border-b border-primary-fg'>Role</th>
@@ -61,6 +86,13 @@ export default function ManageUsers() {
                             <tbody className='text-center'>
                                 {users.data.map((item, index) => (
                                     <tr key={item.id} className='text-center'>
+                                        <td className='p-4 border-b'>
+                                            <input
+                                                type="checkbox"
+                                                checked={selectedIds.includes(item.id || 0)}
+                                                onChange={() => handleSelectOne(item.id || 0)}
+                                            />
+                                        </td>
                                         <td className='p-4 border-b'>{(users.current_page - 1) * users.per_page + index + 1}</td>
                                         <td className='p-4 border-b'>{item.id}</td>
                                         <td className='p-4 border-b'>{item.username}</td>
