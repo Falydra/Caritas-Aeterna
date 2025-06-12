@@ -4,6 +4,7 @@ import Authenticated from "@/Layouts/AuthenticatedLayout";
 import { useState } from "react";
 import React, { Component } from 'react'
 import CreateDonation from "../Donation/Create";
+import axios from "axios";
 
 
 export default function DoneeCreateDonation() {
@@ -13,6 +14,8 @@ export default function DoneeCreateDonation() {
     const handleChangePage = (title: string) => {
         setActivePage(title);
     }
+
+    axios.get('/api/books');
 
     return (
         <Authenticated>
