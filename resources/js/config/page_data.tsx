@@ -20,11 +20,20 @@ export const DonorPage = {
                 isActive: false,
                 route: "/dashboard/donor/donation-history"
             },
+        
+        ] as MenuItem[],
+        profileItems: [
             {
                 title: "Profile",
                 url: "/dashboard/donor/profile",
                 isActive: false,
                 route: "donor.profile",
+            },
+            {
+                title: "Registrasi Inisiator Donasi",
+                url: "/dashboard/donor/profile/register-donee",
+                isActive: false,
+                route: "donor.donee-register-form",
             },
         ] as MenuItem[],
     },
