@@ -7,12 +7,12 @@ import TextInput from "@/Components/TextInput";
 import { Transition } from "@headlessui/react";
 import { FormEventHandler, useRef, useState } from "react";
 import { Head } from '@inertiajs/react';
+import UpdatePasswordForm from "../Profile/Partials/UpdatePasswordForm";
 
 interface ProfilePageProps {
     user: User;
     auth: { user: User; roles: string };
-    // mustVerifyEmail: boolean; // Removed
-    // status?: string; // Removed, if only used for verification status
+   
     [key: string]: any;
 }
 
@@ -155,8 +155,7 @@ export default function Profile() {
                                 <InputError className="mt-1 text-xs" message={profileErrors.email} />
                             </label>
 
-                            {/* REMOVED EMAIL VERIFICATION SECTION */}
-
+                            
                             <div className="flex items-center gap-4">
                                 <button type="submit" disabled={profileProcessing} className={confirmButtonClass}>
                                     Simpan Perubahan
@@ -295,6 +294,7 @@ export default function Profile() {
                                         Hapus Akun
                                     </button>
                                 </div>
+                                
                             </form>
                         </Modal>
                     </div>

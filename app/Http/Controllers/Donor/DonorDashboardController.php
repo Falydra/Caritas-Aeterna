@@ -22,11 +22,15 @@ class DonorDashboardController extends Controller {
             ]);
         }
 
+         $doneeApplication = Auth::user()->doneeApplication()->latest()->first();
+        $doneeApplicationStatus = $doneeApplication ? $doneeApplication->status : null;
+
         return Inertia::render('Donor/Dashboard', [
             'auth' => [
                 'user' => Auth::user(),
                 'roles' => Auth::user()->roleName(),
             ],
+            'doneeApplicationStatus' => $doneeApplicationStatus,
             'donations' => Donation::with('initiator:id,username')->get(),
         ]);
     }
@@ -41,12 +45,17 @@ class DonorDashboardController extends Controller {
         }
 
         $user = Auth::user();
+        $doneeApplication = Auth::user()->doneeApplication()->latest()->first();
+    $doneeApplicationStatus = $doneeApplication ? $doneeApplication->status : null;
+
 
         return Inertia::render('Donor/DonationHistory', [
             'auth' => [
                 'user' => $user,
                 'roles' => $user->roleName(),
-            ]
+            ],
+            'doneeApplicationStatus' => $doneeApplicationStatus,
+            
         ]);
     }
 };

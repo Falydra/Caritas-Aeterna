@@ -64,7 +64,7 @@ export default function ManageUsers() {
                 <h1 className="text-2xl font-bold">User Manager</h1>
                 <p className="text-lg">Manage all users in the system.</p>
                 <div className="flex flex-col w-full items-center justify-center">
-                    <div className='w-full max-h-[375px] overflow-y-auto rounded-md '>
+                    <div className='w-full max-h-[325px] overflow-y-auto rounded-md '>
                         <table className="w-full text-center border rounded-full">
                             <thead className='p-8 bg-primary-bg border border-primary-fg bg-opacity-35'>
                                 <tr className='p-8 bg-primary-accent/50  '>

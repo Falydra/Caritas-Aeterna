@@ -66,22 +66,6 @@ Route::get('/donation', function () {
 
 
 
-Route::get('/dashboard/cart', function () {
-    return Inertia::render('Dashboard/Cart');
-})->middleware(['auth', 'verified'])->name('cart');
-
-Route::get('/dashboard/payment', function () {
-    return Inertia::render('Dashboard/Payment');
-})->middleware(['auth', 'verified'])->name('payment');
-
-Route::get('/dashboard/donors', function () {
-    return Inertia::render('Dashboard/Donors');
-})->middleware(['auth', 'verified'])->name('donors');
-
-Route::get('/book-details', function () {
-    return Inertia::render('Book-Details');
-})->middleware(['auth', 'verified'])->name('book-details');
-
 
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -91,6 +75,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard/donor/profile', [DonorProfileController::class, 'index'])->name('donor.profile');
     Route::patch('/dashboard/donor/profile', [DonorProfileController::class, 'update'])->name('donor.profile.update');
     Route::delete('/dashboard/donor/profile', [DonorProfileController::class, 'destroy'])->name('donor.profile.destroy');
+    Route::get('/dashboard/donor/profile/register-donee', [DonorProfileController::class, 'showRegisterForm'])->name('donor.donee-register-form');
+    Route::post('dashboard/donor/profile/donee-registration', [DonorProfileController::class, 'doneeRegister'])->name('donor.donee-register');
     // Route::patch('/dashboard/donor/profile', [ProfileController::class, 'update'])->name('donor.profile.update');
     Route::get('/dashboard/donor/donation-history', [DonorDashboardController::class, 'donationHistoryIndex'])->name('donor.dashboard.donationHistory');
 
@@ -104,7 +90,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard/admin/manage-donations', [ManageDonationsController::class, 'index'])->name('admin.manage-donations');
     Route::get('/dashboard/admin/manage-donations/edit', [ManageDonationsController::class, 'edit'])->name('admin.manage-donations.edit');
     Route::post('/dashboard/admin/manage-donations/set-status', [ManageDonationsController::class, 'setStatus'])->name('admin.manage-donations.set-status');
-
 
     Route::patch('/dashboard/admin/manage-donations/{id}', [ManageDonationsController::class, 'update'])->name('admin.manage-donations.update');
     Route::patch('/dashboard/admin/manage-users/{id}', [ManageUsersController::class, 'update'])->name('admin.manage-users.update');

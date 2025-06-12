@@ -179,3 +179,39 @@ export type News = {
     description: string;
     image: string;
 };
+
+export type UserProfile = {
+    full_name: string;
+    phone_number: string | null;
+    date_of_birth: string | null;
+    gender: string | null;
+    profile_picture: string | null;
+} | null;
+
+export type UserIdentity = {
+     nik: string;
+    full_name: string;
+    id_card_image: string | null;
+    verified_at: string | null;
+    address: Address;
+}
+
+
+export type Address = {
+    address_detail: string | null;
+    rt: string | null;
+    rw: string | null;
+    kelurahan: string | null;
+    kecamatan: string | null;
+    city: string | null;
+    province: string | null;
+    postal_code: string | null;
+    
+} | null;
+
+
+export type DoneeApplication = {
+     id: number;
+    donor_id: number;
+    status: string;
+}

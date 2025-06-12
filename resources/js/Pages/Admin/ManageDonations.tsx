@@ -36,22 +36,22 @@ export default function ManageDonations() {
     const { donations: initialDonations } =
         usePage<ManageDonationsProps>().props;
 
-    // State untuk modal status
+
     const [showStatusModal, setShowStatusModal] = useState(false);
     const [selectedDonation, setSelectedDonation] = useState<Donation | null>(
         null
     );
 
-    // Tambahkan state donations lokal
+    
     const [donations, setDonations] = useState(initialDonations);
 
-    // Handler buka modal
+   
     const handleStatusClick = (donation: Donation) => {
         setSelectedDonation(donation);
         setShowStatusModal(true);
     };
 
-    // Handler Approve/Reject
+    
     const handleStatusChange = async (status: "on_progress" | "denied") => {
         if (!selectedDonation) return;
         try {
@@ -78,6 +78,7 @@ export default function ManageDonations() {
                 <h1 className="text-2xl font-bold">Donations Manager</h1>
                 <p className="text-lg">Manage all donationss in the system.</p>
                 <div className="flex flex-col w-full items-center justify-center">
+
                     <div className="w-full max-h-[375px] overflow-y-auto rounded-md ">
                         <table className="w-full text-center border rounded-full">
                             <thead className="p-8 bg-primary-bg border border-primary-fg bg-opacity-35">
@@ -103,6 +104,19 @@ export default function ManageDonations() {
                                     <th className="py-3 border-b border-primary-fg">
                                         Actions
                                     </th>
+
+                    <div className='w-full max-h-[325px] overflow-y-auto rounded-md '>
+                        <table className="w-full text-center border rounded-full">
+                            <thead className='p-8 bg-primary-bg border border-primary-fg bg-opacity-35'>
+                                <tr className='p-8 bg-primary-accent/65  '>
+                                    <th className='py-3 border-b border-primary-fg'>No</th>
+                                    <th className='py-3 border-b border-primary-fg'>ID</th>
+                                    <th className='py-3 border-b border-primary-fg'>Donation Title</th>
+                                    <th className='py-3 border-b border-primary-fg'>Initiator Name</th>
+                                    <th className='py-3 border-b border-primary-fg'>Donation Target</th>
+                                    <th className='py-3 border-b border-primary-fg'>Status</th> 
+                                    <th className='py-3 border-b border-primary-fg'>Actions</th>
+
                                 </tr>
                             </thead>
                             <tbody className="text-center">
@@ -257,7 +271,7 @@ export default function ManageDonations() {
                     )}
                 </div>
             </div>
-            {/* Modal Status */}
+         
             {showStatusModal && selectedDonation && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
                     <div className="bg-white rounded-lg p-6 min-w-[300px] text-black">
