@@ -46,8 +46,15 @@ export default function DonationPage() {
                                 className="w-full h-3/5 flex"
                             >
                                 <img
-                                    src="images/Charity1.jpeg"
+                                    src={
+                                        item.header_image
+                                            ? item.header_image.startsWith('/storage/')
+                                                ? item.header_image
+                                                : `/storage/${item.header_image}`
+                                            : "images/Charity1.jpeg"
+                                    }
                                     className="w-full h-[150px] rounded-b-none object-cover absolute inset-0 rounded-lg"
+                                    alt={item.title}
                                 />
                                 <div className="w-2/12 h-6 bg-primary-accent z-10 top-1 left-1 items-center justify-center flex font-semibold text-xs relative rounded-3xl">
                                     <h1>Berita</h1>
@@ -74,7 +81,7 @@ export default function DonationPage() {
                                         Terkumpul
                                     </h1>
                                     <h1 className="text-primary-accent px-4 text-sm font-semibold cursor-pointer absolute bottom-1">
-                                        Rp {totalDonation.toLocaleString("id-ID")}
+                                        Rp {item.collected_amount?.toLocaleString("id-ID") ?? 0}
                                     </h1>
                                 </div>
 
