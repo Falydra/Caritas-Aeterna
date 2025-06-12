@@ -73,8 +73,11 @@ class DoneeDashboardController extends Controller {
         ])->first();
 
         if ($donation->type() === ProductDonation::class) {
-            $books = $this->getBooks($donation);
-            $facilities = $this->getFacilities($donation);
+            $data = DonationItem::whereHas('donorDonation', function ($q) use ($donation) {
+                $q->where('donation_id', $donation->id);
+            })->with([
+                'donorDonation.donor:id,username'
+            ])->paginate(10);
 
             return Inertia::render('Donation/DonatedItemList', [
                 'auth' => [
@@ -83,9 +86,8 @@ class DoneeDashboardController extends Controller {
                 ],
                 'data' => [
                     'donation' => $donationData,
-                    'books' => $books,
-                    'facilities' => $facilities
-                ]
+                    'donation_item' => $data
+                ],
             ]);
         }
 
@@ -96,32 +98,5 @@ class DoneeDashboardController extends Controller {
             ],
             'data' => []
         ]);
-    }
-
-    protected function getBooks(ProductDonation $donation) {
-        $data = BookDonation::whereHas(
-            'donation',
-            function ($q) use ($donation) {
-                $q->where('donation_id', $donation->id);
-            })->with([
-                'book:isbn,title,authors,published_year',
-                'donationItem:id,donor_donation_id,product_amount,package_picture,status',
-                'donationItem.donorDonation:id,donor_id',
-                'donationItem.donorDonation.donor:id,username',
-            ])->get();
-
-        return $data;
-    }
-
-    protected function getFacilities(ProductDonation $donation) {
-        $data = Facility::whereHas(
-            'donation',
-            function ($q) use ($donation) {
-                $q->where('product_donation_id', $donation->id);
-            })->with([
-                'donationItem',
-            ])->get();
-
-        return $data;
     }
 }

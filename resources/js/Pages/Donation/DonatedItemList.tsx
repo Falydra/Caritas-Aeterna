@@ -1,12 +1,14 @@
 import Authenticated from "@/Layouts/AuthenticatedLayout";
 import { PageProps, User } from "@/types";
 import { Inertia } from "@inertiajs/inertia";
-import { usePage } from "@inertiajs/react";
+import { usePage, router } from "@inertiajs/react";
 import {
+    Box,
     Button,
     capitalize,
     Chip,
     createTheme,
+    Pagination,
     Paper,
     styled,
     Table,
@@ -20,6 +22,7 @@ import {
 } from "@mui/material";
 import { amber, grey } from "@mui/material/colors";
 import { useState } from "react";
+import { toast } from "sonner";
 
 const BackButton = styled(Button)(({ theme }) => ({
     color: grey["A200"],
@@ -82,62 +85,35 @@ interface DonorDonation {
     donor: Donor;
 }
 
-interface BookPivot {
-    book_donation_id: number;
-    donation_item_id: number;
-    amount: number;
-    updated_at: string;
-}
-
 interface DonationItem {
     id: number;
     donor_donation_id: number;
     product_amount: number;
     package_picture: string;
+    resi: string;
     status: string;
-    pivot: BookPivot;
+    updated_at: string;
     donor_donation: DonorDonation;
 }
 
-interface Book {
-    isbn: string;
-    title: string;
-    authors: string[];
-    published_year: string;
+interface paginatedDonationItem {
+    data: DonationItem[];
+    per_page: number;
+    current_page: number;
+    last_page: number;
+    total: number;
+    from: number | null;
+    to: number | null;
+    path: string;
+    prev_page_url: string | null;
+    next_page_url: string | null;
+    first_page_url: string;
+    last_page_url: string;
 }
 
-interface BookDonation {
-    id: number;
-    donation_id: number;
-    isbn: string;
-    amount: number;
-    fulfilled_amount: number;
-    status: string;
-    book: Book;
-    donation_item: DonationItem[];
-}
-
-interface Facility {
-    id: number;
-    product_donation_id: number;
-    name: string;
-    description: string;
-    dimension: string;
-    material: string;
-    price: string;
-    status: string;
-    updated_at: string;
-    donation_item: DonationItem[];
-}
-
-interface ProductData {
+interface ProductDonationData {
     donation: Donation;
-    books: BookDonation[];
-    facilities: Facility[];
-}
-
-interface FundraiserData {
-    donation: Donation;
+    donation_item: paginatedDonationItem;
 }
 
 interface DonatedItemProps extends PageProps {
@@ -145,7 +121,7 @@ interface DonatedItemProps extends PageProps {
         user: User;
         roles: string;
     };
-    data: ProductData | FundraiserData;
+    data: ProductDonationData;
 }
 
 function formatDate(date: string) {
@@ -161,6 +137,9 @@ function formatStatus(status: string) {
 
 export default function DonatedItemList() {
     const { auth, data } = usePage<DonatedItemProps>().props;
+    const paginatedProductData = (data as ProductDonationData).donation_item;
+
+    const [packagePicturePreview, setPackagePicturePreview] = useState("");
 
     const handleBack = () => {
         Inertia.visit("/dashboard/donee");
@@ -168,13 +147,50 @@ export default function DonatedItemList() {
 
     const productDonationHeader = [
         "Nama Donatur",
-        "Nama Produk",
         "Jumlah",
         "Status",
     ];
     const fundraisingHeader = ["Nama Donatur", "Jumlah", "Status"];
 
-    console.log("Item Data", data);
+    const handleVerifyProduct = async (id: number) => {
+        const payload = {
+            "donation_item_id": id
+        };
+
+        await router.post('/donations/product/verify', payload, {
+            onSuccess: () => {
+                toast.success("Produk berhasil diverifikasi");
+                router.reload({ only: ["data"] });
+            }
+        })
+    }
+
+    const handleFinishProduct = async (id: number) => {
+        const payload = {
+            "donation_item_id": id
+        };
+
+        await router.post('/donations/product/finish', payload, {
+            onSuccess: () => {
+                toast.success("Produk berhasil diterima");
+                router.reload({ only: ["data"] });
+            }
+        })
+    }
+
+    const handlePageChange = (
+        event: React.ChangeEvent<unknown>,
+        page: number
+    ) => {
+        router.get(
+            route("donee.donations.donatedItem", {'donation': data.donation.id}),
+            { page },
+            {
+                preserveState: true,
+                preserveScroll: true,
+            }
+        );
+    };
 
     return (
         <Authenticated>
@@ -216,7 +232,7 @@ export default function DonatedItemList() {
                                 {data.donation.type ===
                                     "App\\Models\\ProductDonation" ? (
                                     <TableRow>
-                                        {/* <TableCell align="left">No</TableCell> */}
+                                        <TableCell align="left">No</TableCell>
                                         <TableCell align="left">
                                             Tanggal
                                         </TableCell>
@@ -256,104 +272,32 @@ export default function DonatedItemList() {
                                 {data.donation.type ===
                                     "App\\Models\\ProductDonation" ? (
                                     <>
-                                        <TableRow>
-                                            <TableCell colSpan={10}>
-                                                <Typography fontWeight="bold">
-                                                    Daftar Sumbangan Buku
-                                                </Typography>
-                                            </TableCell>
-                                        </TableRow>
-                                        {(data as ProductData).books.map(
-                                            (book) => (
-                                                (book.donation_item.map((item) => {
-                                                    return <TableRow key={item.id}>
-                                                        <TableCell align="left">
-                                                            {formatDate(item.pivot.updated_at)}
-                                                        </TableCell>
-                                                        <TableCell align="left">
-                                                            Produk
-                                                        </TableCell>
-                                                        <TableCell align="left">
-                                                            {item.donor_donation.donor.username}
-                                                        </TableCell>
-                                                        <TableCell align="left">
-                                                            {book.book.title}
-                                                        </TableCell>
-                                                        <TableCell align="left">
-                                                            {item.pivot.amount}
-                                                        </TableCell>
-                                                        <TableCell align="left">
-                                                            <ThemeProvider theme={theme}>
-                                                                <Chip
-                                                                    label={formatStatus(
-                                                                        item.status
-                                                                    )}
-                                                                    sx={{
-                                                                        textTransform:
-                                                                            "capitalize",
-                                                                    }}
-                                                                    color={
-                                                                        item.status ===
-                                                                            "finished"
-                                                                            ? "success"
-                                                                            : "edit"
-                                                                    }
-                                                                ></Chip>
-                                                            </ThemeProvider>
-                                                        </TableCell>
-                                                    </TableRow>
-                                                }))
-                                            )
-                                        )}
-                                        <TableRow>
-                                            <TableCell colSpan={10}>
-                                                <Typography fontWeight="bold">
-                                                    Daftar Sumbangan Fasilitas
-                                                </Typography>
-                                            </TableCell>
-                                        </TableRow>
-                                        {(data as ProductData).facilities.map(
-                                            (facility) => (
-                                                (facility.donation_item.map((item) => {
-                                                    return <TableRow key={item.id}>
-                                                        <TableCell align="left">
-                                                            {formatDate(item.pivot.updated_at)}
-                                                        </TableCell>
-                                                        <TableCell align="left">
-                                                            Produk
-                                                        </TableCell>
-                                                        <TableCell align="left">
-                                                            {item.donor_donation.donor.username}
-                                                        </TableCell>
-                                                        <TableCell align="left">
-                                                            {facility.name}
-                                                        </TableCell>
-                                                        <TableCell align="left">
-                                                            {item.pivot.amount}
-                                                        </TableCell>
-                                                        <TableCell align="left">
-                                                            <ThemeProvider theme={theme}>
-                                                                <Chip
-                                                                    label={formatStatus(
-                                                                        item.status
-                                                                    )}
-                                                                    sx={{
-                                                                        textTransform:
-                                                                            "capitalize",
-                                                                    }}
-                                                                    color={
-                                                                        item.status ===
-                                                                            "finished"
-                                                                            ? "success"
-                                                                            : "edit"
-                                                                    }
-                                                                ></Chip>
-                                                            </ThemeProvider>
-                                                        </TableCell>
-                                                    </TableRow>
-                                                }))
-                                            )
-                                        )}
+                                        {(data as ProductDonationData).donation_item.data.map((item, idx) => (
+                                            <TableRow key={item.id}>
+                                                <TableCell>{paginatedProductData.current_page + idx}</TableCell>
+                                                <TableCell>{formatDate(item.updated_at)}</TableCell>
+                                                <TableCell>Produk</TableCell>
+                                                <TableCell>{item.donor_donation.donor.username}</TableCell>
+                                                <TableCell>{item.product_amount}</TableCell>
+                                                <TableCell>
+                                                    <ThemeProvider theme={theme}>
+                                                        <Chip label={formatStatus(item.status)} color={item.status === "finished" ? "success" : "edit"}></Chip>
+                                                    </ThemeProvider>
+                                                </TableCell>
+                                                <TableCell align="center">
+                                                    <Box display="flex" flexDirection="row" gap={1}>
+                                                        <Button variant="contained" sx={{ textTransform: "capitalize" }} size="small" onClick={() => { setPackagePicturePreview(item.package_picture) }}>Lihat Gambar</Button>
+                                                        {item.status === "waiting_verification" ? (
+                                                            <Button variant="contained" color="success" sx={{ textTransform: "capitalize" }} size="small" onClick={() => { handleVerifyProduct(item.id) }}>Verifikasi</Button>
+                                                        ) : (item.status === "on_delivery" ? (
+                                                            <Button variant="contained" color="warning" sx={{ textTransform: "capitalize" }} size="small" onClick={() => { handleFinishProduct(item.id) }}>Produk Diterima</Button>
+                                                        ) : (
+                                                            <></>
+                                                        ))}
+                                                    </Box>
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
                                     </>
                                 ) : (
                                     <TableRow>
@@ -364,8 +308,31 @@ export default function DonatedItemList() {
                                 )}
                             </TableBody>
                         </Table>
+                        {/* Pagination */}
+                        <Box
+                            display="flex"
+                            justifyContent="right"
+                            py={2}
+                            px={4}
+                        >
+                            <Pagination
+                                count={paginatedProductData.last_page}
+                                page={paginatedProductData.current_page}
+                                onChange={handlePageChange}
+                            ></Pagination>
+                        </Box>
                     </TableContainer>
                 </div>
+
+                {packagePicturePreview.length > 0 && (
+                    <div className="fixed z-50 backdrop-blur-md inset-0 bg-black bg-opacity-50 flex text-primary-bg items-center justify-center cursor-pointer" onClick={() => { setPackagePicturePreview("") }}>
+                        <div className="bg-white w-2/5 h-fit rounded-xl flex flex-col p-4 gap-4 overflow-y-auto cursor-auto" onClick={(e) => { e.stopPropagation(); }}>
+                            <h2 className="font-semibold justify-center items-center">Foto Paket</h2>
+                            <img src={packagePicturePreview} alt="" className="object-contain h-full w-full rounded-md" />
+                            <Button className="w-full" variant="contained" onClick={() => setPackagePicturePreview("")}>Tutup</Button>
+                        </div>
+                    </div>
+                )}
             </div>
         </Authenticated>
     );
