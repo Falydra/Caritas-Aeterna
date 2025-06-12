@@ -269,7 +269,6 @@ export default function CreateDonation() {
         });
     };
 
-    console.log("donation url", donationStoreUrl)
     return (
         <div className=" w-full min-h-screen flex flex-col p-4 gap-4">
             <h2 className="text-primary-fg text-2xl font-bold self-start">

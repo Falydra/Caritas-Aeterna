@@ -172,7 +172,8 @@ export default function DoneeActiveDonation() {
                                                             "capitalize",
                                                     }}
                                                     component="a"
-                                                    target="_blank"
+                                                    target="_self"
+                                                    href={route('donee.donations.donatedItem', { donation: row.id })}
                                                 >
                                                     daftar sumbangan
                                                 </Button>
@@ -199,7 +200,8 @@ export default function DoneeActiveDonation() {
                                                             "capitalize",
                                                     }}
                                                     component="a"
-                                                    target="_blank"
+                                                    target="_self"
+                                                    href={`${route("donee.donations.edit", {id: row.id})}`}
                                                 >
                                                     edit
                                                 </Button>
