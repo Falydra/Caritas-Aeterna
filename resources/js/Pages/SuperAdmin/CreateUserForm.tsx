@@ -37,7 +37,7 @@ export default function CreateAdmin({ auth }: CreateAdminProps) {
         post(route("super-admin.manage-users.create-user"), {
             onSuccess: () => {
                 router.visit(route('super-admin.manage-users'));
-                toast.success("Registration successful! Please wait for admin verification.");
+                toast.success("Admin baru berhasil dibuat!.");
                 reset(); 
             },
             onError: (formErrors) => {

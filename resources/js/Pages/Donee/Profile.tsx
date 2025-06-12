@@ -7,6 +7,8 @@ import TextInput from "@/Components/TextInput";
 import { Transition } from "@headlessui/react";
 import { FormEventHandler, useRef, useState } from "react";
 import { Head } from '@inertiajs/react';
+import { Input } from '@/Components/ui/input'
+import { Button } from '@/Components/ui/button'
 
 interface ProfilePageProps {
     user: User;
@@ -82,224 +84,134 @@ export default function Profile() {
         password: "",
     });
 
-    const confirmUserDeletionModal = () => {
-        setConfirmingUserDeletion(true);
-    };
-
-    const deleteUser: FormEventHandler = (e) => {
-        e.preventDefault();
-        destroyUser(route("profile.destroy"), {
-            preserveScroll: true,
-            onSuccess: () => closeModal(),
-            onError: () => deletePasswordInputRef.current?.focus(),
-            onFinish: () => resetDelete(),
-        });
-    };
-
-    const closeModal = () => {
-        setConfirmingUserDeletion(false);
-        clearErrors();
-        resetDelete();
-    };
-
 
     return (
-        <Authenticated
-            header={
-                <h2 className={`text-xl font-semibold leading-tight ${cardHeaderTextColor}`}>
-                    Profil
-                </h2>
-            }
-        >
+        <Authenticated>
             <Head title="Profil" />
+            {/* Header */}
+            <div className="flex flex-col items-start w-full gap-1 py-6">
+                <h1 className="text-2xl font-bold self-center">Profil</h1>
+                <p className="text-lg self-center">Kelola informasi akun Anda di sini</p>
+            </div>
+            <div className="flex w-full justify-center items-center pt-4 bg-primary-bg text-white">
+                <div className="flex flex-col w-1/2 items-start self-center gap-6 px-8 py-4">
 
-            <div className="py-12">
-                <div className="mx-auto max-w-7xl space-y-6 sm:px-6 lg:px-8">
 
-                    {/* Update Profile Information */}
-                    <div className={`${cardBgClass} p-4 shadow sm:rounded-lg sm:p-8`}>
-                        <header>
-                            <h2 className={sectionTitleClass}>
-                                Informasi Profil
-                            </h2>
-                            <p className={`mt-1 text-sm ${cardParagraphTextColor}`}>
-                                Perbarui informasi profil dan alamat email akun Anda.
-                            </p>
-                        </header>
-
-                        <form onSubmit={submitProfileUpdate} className={formSectionClass}>
-                            <label htmlFor="username" className={cardLabelTextColor}>
+                    {/* Informasi Profil */}
+                    <form onSubmit={submitProfileUpdate} className="w-full rounded-lg shadow-md flex flex-col gap-6 bg-primary-bg p-6 border border-white text">
+                        <div>
+                            <label htmlFor="username" className="block text-sm font-medium text-white mb-1">
                                 Nama Pengguna
-                                <TextInput
-                                    id="username"
-                                    className={`${inputBaseClass} capitalize`}
-                                    value={profileData.username}
-                                    onChange={(e) => setProfileData("username", e.target.value)}
-                                    required
-                                    autoComplete="username"
-                                />
-                                <InputError className="mt-1 text-xs" message={profileErrors.username} />
                             </label>
-
-                            <label htmlFor="email" className={cardLabelTextColor}>
-                                Email
-                                <TextInput
-                                    id="email"
-                                    type="email"
-                                    className={inputBaseClass}
-                                    value={profileData.email}
-                                    onChange={(e) => setProfileData("email", e.target.value)}
-                                    required
-                                    autoComplete="email"
-                                />
-                                <InputError className="mt-1 text-xs" message={profileErrors.email} />
-                            </label>
-
-                            {/* REMOVED EMAIL VERIFICATION SECTION */}
-
-                            <div className="flex items-center gap-4">
-                                <button type="submit" disabled={profileProcessing} className={confirmButtonClass}>
-                                    Simpan Perubahan
-                                </button>
-                                <Transition
-                                    show={recentlySuccessful}
-                                    enter="transition ease-in-out"
-                                    enterFrom="opacity-0"
-                                    leave="transition ease-in-out"
-                                    leaveTo="opacity-0"
-                                >
-                                    <p className={`text-sm ${cardParagraphTextColor}`}>Tersimpan.</p>
-                                </Transition>
-                            </div>
-                        </form>
-                    </div>
-
-
-                    {/* Update Password */}
-                    <div className={`${cardBgClass} p-4 shadow sm:rounded-lg sm:p-8`}>
-                        <header>
-                            <h2 className={sectionTitleClass}>
-                                Perbarui Kata Sandi
-                            </h2>
-                            <p className={`mt-1 text-sm ${cardParagraphTextColor}`}>
-                                Pastikan akun Anda menggunakan kata sandi yang panjang dan acak agar tetap aman.
-                            </p>
-                        </header>
-
-                        <form onSubmit={updatePassword} className={formSectionClass}>
-                            <label htmlFor="current_password" className={cardLabelTextColor}>
-                                Kata Sandi Saat Ini
-                                <TextInput
-                                    id="current_password"
-                                    ref={currentPasswordInputRef}
-                                    value={passwordData.current_password}
-                                    onChange={(e) => setPasswordData("current_password", e.target.value)}
-                                    type="password"
-                                    className={inputBaseClass}
-                                    autoComplete="current-password"
-                                />
-                                <InputError message={passwordErrors.current_password} className="mt-1 text-xs" />
-                            </label>
-
-                            <label htmlFor="new_password" className={cardLabelTextColor}>
-                                Kata Sandi Baru
-                                <TextInput
-                                    id="new_password"
-                                    ref={passwordInputRef}
-                                    value={passwordData.password}
-                                    onChange={(e) => setPasswordData("password", e.target.value)}
-                                    type="password"
-                                    className={inputBaseClass}
-                                    autoComplete="new-password"
-                                />
-                                <InputError message={passwordErrors.password} className="mt-1 text-xs" />
-                            </label>
-
-                            <label htmlFor="password_confirmation" className={cardLabelTextColor}>
-                                Konfirmasi Kata Sandi
-                                <TextInput
-                                    id="password_confirmation"
-                                    value={passwordData.password_confirmation}
-                                    onChange={(e) => setPasswordData("password_confirmation", e.target.value) }
-                                    type="password"
-                                    className={inputBaseClass}
-                                    autoComplete="new-password"
-                                />
-                                <InputError message={passwordErrors.password_confirmation} className="mt-1 text-xs" />
-                            </label>
-
-                            <div className="flex items-center gap-4">
-                                <button type="submit" disabled={passwordProcessing} className={confirmButtonClass}>
-                                    Simpan Kata Sandi
-                                </button>
-                                <Transition
-                                    show={passwordRecentlySuccessful}
-                                    enter="transition ease-in-out"
-                                    enterFrom="opacity-0"
-                                    leave="transition ease-in-out"
-                                    leaveTo="opacity-0"
-                                >
-                                    <p className={`text-sm ${cardParagraphTextColor}`}>Tersimpan.</p>
-                                </Transition>
-                            </div>
-                        </form>
-                    </div>
-
-                    {/* Delete User */}
-                    <div className={`${cardBgClass} p-4 shadow sm:rounded-lg sm:p-8`}>
-                        <header>
-                            <h2 className={sectionTitleClass}>
-                                Hapus Akun
-                            </h2>
-                            <p className={`mt-1 text-sm ${cardParagraphTextColor}`}>
-                                Setelah akun Anda dihapus, semua sumber daya dan datanya akan dihapus secara permanen. Sebelum menghapus akun Anda, harap unduh data atau informasi apa pun yang ingin Anda simpan.
-                            </p>
-                        </header>
-
-                        <div className="mt-6">
-                            <button onClick={confirmUserDeletionModal} className={dangerButtonClass}>
-                                Hapus Akun
-                            </button>
+                            <Input
+                                id="username"
+                                type="text"
+                                className={`text-primary-fg capitalize focus:text-primary-fg ${profileErrors.username ? 'border-red-500' : ''}`}
+                                value={profileData.username}
+                                onChange={(e) => setProfileData("username", e.target.value)}
+                                required
+                                autoComplete="username"
+                            />
+                            {profileErrors.username && <p className="text-red-500 text-xs mt-1">{profileErrors.username}</p>}
                         </div>
 
-                        <Modal show={confirmingUserDeletion} onClose={closeModal}>
-                            <form onSubmit={deleteUser} className="p-6 flex flex-col gap-4">
-                                <h2 className="text-lg font-medium text-gray-900">
-                                    Apakah Anda yakin ingin menghapus akun Anda?
-                                </h2>
-                                <p className="mt-1 text-sm text-gray-600">
-                                    Setelah akun Anda dihapus, semua sumber daya dan datanya akan dihapus secara permanen. Harap masukkan kata sandi Anda untuk mengonfirmasi bahwa Anda ingin menghapus akun Anda secara permanen.
-                                </p>
+                        <div>
+                            <label htmlFor="email" className="block text-sm font-medium text-white mb-1">
+                                Email
+                            </label>
+                            <Input
+                                id="email"
+                                type="email"
+                                className={`text-primary-fg focus:text-primary-fg ${profileErrors.email ? 'border-red-500' : ''}`}
+                                value={profileData.email}
+                                onChange={(e) => setProfileData("email", e.target.value)}
+                                required
+                                autoComplete="email"
+                            />
+                            {profileErrors.email && <p className="text-red-500 text-xs mt-1">{profileErrors.email}</p>}
+                        </div>
 
-                                <div className="mt-2">
-                                    <label htmlFor="modal_password_delete" className="sr-only">Kata Sandi</label>
-                                    <TextInput
-                                        id="modal_password_delete"
-                                        type="password"
-                                        name="password"
-                                        ref={deletePasswordInputRef}
-                                        value={deleteData.password}
-                                        onChange={(e) => setDeleteData("password", e.target.value)}
-                                        className={`${inputBaseClass} w-3/4`}
-                                        placeholder="Kata Sandi"
-                                        isFocused
-                                    />
-                                    <InputError message={deleteErrors.password} className="mt-1 text-xs" />
-                                </div>
+                        <Button type="submit" disabled={profileProcessing} className="w-full mt-2 bg-primary-accent">
+                            {profileProcessing ? 'Menyimpan...' : 'Simpan Perubahan'}
+                        </Button>
 
-                                <div className="mt-6 flex justify-end gap-3">
-                                    <button type="button" onClick={closeModal} className={cancelButtonClass}>
-                                        Batal
-                                    </button>
-                                    <button type="submit" className={dangerButtonClass} disabled={deleteProcessing}>
-                                        Hapus Akun
-                                    </button>
-                                </div>
-                            </form>
-                        </Modal>
-                    </div>
+                        <Transition
+                            show={recentlySuccessful}
+                            enter="transition ease-in-out"
+                            enterFrom="opacity-0"
+                            leave="transition ease-in-out"
+                            leaveTo="opacity-0"
+                        >
+                            <p className="text-sm text-white">Tersimpan.</p>
+                        </Transition>
+                    </form>
+
+                    {/* Ubah Password */}
+                    <form onSubmit={updatePassword} className="w-full rounded-lg shadow-md flex flex-col gap-6 bg-primary-bg p-6 border border-white">
+                        <div>
+                            <label htmlFor="current_password" className="block text-sm font-medium text-white mb-1">
+                                Kata Sandi Saat Ini
+                            </label>
+                            <Input
+                                id="current_password"
+                                ref={currentPasswordInputRef}
+                                type="password"
+                                className={`text-primary-fg focus:text-primary-fg ${passwordErrors.current_password ? 'border-red-500' : ''}`}
+                                value={passwordData.current_password}
+                                onChange={(e) => setPasswordData("current_password", e.target.value)}
+                                autoComplete="current-password"
+                            />
+                            {passwordErrors.current_password && <p className="text-red-500 text-xs mt-1">{passwordErrors.current_password}</p>}
+                        </div>
+
+                        <div>
+                            <label htmlFor="new_password" className="block text-sm font-medium text-white mb-1">
+                                Kata Sandi Baru
+                            </label>
+                            <Input
+                                id="new_password"
+                                ref={passwordInputRef}
+                                type="password"
+                                className={`text-primary-fg focus:text-primary-fg ${passwordErrors.password ? 'border-red-500' : ''}`}
+                                value={passwordData.password}
+                                onChange={(e) => setPasswordData("password", e.target.value)}
+                                autoComplete="new-password"
+                            />
+                            {passwordErrors.password && <p className="text-red-500 text-xs mt-1">{passwordErrors.password}</p>}
+                        </div>
+
+                        <div>
+                            <label htmlFor="password_confirmation" className="block text-sm font-medium text-white mb-1">
+                                Konfirmasi Kata Sandi
+                            </label>
+                            <Input
+                                id="password_confirmation"
+                                type="password"
+                                className={`text-primary-fg focus:text-primary-fg ${passwordErrors.password_confirmation ? 'border-red-500' : ''}`}
+                                value={passwordData.password_confirmation}
+                                onChange={(e) => setPasswordData("password_confirmation", e.target.value)}
+                                autoComplete="new-password"
+                            />
+                            {passwordErrors.password_confirmation && <p className="text-red-500 text-xs mt-1">{passwordErrors.password_confirmation}</p>}
+                        </div>
+
+                        <Button type="submit" disabled={passwordProcessing} className="w-full mt-2 bg-primary-accent">
+                            {passwordProcessing ? 'Menyimpan...' : 'Simpan Kata Sandi'}
+                        </Button>
+
+                        <Transition
+                            show={passwordRecentlySuccessful}
+                            enter="transition ease-in-out"
+                            enterFrom="opacity-0"
+                            leave="transition ease-in-out"
+                            leaveTo="opacity-0"
+                        >
+                            <p className="text-sm text-white">Tersimpan.</p>
+                        </Transition>
+                    </form>
                 </div>
             </div>
         </Authenticated>
+
     );
 }
