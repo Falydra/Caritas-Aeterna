@@ -45,7 +45,7 @@ function formatPrice(value: number): string {
 
 export function CardWithForm() {
     const { donation } = usePage<DonationDetailPageProsps>().props;
-
+    console.log("Donation Data:", donation.map((d) => (d.status)));
 
 
 

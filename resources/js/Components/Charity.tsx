@@ -3,10 +3,16 @@ import { Link } from "react-scroll";
 import { CardWithForm } from "@/Components/CharityCard";
 import { BookCharityCard } from "@/Components/BookDonationCard";
 import { motion, AnimatePresence } from "framer-motion";
+import CharityNews from "./CharityNews";
+
 
 export default function Charity() {
     const [isMoney, setIsMoney] = useState(true);
     const [isBook, setIsBook] = useState(false);
+
+    const charityToggle = isMoney ? "charity" : "book";
+
+    console.log("charityToggle", charityToggle);
 
     return (
         <div id="charity" className="w-full min-h-screen flex justify-center items-center bg-primary-bg overflow-hidden">
@@ -51,7 +57,7 @@ export default function Charity() {
                     </div>
                 </div>
 
-                {/* Content Area */}
+           
                 <div className="relative w-full h-screen flex items-center justify-center overflow-hidden">
                     <AnimatePresence mode="wait">
                         {isMoney && (
@@ -93,7 +99,7 @@ export default function Charity() {
                         )}
                     </AnimatePresence>
                 </div>
-
+                <CharityNews toggle={charityToggle} isMore={true} />
             </section>
         </div>
     );
