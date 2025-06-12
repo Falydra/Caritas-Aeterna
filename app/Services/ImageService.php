@@ -45,8 +45,7 @@ class ImageService {
         $manager = new ImageManager(new Driver());
         $image = $manager->read($file);
 
-        // Resize to max 1920x1080, keep aspect ratio
-        $image->resize(1920, 1080, function ($constraint) {
+        $image->resize(1920, null, function ($constraint) {
             $constraint->aspectRatio();
             $constraint->upsize();
         });
