@@ -71,11 +71,11 @@ export default function ManageDonations() {
                 <h1 className="text-2xl font-bold">Donations Manager</h1>
                 <p className="text-lg">Manage all donationss in the system.</p>
                 <div className="flex flex-col w-full items-center justify-center">
-                    <div className='w-full max-h-[375px] overflow-y-auto rounded-md '>
+                    <div className='w-full max-h-[325px] overflow-y-auto rounded-md '>
                         <table className="w-full text-center border rounded-full">
                             <thead className='p-8 bg-primary-bg border border-primary-fg bg-opacity-35'>
                                 <tr className='p-8 bg-primary-accent/65  '>
-                                    <th className='py-3 border-b border-primary-fg '>No</th>
+                                    <th className='py-3 border-b border-primary-fg'>No</th>
                                     <th className='py-3 border-b border-primary-fg'>ID</th>
                                     <th className='py-3 border-b border-primary-fg'>Donation Title</th>
                                     <th className='py-3 border-b border-primary-fg'>Initiator Name</th>
