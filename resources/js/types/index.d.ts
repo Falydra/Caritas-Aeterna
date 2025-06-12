@@ -112,19 +112,30 @@ export type DonorDonation = {
     funds: Fund[];
 };
 
+
 export type Initiator = {
     id: number;
     username: string;
 };
 
 export type Donation = {
-    initiator_id: User;
     id: number;
+    title: string;
+    header_image?: string;
+    initiator: {
+        username: string;
+    };
+    latest_donations?: {
+        user?: {
+            username: string;
+        };
+        amount?: number;
+        // Tambahkan field lain jika ada
+    }[];
+    collected_amount?: number; // Tambahkan baris ini
     type_attributes: {
         [key: string]: number;
     };
-    title: string;
-    header_image: string;
     text_descriptions: {
         [key: number]: string;
     };
