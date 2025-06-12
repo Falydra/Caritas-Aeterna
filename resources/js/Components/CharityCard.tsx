@@ -38,6 +38,11 @@ interface DonationDetailPageProsps extends Donation {
     [key: string]: any;
 }
 
+function formatPrice(value: number): string {
+    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+
 export function CardWithForm() {
     const { donation } = usePage<DonationDetailPageProsps>().props;
 
@@ -59,8 +64,8 @@ export function CardWithForm() {
                             <CardDescription>
                                 {donation.text_descriptions[0]
                                     ?.split(" ")
-                                    .slice(0, 50)
-                                    .join(" ") + (donation.text_descriptions[0]?.split(" ").length > 50 ? "..." : "")}
+                                    .slice(0, 75)
+                                    .join(" ") + (donation.text_descriptions[0]?.split(" ").length > 75 ? "..." : "")}
                             </CardDescription>
 
                         </CardHeader>
@@ -68,23 +73,48 @@ export function CardWithForm() {
                         <CardFooter className="flex w-full justify-end h-full flex-col ">
                             <div className="w-full flex flex-col items-start justify-end h-full">
                                 <h1 className="text-xl font-bold">Tersedia</h1>
-                                <p className="text-md text-muted-foreground">
-                                    {progressCompleted} / {totalDays} days
-                                    elapsed
-                                </p>
+                               
                                 <ProgressBar
                                     className="w-full"
                                     labelAlignment="outside"
                                     isLabelVisible={false}
-                                    completed={progressCompleted}
-                                    maxCompleted={totalDays}
+                                    completed={donation.type ===
+                                            "App\\Models\\ProductDonation"
+                                                ? donation.type_attributes
+                                                    .fulfilled_product_amount
+                                                : donation.type ===
+                                                "App\\Models\\Fundraiser"
+                                                ? (formatPrice(donation.type_attributes.current_fund))
+                                                : "-"}
+                                    maxCompleted={donation.type ===
+                                        "App\\Models\\ProductDonation"
+                                            ? (donation.type_attributes.product_amount)
+                                            : donation.type ===
+                                            "App\\Models\\Fundraiser"
+                                            ? (formatPrice(donation.type_attributes.target_fund))
+                                            : "-"}
                                 />
                                 <div className="w-full flex flex-row justify-start">
                                     <h1 className="font-thin text-xs self-center text-center">
                                         Terkumpul Rp.
                                     </h1>
                                     <h2 className="font-thin text-xs self-center text-center">
-                                        {totalDonation} / {donationLimit}
+                                        {donation.type ===
+                                            "App\\Models\\ProductDonation"
+                                                ? donation.type_attributes
+                                                    .fulfilled_product_amount
+                                                : donation.type ===
+                                                "App\\Models\\Fundraiser"
+                                                ? ("Rp "+formatPrice(donation.type_attributes.current_fund))
+                                                : "-"}{" "}
+                                            /{" "}
+                                        {donation.type ===
+                                        "App\\Models\\ProductDonation"
+                                            ? (donation.type_attributes.product_amount + " Produk")
+                                            : donation.type ===
+                                            "App\\Models\\Fundraiser"
+                                            ? ("Rp "+formatPrice(donation.type_attributes.target_fund))
+                                            : "-"}
                                     </h2>
                                 </div>
                             </div>
@@ -100,7 +130,12 @@ export function CardWithForm() {
                             </Link>
                         </CardFooter>
                     </div>
-                    <div className={`w-9/12 h-full items-center justify-center flex flex-col bg-cover bg-center rounded-r-xl bg-[url(/images/Charity1.jpeg)]`}></div>
+                    <div className={`w-9/12 h-full items-center justify-center flex flex-col bg-cover bg-center rounded-r-xl `}>
+                        <img
+                            src={donation.header_image}
+                            className="w-full h-full object-cover rounded-r-xl"
+                        />
+                    </div>
                 </div>
             </Card>
             )

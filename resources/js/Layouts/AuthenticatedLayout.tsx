@@ -24,6 +24,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem,
 import { Button } from "@/Components/ui/button";
 import { IoIosLogOut } from "react-icons/io";
 import { DonorPage, DoneePage, AdminPage, SuperAdminPage } from "@/config/page_data";
+import { FaHome } from "react-icons/fa";
 
 export default function Authenticated({
     header,
@@ -91,7 +92,12 @@ export default function Authenticated({
                                     <DropdownMenuLabel>Account</DropdownMenuLabel>
                                         <DropdownMenuSeparator />
                                         <DropdownMenuGroup>
-                                        <Link method="post" href={route("logout")} className="flex justify-between w-full h-8 items-center bg-transparent hover:bg-red-600/75 rounded-md text-primary-bg px-2 font-semibold text-sm ">
+                                            <Link href={route("welcome")} className="flex justify-between w-full h-8 items-center bg-transparent hover:bg-muted-foreground/20 rounded-md text-primary-bg px-2 font-semibold text-sm ">
+                                            Home
+                                           <FaHome className="w-4 h-4 aspect-square self-center" />
+                                        </Link>
+                                        
+                                        <Link method="post" href={route("logout")} className="flex justify-between w-full h-8 items-center bg-transparent hover:bg-muted-foreground/20 rounded-md text-primary-bg px-2 font-semibold text-sm ">
                                             Logout
                                            <IoIosLogOut className="w-4 h-4 aspect-square self-center" />
                                         </Link>

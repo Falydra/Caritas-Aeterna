@@ -5,6 +5,8 @@ import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLab
 import { FaRegEdit } from "react-icons/fa";
 import { PiDotsThreeBold } from "react-icons/pi";
 import { Button } from "@/Components/ui/button";
+import React, { useState } from "react";
+import axios from "axios";
 
 interface ManageDonationsProps {
     donations: {
@@ -25,7 +27,43 @@ interface ManageDonationsProps {
 
 
 export default function ManageDonations() {
-    const { donations } = usePage<ManageDonationsProps>().props;
+    const { donations: initialDonations } = usePage<ManageDonationsProps>().props;
+
+    // State untuk modal status
+    const [showStatusModal, setShowStatusModal] = useState(false);
+    const [selectedDonation, setSelectedDonation] = useState<Donation | null>(null);
+
+    // Tambahkan state donations lokal
+    const [donations, setDonations] = useState(initialDonations);
+
+    // Handler buka modal
+    const handleStatusClick = (donation: Donation) => {
+        setSelectedDonation(donation);
+        setShowStatusModal(true);
+    };
+
+    // Handler Approve/Reject
+    const handleStatusChange = async (status: "on_progress" | "denied") => {
+        if (!selectedDonation) return;
+        try {
+            await axios.post(route("admin.manage-donations.set-status"), {
+                id: selectedDonation.id,
+                status,
+            });
+            setDonations((prev) => ({
+                ...prev,
+                data: prev.data.map((item) =>
+                    item.id === selectedDonation.id
+                        ? { ...item, status }
+                        : item
+                ),
+            }));
+        } catch (e) {
+            alert("Gagal mengubah status");
+        }
+        setShowStatusModal(false);
+        setSelectedDonation(null);
+    };
 
     return (
         <Authenticated>
@@ -42,6 +80,7 @@ export default function ManageDonations() {
                                     <th className='py-3 border-b border-primary-fg'>Donation Title</th>
                                     <th className='py-3 border-b border-primary-fg'>Initiator Name</th>
                                     <th className='py-3 border-b border-primary-fg'>Donation Target</th>
+                                    <th className='py-3 border-b border-primary-fg'>Status</th>
                                     <th className='py-3 border-b border-primary-fg'>Actions</th>
                                 </tr>
                             </thead>
@@ -60,6 +99,17 @@ export default function ManageDonations() {
                                             ? item.type_attributes.target_fund
                                             : "-"}
                                         </td>
+                                        <td className='p-4 border-b'>
+                                            {item.status === "on_progress" ? (
+                                                <span className="px-3 py-1 rounded-full bg-yellow-500 text-white text-xs font-semibold">On Progress</span>
+                                            ) : item.status === "denied" ? (
+                                                <span className="px-3 py-1 rounded-full bg-red-500 text-white text-xs font-semibold">Denied</span>
+                                            ) : (
+                                                <span className="px-3 py-1 rounded-full bg-gray-400 text-white text-xs font-semibold">Pending</span>
+                                            )}
+                                        </td>
+
+
                                         <td className='p-4 border-b '>
                                         <DropdownMenu>
                                             <DropdownMenuTrigger asChild className="w-full h-full">
@@ -70,15 +120,32 @@ export default function ManageDonations() {
                                             </DropdownMenuTrigger>
                                             <DropdownMenuContent className="w-48 mr-12">
                                                 <DropdownMenuLabel>Account</DropdownMenuLabel>
+                                            <DropdownMenu>
+                                                <DropdownMenuTrigger asChild className="w-full h-full">
+                                                    <Button className="w-8 h-8 aspect-square rounded-full " variant={"ghost"}>
+                                                        <PiDotsThreeBold className="w-4 h-4 aspect-square self-center" />
+                                                    </Button>
+
+                                                </DropdownMenuTrigger>
+                                                <DropdownMenuContent className="w-48 mr-12">
+                                                    <DropdownMenuLabel>Account</DropdownMenuLabel>
                                                     <DropdownMenuSeparator />
                                                     <DropdownMenuGroup>
-                                                    <Link  href={route("admin.manage-donations.edit", {id: item.id})} className="flex justify-between w-full h-8 items-center bg-transparent hover:bg-primary-accent/65 rounded-md text-primary-bg px-2 font-semibold text-sm ">
-                                                        Edit
-                                                    <FaRegEdit className="w-4 h-4 aspect-square " />
-                                                    </Link>
+                                                        <Link href={route("admin.manage-donations.edit", {id: item.id})} className="flex justify-between w-full h-8 items-center bg-transparent hover:bg-primary-accent/65 rounded-md text-primary-bg px-2 font-semibold text-sm ">
+                                                            Edit
+                                                        <FaRegEdit className="w-4 h-4 aspect-square " />
+                                                        </Link>
+                                                        <button
+                                                            onClick={() => handleStatusClick(item)}
+                                                            className="flex justify-between w-full h-8 items-center bg-transparent hover:bg-primary-accent/65 rounded-md text-primary-bg px-2 font-semibold text-sm"
+                                                        >
+                                                            Status
+                                                        </button>
                                                     </DropdownMenuGroup>
-                                            </DropdownMenuContent>
-                                        </DropdownMenu>
+                                                </DropdownMenuContent>
+                                            </DropdownMenu>
+
+
                                         </td>
                                     </tr>
                                 ))}
@@ -116,6 +183,35 @@ export default function ManageDonations() {
                     )}
                 </div>
             </div>
+            {/* Modal Status */}
+            {showStatusModal && selectedDonation && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
+                    <div className="bg-white rounded-lg p-6 min-w-[300px] text-black">
+                        <h2 className="text-lg font-bold mb-4">Ubah Status Donasi</h2>
+                        <p className="mb-4">Setujui atau tolak donasi <span className="font-semibold">{selectedDonation.title}</span>?</p>
+                        <div className="flex gap-2 justify-end">
+                            <button
+                                onClick={() => handleStatusChange("on_progress")}
+                                className="px-4 py-2 bg-blue-500 text-white rounded"
+                            >
+                                Approve
+                            </button>
+                            <button
+                                onClick={() => handleStatusChange("denied")}
+                                className="px-4 py-2 bg-red-500 text-white rounded"
+                            >
+                                Reject
+                            </button>
+                            <button
+                                onClick={() => setShowStatusModal(false)}
+                                className="px-4 py-2 bg-gray-300 text-black rounded"
+                            >
+                                Batal
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </Authenticated>
     )
 }

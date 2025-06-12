@@ -86,4 +86,21 @@ use Illuminate\Support\Facades\Auth;
 
         return redirect()->route('admin.manage-donations.edit', ['id' => $donation->id])->with('success', 'Donation updated!');
     }
+    public function setStatus(Request $request)
+    {
+        $request->validate([
+            'id' => 'required|exists:donations,id',
+            'status' => 'required|in:on_progress,denied',
+        ]);
+
+        $donation = Donation::findOrFail($request->id);
+        $donation->status = $request->status;
+        $donation->save();
+
+        return response()->json([
+            'success' => true,
+            'status' => $donation->status,
+            'id' => $donation->id,
+        ]);
+    }
 }
