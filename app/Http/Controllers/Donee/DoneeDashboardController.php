@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Donee;
 
+use App\Models\Fund;
 use Inertia\Inertia;
 use App\Models\Donee;
 use App\Models\Donation;
@@ -64,13 +65,13 @@ class DoneeDashboardController extends Controller {
             ]);
         }
 
-        $donationData = $donation->select([
+        $donationData = Donation::select([
             'id',
             'initiator_id',
             'type',
             'type_attributes',
             'title'
-        ])->first();
+        ])->find($donation->id);
 
         if ($donation->type() === ProductDonation::class) {
             $data = DonationItem::whereHas('donorDonation', function ($q) use ($donation) {
@@ -89,14 +90,33 @@ class DoneeDashboardController extends Controller {
                     'donation_item' => $data
                 ],
             ]);
+        } else {
+            $data = Fund::where('status', 'finished')
+            ->select([
+                'id',
+                'donation_id',
+                'donor_donation_id',
+                'amount',
+                'status',
+                'updated_at'
+            ])->whereHas('donorDonation', function ($q) use ($donation) {
+                $q->where('donation_id', $donation->id);
+            })->with([
+                'donorDonation:id,donor_id',
+                'donorDonation.donor:id,username'
+            ])->paginate(10);
+
+            return Inertia::render('Donation/DonatedItemList', [
+                'auth' => [
+                    'user' => $user,
+                    'roles' => $user->roleName()
+                ],
+                'data' => [
+                    'donation' => $donationData,
+                    'funds' => $data
+                ]
+            ]);
         }
 
-        return Inertia::render('Donation/DonatedItemList', [
-            'auth' => [
-                'user' => $user,
-                'roles' => $user->roleName()
-            ],
-            'data' => []
-        ]);
     }
 }

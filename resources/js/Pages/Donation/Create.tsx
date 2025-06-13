@@ -221,7 +221,7 @@ export default function CreateDonation() {
             );
             payload.append(
                 `data[products][facilities][${index}][dimension]`,
-                facility.dimensions
+                facility.dimension
             );
             payload.append(
                 `data[products][facilities][${index}][material]`,
