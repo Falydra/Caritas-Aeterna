@@ -418,7 +418,7 @@ export default function DonationDetail() {
                                             <div className="flex flex-col">
                                                 <p>{facility.name}</p>
                                                 <p className="text-xs">
-                                                    {facility.dimensions},{" "}
+                                                    {facility.dimension}{" | "}
                                                     {facility.material}
                                                 </p>
                                             </div>
