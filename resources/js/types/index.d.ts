@@ -27,7 +27,7 @@ export type Facility = {
     id: number | string;
     name: string;
     description: string;
-    dimensions: string;
+    dimension: string;
     material: string;
     price: number | string;
     amount: number;
@@ -205,7 +205,7 @@ export type UserProfile = {
 } | null;
 
 export type UserIdentity = {
-     nik: string;
+    nik: string;
     full_name: string;
     id_card_image: string | null;
     verified_at: string | null;
@@ -222,7 +222,7 @@ export type Address = {
     city: string | null;
     province: string | null;
     postal_code: string | null;
-    
+
 } | null;
 
 

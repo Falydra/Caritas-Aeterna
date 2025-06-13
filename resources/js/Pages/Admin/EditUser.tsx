@@ -2,6 +2,7 @@ import { useForm, usePage } from "@inertiajs/react";
 import Authenticated from "@/Layouts/AuthenticatedLayout";
 import { User } from "@/types";
 import { Input } from "@/Components/ui/input";
+import { Button } from "@/Components/ui/button";
 
 interface EditUserProps {
     user: User;
@@ -24,45 +25,70 @@ export default function EditUser() {
 
     return (
         <Authenticated>
-             <div className="flex w-full flex-col max-h-screen items-center justify-center p-8 bg-primary-bg gap-4">
-                <h1 className="text-2xl font-bold">Edit User</h1>
-                <p className="text-lg">Modify user details below.</p>
-                <form onSubmit={handleSubmit} className="w-full max-w-md rounded-lg shadow-md flex flex-col gap-8">
-                    <div>
-                        <label>Username</label>
-                        <Input
-                            value={data.username}
-                            placeholder="Enter username"
-                            onChange={e => setData("username", e.target.value)}
-                            className="text-primary-fg focus:text-primary-fg"
-                        />
-                        {errors.username && <div className="text-red-500">{errors.username}</div>}
+            {/* <Head title="Edit User" /> */}
+            <div className="flex w-full justify-center items-center pt-8 bg-primary-bg text-white">
+                <div className="flex flex-col w-1/2 items-start self-center gap-4 px-8 py-4">
+                    <div className="flex flex-col items-start w-full gap-1">
+                        <h1 className="text-2xl font-bold self-center">Edit User</h1>
+                        <p className="text-lg self-center">Modify user details below.</p>
                     </div>
-                    <div>
-                        <label>Email</label>
-                        <Input
-                            value={data.email}
-                            onChange={e => setData("email", e.target.value)}
-                            className="text-primary-fg focus:text-primary-fg"
-                        />
-                        {errors.email && <div className="text-red-500">{errors.email}</div>}
-                    </div>
-                    <div>
-                        <label>Password</label>
-                        <Input
-                            type="password"
-                            value={data.password}
-                            onChange={e => setData("password", e.target.value)}
-                            placeholder="Enter new password"
-                            className="text-primary-fg focus:text-primary-fg"
-                        />
-                        {errors.password && <div className="text-red-500">{errors.password}</div>}
-                    </div>
-                    <button type="submit" disabled={processing} className="bg-primary-accent text-white rounded px-4 py-2 mt-4">
-                        Update User
-                    </button>
-                </form>
+
+                    <form onSubmit={handleSubmit} className="w-full rounded-lg shadow-md flex flex-col gap-6 bg-primary-bg p-6 border border-white">
+                        <div>
+                            <label htmlFor="username" className="block text-sm font-medium text-white mb-1">
+                                Username
+                            </label>
+                            <Input
+                                id="username"
+                                type="text"
+                                placeholder="Enter username"
+                                value={data.username}
+                                onChange={(e) => setData("username", e.target.value)}
+                                className={`text-primary-fg focus:text-primary-fg ${errors.username ? 'border-red-500' : ''}`}
+                                required
+                            />
+                            {errors.username && <p className="text-red-500 text-xs mt-1">{errors.username}</p>}
+                        </div>
+
+                        <div>
+                            <label htmlFor="email" className="block text-sm font-medium text-white mb-1">
+                                Email
+                            </label>
+                            <Input
+                                id="email"
+                                type="email"
+                                placeholder="Enter email"
+                                value={data.email}
+                                onChange={(e) => setData("email", e.target.value)}
+                                className={`text-primary-fg focus:text-primary-fg ${errors.email ? 'border-red-500' : ''}`}
+                                required
+                            />
+                            {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
+                        </div>
+
+                        <div>
+                            <label htmlFor="password" className="block text-sm font-medium text-white mb-1">
+                                Password
+                            </label>
+                            <p className="text-xs text-gray-500 mb-2">Enter a new password (leave blank to keep current).</p>
+                            <Input
+                                id="password"
+                                type="password"
+                                placeholder="Enter new password"
+                                value={data.password}
+                                onChange={(e) => setData("password", e.target.value)}
+                                className={`text-primary-fg focus:text-primary-fg ${errors.password ? 'border-red-500' : ''}`}
+                            />
+                            {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
+                        </div>
+
+                        <Button type="submit" disabled={processing} className="w-full mt-2 bg-primary-accent">
+                            {processing ? 'Updating...' : 'Update User'}
+                        </Button>
+                    </form>
+                </div>
             </div>
         </Authenticated>
     );
+
 }

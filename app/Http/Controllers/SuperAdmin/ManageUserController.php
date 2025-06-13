@@ -16,6 +16,15 @@ class ManageUserController extends Controller
    
     public function index()
     {
+
+        if (Auth::user()->role() != SuperAdmin::class) {
+            return Inertia::render('Error', [
+                'code' => '403',
+                'status' => 'forbidden',
+                'message' => 'dih ogah, lu siapa coba'
+            ]);
+        }
+
         $users = User::where('type', 'App\\Models\\Admin')->paginate(10);
 
         $data = $users->getCollection()->map(function ($user) {
@@ -35,6 +44,26 @@ class ManageUserController extends Controller
         ]);
     }
 
+    public function showCreateForm(){
+        if (Auth::user()->role() != SuperAdmin::class) {
+            return Inertia::render('Error', [
+                'code' => '403',
+                'status' => 'forbidden',
+                'message' => 'dih ogah, lu siapa coba'
+            ]);
+        }
+
+        $user = Auth::user();
+
+        return Inertia::render('SuperAdmin/CreateUserForm', [
+            'user' => $user->toArray() + ['role' => $user->roleName()],
+            'auth' => [
+                'user' => Auth::user(),
+                'roles' => Auth::user()->roleName(),
+            ],
+        ]);
+        
+    }
 
     public function edit(Request $request)
     {

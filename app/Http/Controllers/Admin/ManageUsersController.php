@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Models\User;
 use App\Models\Admin;
+use Illuminate\Support\Facades\DB;
 
 class ManageUsersController extends Controller
 {
@@ -88,5 +89,33 @@ class ManageUsersController extends Controller
         $user->save();
 
         return redirect()->route('admin.manage-users.edit', ['id' => $user->id])->with('success', 'User updated!');
+    }
+
+    public function destroy(Request $request) {
+        if (Auth::user()->role() !== Admin::class) {
+            abort(403, "You don't have permission to perform this action");
+        }
+
+        $validated = $request->validate([
+            'id' => 'bail|required|int'
+        ]);
+
+        $id = data_get($validated, 'id');
+
+        DB::beginTransaction();
+
+        try {
+            $user = User::findOrFail($id);
+            $user->delete();
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+            return back()->withErrors([
+                'database' => $e->getMessage()
+            ]);
+        }
+
+        return back()->with('success', 'user deleted successfully');
     }
 }

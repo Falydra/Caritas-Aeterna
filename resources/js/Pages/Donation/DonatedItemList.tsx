@@ -1,5 +1,5 @@
 import Authenticated from "@/Layouts/AuthenticatedLayout";
-import { PageProps, User } from "@/types";
+import { Fundraiser, PageProps, User } from "@/types";
 import { Inertia } from "@inertiajs/inertia";
 import { usePage, router } from "@inertiajs/react";
 import {
@@ -116,12 +116,41 @@ interface ProductDonationData {
     donation_item: paginatedDonationItem;
 }
 
+interface Fund {
+    id: number;
+    donor_donation_id: number;
+    amount: string;
+    updated_at: string;
+    status: string;
+    donor_donation: DonorDonation;
+}
+
+interface paginatedFund {
+    data: Fund[];
+    per_page: number;
+    current_page: number;
+    last_page: number;
+    total: number;
+    from: number | null;
+    to: number | null;
+    path: string;
+    prev_page_url: string | null;
+    next_page_url: string | null;
+    first_page_url: string;
+    last_page_url: string;
+}
+
+interface FundraiserData {
+    donation: Donation;
+    funds: paginatedFund;
+}
+
 interface DonatedItemProps extends PageProps {
     auth: {
         user: User;
         roles: string;
     };
-    data: ProductDonationData;
+    data: ProductDonationData | FundraiserData;
 }
 
 function formatDate(date: string) {
@@ -138,6 +167,7 @@ function formatStatus(status: string) {
 export default function DonatedItemList() {
     const { auth, data } = usePage<DonatedItemProps>().props;
     const paginatedProductData = (data as ProductDonationData).donation_item;
+    const paginatedFund = (data as FundraiserData).funds;
 
     const [packagePicturePreview, setPackagePicturePreview] = useState("");
 
@@ -150,7 +180,11 @@ export default function DonatedItemList() {
         "Jumlah",
         "Status",
     ];
-    const fundraisingHeader = ["Nama Donatur", "Jumlah", "Status"];
+    const fundraisingHeader = [
+        "Nama Donatur",
+        "Jumlah",
+        "Status"
+    ];
 
     const handleVerifyProduct = async (id: number) => {
         const payload = {
@@ -178,12 +212,14 @@ export default function DonatedItemList() {
         })
     }
 
+    console.log("donation", data);
+
     const handlePageChange = (
         event: React.ChangeEvent<unknown>,
         page: number
     ) => {
         router.get(
-            route("donee.donations.donatedItem", {'donation': data.donation.id}),
+            route("donee.donations.donatedItem", { 'donation': data.donation.id }),
             { page },
             {
                 preserveState: true,
@@ -300,11 +336,27 @@ export default function DonatedItemList() {
                                         ))}
                                     </>
                                 ) : (
-                                    <TableRow>
-                                        <TableCell>
-                                            Hello
-                                        </TableCell>
-                                    </TableRow>
+                                    <>
+                                        {(data as FundraiserData).funds.data.map((item, idx) => (
+                                            <TableRow key={item.id}>
+                                                <TableCell>{paginatedFund.current_page + idx}</TableCell>
+                                                <TableCell>{formatDate(item.updated_at)}</TableCell>
+                                                <TableCell>Dana</TableCell>
+                                                <TableCell>{item.donor_donation.donor.username}</TableCell>
+                                                <TableCell>{item.amount}</TableCell>
+                                                <TableCell>
+                                                    <ThemeProvider theme={theme}>
+                                                        <Chip label={formatStatus(item.status)} color={item.status === "finished" ? "success" : "edit"}></Chip>
+                                                    </ThemeProvider>
+                                                </TableCell>
+                                                <TableCell align="center">
+                                                    <Box display="flex" flexDirection="row" gap={1}>
+                                                        -
+                                                    </Box>
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </>
                                 )}
                             </TableBody>
                         </Table>
@@ -315,11 +367,19 @@ export default function DonatedItemList() {
                             py={2}
                             px={4}
                         >
-                            <Pagination
-                                count={paginatedProductData.last_page}
-                                page={paginatedProductData.current_page}
-                                onChange={handlePageChange}
-                            ></Pagination>
+                            {data.donation.type === "App\\Models\\ProductDonation" ? (
+                                <Pagination
+                                    count={paginatedProductData.last_page}
+                                    page={paginatedProductData.current_page}
+                                    onChange={handlePageChange}
+                                ></Pagination>
+                            ) : (
+                                <Pagination
+                                    count={paginatedFund.last_page}
+                                    page={paginatedFund.current_page}
+                                    onChange={handlePageChange}
+                                ></Pagination>
+                            )}
                         </Box>
                     </TableContainer>
                 </div>
