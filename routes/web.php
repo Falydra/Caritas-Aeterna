@@ -27,6 +27,7 @@ use App\Http\Controllers\Donee\DoneeProfileController;
 use App\Http\Controllers\Donor\DonorDashboardController;
 use App\Http\Controllers\SuperAdmin\DashboardController;
 use App\Http\Controllers\Admin\ManageDonationsController;
+use App\Http\Controllers\Admin\AdminController;
 
 
 use App\Http\Controllers\SuperAdmin\ManageUserController;
@@ -95,7 +96,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/dashboard/admin/manage-users/{id}', [ManageUsersController::class, 'update'])->name('admin.manage-users.update');
     Route::get('/dashboard/admin/manage-users', [ManageUsersController::class, 'index'])->name('admin.manage-users');
     Route::get('/dashboard/admin/manage-users/edit', [ManageUsersController::class, 'edit'])->name('admin.manage-users.edit');
-    Route::patch('/dashboard/admin/profile', [AdminProfileController::class, 'updateProfile'])->name('admin.profile.update');
+    Route::delete('/dashboard/admin/manage-users/delete/{id}', [ManageUsersController:: class, 'destroy'])->name('admin.manage-users.delete');
+    Route::patch('/dashboard/admin/profile', [AdminProfileController::class, 'update'])->name('admin.profile.update');
     Route::get('/dashboard/admin/profile', [AdminProfileController::class, 'index'])->name('admin.profile');
     Route::get('/dashboard/admin/manage-application', [DoneeApplicationController::class, 'index'])->name('admin.manage-application');
     Route::get('/dashboard/admin/manage-application/user-detail/{userId}', [DoneeApplicationController::class, 'showUserDetail'])->name('admin.manage-application.user-detail');
@@ -107,6 +109,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard/super-admin/manage-users', [ManageUserController::class, 'index'])->name('super-admin.manage-users');
     Route::get('/dashboard/super-admin/manage-users/edit', [ManageUserController::class, 'edit'])->name('super-admin.manage-users.edit');
     Route::patch('/dashboard/super-admin/manage-users/{id}', [ManageUserController::class, 'update'])->name('super-admin.manage-users.update');
+    Route::get('/dashboard/super-admin/manage-users/create-user-form', [ManageUserController::class, 'showCreateForm'])->name('super-admin.manage-users.create-user-form');
+    Route::post('/dashboard/super-admin/manage-users/create-user', [AdminController::class, 'create'])->name('super-admin.manage-users.create-user');
+    Route::delete('/dashboard/super-admin/manage-users/delete/{id}', [AdminController:: class, 'destroy'])->name('super-admin.manage-users.delete');
     Route::get('/dashboard/super-admin/profile', [SuperProfileController::class, 'index'])->name('super-admin.profile');
     Route::patch('/dashboard/super-admin/profile', [SuperProfileController::class, 'update'])->name('super-admin.profile.update');
 });

@@ -1,15 +1,19 @@
 // Admin/ManageApplication.tsx
 
 import Authenticated from "@/Layouts/AuthenticatedLayout";
-import { User } from "@/types";
+import { User, UserIdentity, UserProfile } from "@/types";
 import { usePage, Link, router } from "@inertiajs/react";
 import { useState, useEffect } from "react"; // Import useEffect
 import { FaTimes, FaSpinner } from "react-icons/fa"; // Added FaSpinner for loading
+import { DropdownMenu, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuGroup } from "@/Components/ui/dropdown-menu";
+import { PiDotsThreeBold } from "react-icons/pi";
+import { Button } from '@/Components/ui/button'
 
 
 interface ApplicationItem {
     id: number;
     donor_id: number;
+    donor_username: string;
     status: string;
     reviewed_by: number | null;
     reviewed_at: string | null;
@@ -53,36 +57,14 @@ interface DonorDetails {
     updated_at: string | null;
     has_profile: boolean;
     has_identity: boolean;
-    profile: {
-        full_name: string;
-        phone_number: string | null;
-        date_of_birth: string | null;
-        gender: string | null;
-        profile_picture: string | null;
-    } | null;
-    identity: {
-        nik: string;
-        full_name: string;
-        id_card_image: string | null;
-        verified_at: string | null;
-        address: { // <--- UPDATE THIS PART
-            address_detail: string | null;
-            rt: string | null;
-            rw: string | null;
-            kelurahan: string | null;
-            kecamatan: string | null;
-            city: string | null;
-            province: string | null;
-            postal_code: string | null;
-            // country: string | null; // You removed 'country' from PHP, so remove/keep as needed
-                                   // Add any other address fields from your PHP function
-        } | null;
-    } | null;
+    profile: UserProfile;
+    identity: UserIdentity;
 }
 
 
 export default function ManageApplication() {
     const { applications, auth, flash, errors } = usePage<CurrentPageProps>().props;
+    console.log(applications)
 
     // State for modal
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -197,23 +179,24 @@ export default function ManageApplication() {
                                     <th className='py-3 border-b border-primary-fg'>No</th>
                                     <th className='py-3 border-b border-primary-fg'>App ID</th>
                                     <th className='py-3 border-b border-primary-fg'>Donor ID</th>
+                                    <th className='py-3 border-b border-primary-fg'>Donor Username</th>
                                     <th className='py-3 border-b border-primary-fg'>Status</th>
                                     <th className='py-3 border-b border-primary-fg'>Reviewed By (Admin ID)</th>
                                     <th className='py-3 border-b border-primary-fg'>Submitted At</th>
+                                    <th className='py-3 border-b border-primary-fg'>Action</th>
                                 </tr>
                             </thead>
-                            <tbody className='text-center bg-primary-bg dark:bg-gray-800'> {/* Changed bg-white to bg-primary-bg for consistency */}
+                            <tbody className='text-center'>
                                 {applications.data.length > 0 ? applications.data.map((application: ApplicationItem, index: number) => (
                                     <tr
                                         key={application.id}
-                                        className='text-primary-fg hover:bg-primary-accent/20 cursor-pointer' // Added cursor-pointer and adjusted hover
-                                        onClick={() => handleRowClick(application)} // Attach click handler
+                                        className='text-center' // Matched target style
                                     >
-                                        {/* ... (tds are the same) ... */}
-                                        <td className='p-4 border-b border-primary-fg'>{(applications.current_page - 1) * applications.per_page + index + 1}</td>
-                                        <td className='p-4 border-b border-primary-fg'>{application.id}</td>
-                                        <td className='p-4 border-b border-primary-fg'>{application.donor_id}</td>
-                                        <td className='p-4 border-b border-primary-fg'>
+                                        <td className='p-4 border-b'>{(applications.current_page - 1) * applications.per_page + index + 1}</td>
+                                        <td className='p-4 border-b'>{application.id}</td>
+                                        <td className='p-4 border-b'>{application.donor_id}</td>
+                                        <td className='p-4 border-b'>{application.donor_username}</td>
+                                        <td className='p-4 border-b'>
                                             <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
                                                 ${application.status === 'pending' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300' : ''}
                                                 ${application.status === 'accepted' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' : ''}
@@ -222,12 +205,35 @@ export default function ManageApplication() {
                                                 {application.status}
                                             </span>
                                         </td>
-                                        <td className='p-4 border-b border-primary-fg'>{application.reviewed_by || 'N/A'}</td>
-                                        <td className='p-4 border-b border-primary-fg'>{new Date(application.created_at).toLocaleDateString()}</td>
+                                        <td className='p-4 border-b'>{application.reviewed_by || 'N/A'}</td>
+                                        <td className='p-4 border-b'>{new Date(application.created_at).toLocaleDateString()}</td>
+                                        <td className='p-4 border-b'>
+                                            <DropdownMenu>
+                                                <DropdownMenuTrigger asChild className="w-full h-full">
+                                                    <Button className="w-8 h-8 aspect-square rounded-full hover:bg-transparent hover:text-primary-fg" variant={"default"}>
+                                                        <PiDotsThreeBold className="w-4 h-4 aspect-square self-center hover:text-primary-fg" />
+                                                    </Button>
+                                                </DropdownMenuTrigger>
+                                                <DropdownMenuContent className="w-48 mr-12"> {/* You might need to adjust mr-12 based on your layout */}
+                                                    <DropdownMenuLabel>Quick Actions</DropdownMenuLabel>
+                                                    <DropdownMenuSeparator />
+                                                    <DropdownMenuGroup>
+                                                        <DropdownMenuItem
+                                                            onSelect={() => handleRowClick(application)}
+                                                            className="flex justify-between w-full h-8 items-center bg-transparent hover:!bg-primary-accent/65 rounded-md text-primary-bg px-2 font-semibold text-sm cursor-pointer"
+                                                        >
+                                                            <span>Review</span>
+                                                            {/* Optional: Add an icon like <FaSearch className="w-4 h-4 aspect-square" /> or similar */}
+                                                        </DropdownMenuItem>
+                                                    </DropdownMenuGroup>
+                                                </DropdownMenuContent>
+                                            </DropdownMenu>
+                                        </td>
                                     </tr>
                                 )) : (
                                     <tr>
-                                        <td colSpan={6} className="p-4 text-center text-gray-500 dark:text-gray-400"> {/* Adjusted colSpan since Actions column was removed from header */}
+                                        {/* Adjusted colSpan to 8 (7 original data columns + 1 actions column) */}
+                                        <td colSpan={8} className="p-4 text-center text-gray-500 dark:text-gray-400">
                                             No pending applications found.
                                         </td>
                                     </tr>
@@ -237,7 +243,7 @@ export default function ManageApplication() {
                     </div>
                 </div>
                 {applications.data.length > 0 && (
-                    <div className=" flex justify-between items-center sticky bottom-0 z-9 w-full py-4 bg-primary-bg border-t border-primary-fg">
+                    <div className=" flex justify-between items-center sticky bottom-0 z-9 w-full py-4 bg-primary-bg border-primary-fg">
                         {applications.current_page > 1 ? (
                             <Link
                                 href={route("admin.manage-application", { page: applications.current_page - 1 })}

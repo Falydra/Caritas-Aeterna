@@ -4,11 +4,22 @@ import { usePage } from "@inertiajs/react";
 import { Link } from "@inertiajs/react";
 import { FaRegEdit, FaTrashAlt } from "react-icons/fa";
 import { useState } from "react";
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuGroup } from "@/Components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuGroup } from "@/Components/ui/dropdown-menu";
 import { IoIosLogOut } from "react-icons/io";
 import { Button } from "@/Components/ui/button";
 import { PiDotsThreeBold } from "react-icons/pi";
 
+import { router } from "@inertiajs/react";
+
+
+const handleDelete = (id: number | undefined) => {
+    if (confirm("Are you sure you want to delete this user?")) {
+        router.delete(route("admin.manage-users.delete", { id }), {
+            data: { id }, // ✅ required for your controller
+            preserveScroll: true,
+        });
+    }
+};
 
 
 
@@ -45,7 +56,16 @@ export default function ManageUsers() {
         <Authenticated>
             <div className="flex w-full flex-col max-h-screen items-start justify-start px-8 py-4 bg-primary-bg gap-4">
                 <h1 className="text-2xl font-bold">User Manager</h1>
-                <p className="text-lg">Manage all users in the system.</p>
+                <div className="flex justify-between items-center w-full">
+                    <p className="text-lg">Manage all users in the system.</p>
+                    {/* <p className="text-lg">Manage all admin users in the system.</p> */}
+                    <Link
+                        href={route("super-admin.manage-users.create-user-form")}
+                        className="px-4 py-2 bg-primary-accent text-white rounded"
+                    >
+                        Tambah Admin
+                    </Link>
+                </div>
                 <div className="flex flex-col w-full items-center justify-center">
                     <div className='w-full max-h-[375px] overflow-y-auto rounded-md '>
                         <table className="w-full text-center border rounded-full">
@@ -79,10 +99,17 @@ export default function ManageUsers() {
                                                 <DropdownMenuLabel>Quick Actions</DropdownMenuLabel>
                                                     <DropdownMenuSeparator />
                                                     <DropdownMenuGroup>
-                                                    <Link  href={route("super-admin.manage-users.edit", {id: item.id})} className="flex justify-between w-full h-8 items-center bg-transparent hover:bg-primary-accent/65 rounded-md text-primary-bg px-2 font-semibold text-sm ">
-                                                        Edit
-                                                    <FaRegEdit className="w-4 h-4 aspect-square " />
-                                                    </Link>
+                                                        <Link  href={route("super-admin.manage-users.edit", {id: item.id})} className="flex justify-between w-full h-8 items-center bg-transparent hover:bg-primary-accent/65 rounded-md text-primary-bg px-2 font-semibold text-sm ">
+                                                            Edit
+                                                        <FaRegEdit className="w-4 h-4 aspect-square " />
+                                                        </Link>
+                                                        <button
+                                                            onClick={() => handleDelete(item.id)}
+                                                            className="flex justify-between w-full h-8 items-center bg-transparent hover:bg-red-300 rounded-md text-red-600 px-2 font-semibold text-sm"
+                                                        >
+                                                            Hapus
+                                                            <FaTrashAlt className="w-4 h-4 aspect-square" />
+                                                        </button>
                                                     </DropdownMenuGroup>
                                             </DropdownMenuContent>
                                         </DropdownMenu>

@@ -194,7 +194,7 @@ export type UserProfile = {
 } | null;
 
 export type UserIdentity = {
-     nik: string;
+    nik: string;
     full_name: string;
     id_card_image: string | null;
     verified_at: string | null;
