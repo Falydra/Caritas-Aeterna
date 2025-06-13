@@ -22,23 +22,56 @@ export default function Profile() {
 
     return (
         <Authenticated>
-            <form onSubmit={handleSubmit} className="max-w-md mx-auto p-4">
-                <input
-                    value={data.username}
-                    onChange={e => setData("username", e.target.value)}
-                    className="w-full p-2 border rounded-md mb-2"
-                    placeholder="Username"
-                />
-                <input
-                    value={data.email}
-                    onChange={e => setData("email", e.target.value)}
-                    className="w-full p-2 border rounded-md mb-2"
-                    placeholder="Email"
-                />
-                <button type="submit" disabled={processing} className="px-4 py-2 bg-primary-accent text-white rounded-md">
-                    Save Changes
-                </button>
-            </form>
+            {/* <Head title="Edit User" /> */}
+            <div className="flex w-full justify-center items-center pt-8 bg-primary-bg text-white">
+                <div className="flex flex-col w-1/2 items-start self-center gap-4 px-8 py-4">
+                    <div className="flex flex-col items-start w-full gap-1">
+                        <h1 className="text-2xl font-bold self-center">Edit User</h1>
+                        <p className="text-lg self-center">Update your account details below</p>
+                    </div>
+
+                    <form onSubmit={handleSubmit} className="w-full rounded-lg shadow-md flex flex-col gap-6 bg-primary-bg p-6 border border-white">
+                        <div>
+                            <label htmlFor="username" className="block text-sm font-medium text-white mb-1">
+                                Username
+                            </label>
+                            <input
+                                id="username"
+                                type="text"
+                                placeholder="Enter username"
+                                value={data.username}
+                                onChange={(e) => setData("username", e.target.value)}
+                                className="w-full p-2 border border-white rounded-md bg-transparent text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-accent"
+                                required
+                            />
+                        </div>
+
+                        <div>
+                            <label htmlFor="email" className="block text-sm font-medium text-white mb-1">
+                                Email
+                            </label>
+                            <input
+                                id="email"
+                                type="email"
+                                placeholder="Enter email"
+                                value={data.email}
+                                onChange={(e) => setData("email", e.target.value)}
+                                className="w-full p-2 border border-white rounded-md bg-transparent text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-accent"
+                                required
+                            />
+                        </div>
+
+                        <button
+                            type="submit"
+                            disabled={processing}
+                            className="w-full mt-2 px-4 py-2 bg-primary-accent text-white rounded-md disabled:opacity-70"
+                        >
+                            {processing ? 'Saving...' : 'Save Changes'}
+                        </button>
+                    </form>
+                </div>
+            </div>
         </Authenticated>
     );
+
 }

@@ -99,19 +99,17 @@ export default function ManageUsers() {
                                                 <DropdownMenuLabel>Quick Actions</DropdownMenuLabel>
                                                     <DropdownMenuSeparator />
                                                     <DropdownMenuGroup>
-                                                    <Link  href={route("super-admin.manage-users.edit", {id: item.id})} className="flex justify-between w-full h-8 items-center bg-transparent hover:bg-primary-accent/65 rounded-md text-primary-bg px-2 font-semibold text-sm ">
-                                                        Edit
-                                                    <FaRegEdit className="w-4 h-4 aspect-square " />
-                                                    </Link>
-                                                    </DropdownMenuGroup>
-                                                    <DropdownMenuGroup>
-                                                        <DropdownMenuItem
+                                                        <Link  href={route("super-admin.manage-users.edit", {id: item.id})} className="flex justify-between w-full h-8 items-center bg-transparent hover:bg-primary-accent/65 rounded-md text-primary-bg px-2 font-semibold text-sm ">
+                                                            Edit
+                                                        <FaRegEdit className="w-4 h-4 aspect-square " />
+                                                        </Link>
+                                                        <button
                                                             onClick={() => handleDelete(item.id)}
-                                                            className="flex justify-between w-full h-8 items-center bg-transparent hover:bg-primary-accent/65 rounded-md text-red-600 px-2 font-semibold text-sm"
+                                                            className="flex justify-between w-full h-8 items-center bg-transparent hover:bg-red-300 rounded-md text-red-600 px-2 font-semibold text-sm"
                                                         >
                                                             Hapus
                                                             <FaTrashAlt className="w-4 h-4 aspect-square" />
-                                                        </DropdownMenuItem>
+                                                        </button>
                                                     </DropdownMenuGroup>
                                             </DropdownMenuContent>
                                         </DropdownMenu>

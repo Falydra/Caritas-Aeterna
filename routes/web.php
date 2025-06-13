@@ -97,7 +97,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard/admin/manage-users', [ManageUsersController::class, 'index'])->name('admin.manage-users');
     Route::get('/dashboard/admin/manage-users/edit', [ManageUsersController::class, 'edit'])->name('admin.manage-users.edit');
     Route::delete('/dashboard/admin/manage-users/delete/{id}', [ManageUsersController:: class, 'destroy'])->name('admin.manage-users.delete');
-    Route::patch('/dashboard/admin/profile', [AdminProfileController::class, 'updateProfile'])->name('admin.profile.update');
+    Route::patch('/dashboard/admin/profile', [AdminProfileController::class, 'update'])->name('admin.profile.update');
     Route::get('/dashboard/admin/profile', [AdminProfileController::class, 'index'])->name('admin.profile');
     Route::get('/dashboard/admin/manage-application', [DoneeApplicationController::class, 'index'])->name('admin.manage-application');
     Route::get('/dashboard/admin/manage-application/user-detail/{userId}', [DoneeApplicationController::class, 'showUserDetail'])->name('admin.manage-application.user-detail');

@@ -9,6 +9,7 @@ import { FormEventHandler, useRef, useState } from "react";
 import { Head } from '@inertiajs/react';
 import { Input } from "@/Components/ui/input";
 import { Button } from "@/Components/ui/button";
+import { toast } from "sonner";
 import UpdatePasswordForm from "../Profile/Partials/UpdatePasswordForm";
 
 interface ProfilePageProps {
