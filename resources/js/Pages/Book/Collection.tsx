@@ -72,7 +72,7 @@ export default function BookCollection({
                                         <td className="px-2 py-2 w-1/6 border-b text-start border-primary-fg/50">
                                             {data.book.authors.map(
                                                 (author, idx) => (
-                                                    <p>{author}</p>
+                                                    <p key={idx}>{author}</p>
                                                 )
                                             )}
                                         </td>

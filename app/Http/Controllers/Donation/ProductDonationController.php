@@ -62,7 +62,7 @@ class ProductDonationController extends Controller {
     }
 
     public function show(ProductDonation $donation) {
-        
+
         $data = ProductDonation::with(
             'books',
             'facilities',
@@ -70,12 +70,12 @@ class ProductDonationController extends Controller {
         )->where('id', $donation->id)
             ->first();
 
-        
+
         return Inertia::render('Donation/DonationDetail', [
             'donation' => $data,
             'auth' => [
                 'user' => Auth::user(),
-                'roles' => Auth::user()->roleName(), 
+                'roles' => Auth::user()->roleName(),
             ],
         ]);
     }
@@ -175,6 +175,7 @@ class ProductDonationController extends Controller {
             return redirect()->route('donations.show', $donation->id);
         } catch (Throwable $e) {
             DB::rollBack();
+            dd($e);
             report($e);
 
             return back()->withErrors('Failed to create product donation');

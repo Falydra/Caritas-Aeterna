@@ -167,6 +167,8 @@ export default function CreateDonation() {
     }
     const { auth, donationStoreUrl } = usePage<CreateDonationProps>().props;
 
+    console.log("Fasilitas: ", addedFacilities);
+
     const handleSubmit = async () => {
         const payload = new FormData();
 
@@ -210,27 +212,27 @@ export default function CreateDonation() {
         // append facility
         addedFacilities.forEach((facility, index) => {
             payload.append(
-                `products[facilities][${index}][name]`,
+                `data[products][facilities][${index}][name]`,
                 facility.name
             );
             payload.append(
-                `products[facilities][${index}][description]`,
+                `data[products][facilities][${index}][description]`,
                 facility.description
             );
             payload.append(
-                `products[facilities][${index}][dimension]`,
+                `data[products][facilities][${index}][dimension]`,
                 facility.dimensions
             );
             payload.append(
-                `products[facilities][${index}][material]`,
+                `data[products][facilities][${index}][material]`,
                 facility.material
             );
             payload.append(
-                `products[facilities][${index}][price]`,
+                `data[products][facilities][${index}][price]`,
                 String(facility.price)
             );
             payload.append(
-                `products[facilities][${index}][amount]`,
+                `data[products][facilities][${index}][amount]`,
                 String(facility.amount)
             );
             product_fund += Number(facility.price);
