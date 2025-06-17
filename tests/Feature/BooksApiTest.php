@@ -55,16 +55,33 @@ class BooksApiTest extends TestCase {
     public function test_batch_create_book(): void {
         $user = Donee::first();
 
+        $books = [
+            'Ferris Wheel at Night',
+            'At Night I Become a Monster',
+            'Blue, Painful and Brittle',
+            'Confessions',
+            'Penance'
+        ];
+
+        $bookAuthors = [
+            'Minato Kanae',
+            'Sumino Yoru',
+            'Sumino Yoru',
+            'Minato Kanae',
+            'Minato Kanae'
+        ];
+
         for ($i = 0; $i < 5; $i++) {
             $isbn = fake()->isbn13();
-            $title = fake()->sentence(4);
+            $title = $books[$i];
             $authors = array();
-            for ($j = 0; $j < random_int(1, 3); $j++) {
-                $authors[$j] = fake()->name();
-            }
+            // for ($j = 0; $j < random_int(1, 3); $j++) {
+            //     $authors[$j] = fake()->name();
+            // }
+            $authors[0] = $bookAuthors[$i];
             $publishedYear = (string) fake()->year();
             $synopsis = fake()->paragraph(5);
-            $price = fake()->numberBetween(75000, 300000);
+            $price = fake()->numberBetween(75000, 110000);
 
             // generate image
             $imageName = "book_0{$i}.jpg";
