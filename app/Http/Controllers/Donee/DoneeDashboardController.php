@@ -34,24 +34,42 @@ class DoneeDashboardController extends Controller {
         ]);
     }
 
-    public function donationIndex() {
-        if (Auth::user()->role() !== Donee::class) {
+public function donationIndex()
+    {
+        $authenticatedUser = Auth::user();
+
+        if ($authenticatedUser->role() !== Donee::class) {
             return Inertia::render('Error', [
                 'code' => 403,
                 'status' => 'forbidden',
-                'message' => "You do not have permission to access this resources."
+                'message' => "You do not have permission to access this resource."
             ]);
         }
 
-        $user = Auth::user();
-        $donations = $user->donations()->select(['id', 'initiator_id', 'type', 'title', 'type_attributes', 'status'])->paginate(10);
+        // Fetch paginated donations
+        $donationsPaginator = $authenticatedUser->donations()
+            ->select(['id', 'initiator_id', 'type', 'title', 'type_attributes', 'status'])
+            ->paginate(1);
 
+        $transformedDonationItems = $donationsPaginator->getCollection()->map(function ($donation) {
+            return $donation->toArray();
+        });
+
+        // dd($authenticatedUser->toArray());
         return Inertia::render('Donee/ActiveDonation', [
             'auth' => [
-                'user' => $user,
-                'roles' => $user->roleName()
+                'user' => $authenticatedUser->toArray(),
+                'roles' => $authenticatedUser->roleName()
             ],
-            'data' => $donations
+            'donations' => [
+                'data' => $transformedDonationItems,
+                'current_page' => $donationsPaginator->currentPage(),
+                'last_page' => $donationsPaginator->lastPage(),
+                'per_page' => $donationsPaginator->perPage(),
+                'total' => $donationsPaginator->total(),
+                'next_page_url' => $donationsPaginator->nextPageUrl(),
+                'prev_page_url' => $donationsPaginator->previousPageUrl(),
+            ]
         ]);
     }
 

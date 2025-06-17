@@ -79,7 +79,7 @@ export default function DoneeRegister() {
                         <p className="text-lg self-center text-gray-300">Please fill in the information below correctly.</p>
                     </div>
 
-                    <form onSubmit={handleSubmit} className="w-full rounded-lg shadow-md flex flex-col gap-6 bg-primary-bg p-6 border border-gray-700">
+                    <form onSubmit={handleSubmit} className="w-full rounded-lg shadow-md flex flex-col gap-6 bg-primary-bg p-6 border border-white">
                         {/* Profile fields */}
                         <div>
                             <label htmlFor="full_name" className="block text-sm font-medium text-white mb-1">

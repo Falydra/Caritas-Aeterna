@@ -9,7 +9,7 @@ export default function Footer() {
     return (
         <div className="flex w-full h-[325px] md:flex-row flex-row bg-primary-fg items-start py-4 justify-center px-16 gap-8 overflow-y-hidden">
             {/* LEFT: Logo & Socials */}
-            <div className="flex flex-col w-4/12 h-full items-start justify-start gap-4 mt-[35px]">
+            <div className="flex flex-col w-4/12 h-full items-start justify-start gap-4 mt-[20px]">
                 <h1 className="text-2xl font-extrabold text-primary-bg">Info Lainnya</h1>
                 <p className="text-primary-bg text-lg">
                     Yayasan Nurul Hidayah adalah Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras bibendum tincidunt lorem, nec iaculis nisl. Cras eu vestibulum massa, in tincidunt turpis. Quisque eget mi ac lacus iaculis lobortis nec laoreet nisl. 
@@ -22,7 +22,7 @@ export default function Footer() {
             </div>
 
             {/* MIDDLE: Combined Menu, near bottom */}
-            <div className="flex flex-col w-4/12 h-full items-center justify-end">
+            <div className="flex flex-col w-4/12 h-full items-center justify-end mt-[20px]">
                 <div className="flex flex-row items-center gap-8 mb-[30px]">
                     {/* <Link href={route('tentangkami')} className="text-primary-bg text-xl cursor-pointer">
                         Tentang Kami
@@ -34,7 +34,7 @@ export default function Footer() {
 
 
             {/* RIGHT: Info Block */}
-            <div className="flex flex-col w-4/12 h-full items-center justify-center gap-4">
+            <div className="flex flex-col w-4/12 h-full items-center justify-center gap-4 mt-[20px]">
                 <div className="flex items-center justify-center w-full">
                     <img
                         src="/images/LogoYayasan.png"

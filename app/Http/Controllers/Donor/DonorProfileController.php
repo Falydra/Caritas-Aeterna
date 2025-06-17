@@ -17,11 +17,15 @@ class DonorProfileController extends Controller
     {
         // $user = User::where('type', 'App\\Models\\Donor')->first();
         $user = Auth::user();
+        $user->loadMissing('userProfile');
         $doneeApplication = Auth::user()->doneeApplication()->latest()->first();
         $doneeApplicationStatus = $doneeApplication ? $doneeApplication->status : null;
+        $userProfile = $user->userProfile;
 
+        // dd($userProfile);
         return Inertia::render('Donor/Profile', [
             'user' => $user->toArray() + ['role' => $user->roleName()],
+            'userProfile' => $userProfile ? $userProfile->toArray() : null,
             'doneeApplicationStatus' => $doneeApplicationStatus,
             'auth' => [
                 'user' => Auth::user(),
@@ -84,7 +88,7 @@ class DonorProfileController extends Controller
             ],
         ]);
     }
-    public function doneeRegister(Request $request)
+public function doneeRegister(Request $request)
 {
     $user = Auth::user();
 
