@@ -574,6 +574,9 @@ export default function DonationDetail() {
                             </h2>
                             <div className="flex flex-row w-full py-4 items-center rounded-md hover:bg-primary-accent/50 h-1/6 border-b border-primary-fg/15 cursor-pointer">
                                 <CardTitle>Donasi Terbaru</CardTitle>
+                                <div className="ml-4 bg-primary-accent text-white rounded-full px-4 py-1 text-xs font-semibold shadow">
+                                    {donation.latest_donations ? donation.latest_donations.length : 0} orang telah berdonasi
+                                </div>
                             </div>
                             <div className="w-full flex flex-col h-full items-start justify-start gap-y-8 ">
                                 <div className="flex flex-col h-3/6 gap-y-4 w-full justify-between">
