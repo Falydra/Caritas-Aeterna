@@ -3,7 +3,7 @@
 import Authenticated from "@/Layouts/AuthenticatedLayout";
 import { User, UserIdentity, UserProfile } from "@/types";
 import { usePage, Link, router } from "@inertiajs/react";
-import { useState, useEffect } from "react"; // Import useEffect
+import React, { useState, useEffect } from "react"; // Import React and useEffect
 import { FaTimes, FaSpinner } from "react-icons/fa"; // Added FaSpinner for loading
 import { DropdownMenu, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuGroup } from "@/Components/ui/dropdown-menu";
 import { PiDotsThreeBold } from "react-icons/pi";
@@ -75,6 +75,9 @@ export default function ManageApplication() {
     const [isLoadingDonorDetails, setIsLoadingDonorDetails] = useState(false);
     const [donorDetailError, setDonorDetailError] = useState<string | null>(null);
 
+    // Tambahkan state notifikasi
+    const [notification, setNotification] = useState<{ type: "success" | "error"; message: string } | null>(null);
+
 
     const handleRowClick = (application: ApplicationItem) => {
         setSelectedApplication(application);
@@ -138,11 +141,21 @@ export default function ManageApplication() {
         }, {
             preserveScroll: true,
             onSuccess: (page) => {
-                console.log('Update successful, page props:', page.props);
+                setNotification({
+                    type: newStatus === "accept" ? "success" : "error",
+                    message: newStatus === "accept"
+                        ? "Aplikasi berhasil diterima."
+                        : "Aplikasi berhasil ditolak.",
+                });
                 closeModal();
+                setTimeout(() => setNotification(null), 2000);
             },
-            onError: (errors) => { // errors object contains validation or other errors
-                console.error('Error updating application status:', errors);
+            onError: (errors) => {
+                setNotification({
+                    type: "error",
+                    message: "Terjadi kesalahan saat memperbarui status aplikasi.",
+                });
+                setTimeout(() => setNotification(null), 5000);
             }
         });
     };
@@ -166,6 +179,17 @@ export default function ManageApplication() {
                         {Object.entries(errors).map(([key, value]) => (
                             <p key={key}>{typeof value === 'string' ? value : JSON.stringify(value)}</p>
                         ))}
+                    </div>
+                )}
+
+                {/* Notifikasi */}
+                {notification && (
+                    <div
+                        className={`fixed top-6 right-6 z-50 px-6 py-3 rounded shadow-lg text-white font-semibold transition-all
+                            ${notification.type === "success" ? "bg-green-500" : "bg-red-500"}`}
+
+                    >
+                        {notification.message}
                     </div>
                 )}
 

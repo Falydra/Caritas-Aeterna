@@ -1,6 +1,6 @@
 import { useForm, usePage, Link } from "@inertiajs/react"; // Link might be unused now
 import Authenticated from "@/Layouts/AuthenticatedLayout";
-import { User } from "@/types";
+import { User, UserProfile } from "@/types";
 import Modal from "@/Components/Modal";
 import InputError from "@/Components/InputError";
 import TextInput from "@/Components/TextInput";
@@ -14,6 +14,7 @@ import UpdatePasswordForm from "../Profile/Partials/UpdatePasswordForm";
 
 interface ProfilePageProps {
     user: User;
+    userProfile: UserProfile | null;
     auth: { user: User; roles: string };
    
     [key: string]: any;
@@ -21,7 +22,7 @@ interface ProfilePageProps {
 
 export default function Profile() {
     // const { user, mustVerifyEmail, status } = usePage<ProfilePageProps>().props; // Adjusted
-    const { user } = usePage<ProfilePageProps>().props; // Removed mustVerifyEmail and status
+    const { user, userProfile } = usePage<ProfilePageProps>().props; // Removed mustVerifyEmail and status
 
     const cardBgClass = "bg-stone-850";
     const cardHeaderTextColor = "text-slate-100";
@@ -44,9 +45,57 @@ export default function Profile() {
         email: user.email || "",
     });
 
+
+    //User Profile
+    const {
+        data: userProfileData,
+        setData: setUserProfileData,
+        patch: patchUserProfile,
+        post: postUserProfile,  
+        put: putUserProfile,
+        processing: userProfileProcessing,
+        errors: userProfileErrors,
+        recentlySuccessful: profileUpdateSuccess
+    } = useForm({
+        full_name: userProfile?.full_name || "",
+        phone_number: userProfile?.phone_number || "",
+        date_of_birth: userProfile?.date_of_birth || "",
+        gender: userProfile?.gender || "",
+        pp: userProfile?.profile_picture || "",
+    });
+
+    console.log(userProfile)
     const submitProfileUpdate: FormEventHandler = (e) => {
         e.preventDefault();
-        patchProfile(route("donor.profile.update"));
+        patchProfile(route("donor.profile.update"), {
+            preserveScroll: true,
+            onSuccess: () => {
+                toast.success("Profile Berhasil Diubah")
+            },   
+        });
+    };
+
+    const submitUserProfileForm: FormEventHandler = (e) => {
+        e.preventDefault();
+
+        if (!userProfile) {
+            // No profile yet → create
+            console.log("nigga")
+            postUserProfile(route("donor.profile.create-user-profile"), {
+                preserveScroll: true,
+                onSuccess: () => {
+                    toast.success("Profil berhasil dibuat");
+                },
+            });
+        } else {
+            // Profile exists → update
+            patchUserProfile(route("donor.profile.update-user-profile"), {
+                preserveScroll: true,
+                onSuccess: () => {
+                    toast.success("Profil berhasil diperbarui");
+                },
+            });
+        }
     };
 
     // Password Update Form
@@ -63,7 +112,10 @@ export default function Profile() {
         e.preventDefault();
         putPassword(route("password.update"), {
             preserveScroll: true,
-            onSuccess: () => resetPassword(),
+            onSuccess: () => {
+                resetPassword();
+                toast.success("Password Berhasil Diubah")
+            },
             onError: (errors) => {
                 if (errors.password) {
                     resetPassword("password", "password_confirmation");
@@ -155,16 +207,6 @@ export default function Profile() {
                         <Button type="submit" disabled={profileProcessing} className="w-full mt-2 bg-primary-accent">
                             {profileProcessing ? 'Menyimpan...' : 'Simpan Perubahan'}
                         </Button>
-
-                        <Transition
-                            show={recentlySuccessful}
-                            enter="transition ease-in-out"
-                            enterFrom="opacity-0"
-                            leave="transition ease-in-out"
-                            leaveTo="opacity-0"
-                        >
-                            <p className="text-sm text-white">Tersimpan.</p>
-                        </Transition>
                     </form>
 
                     {/* Ubah Password */}
@@ -219,17 +261,102 @@ export default function Profile() {
                         <Button type="submit" disabled={passwordProcessing} className="w-full mt-2 bg-primary-accent">
                             {passwordProcessing ? 'Menyimpan...' : 'Simpan Kata Sandi'}
                         </Button>
-
-                        <Transition
-                            show={passwordRecentlySuccessful}
-                            enter="transition ease-in-out"
-                            enterFrom="opacity-0"
-                            leave="transition ease-in-out"
-                            leaveTo="opacity-0"
-                        >
-                            <p className="text-sm text-white">Tersimpan.</p>
-                        </Transition>
                     </form>
+
+                    {/* User Profile */}
+                    <form onSubmit={submitUserProfileForm} className="w-full rounded-lg shadow-md flex flex-col gap-6 bg-primary-bg p-6 border border-white text">
+                        {/* Nama Lengkap */}
+                        <div>
+                            <label htmlFor="full_name" className="block text-sm font-medium text-white mb-1">
+                                Nama Lengkap
+                            </label>
+                            <Input
+                                id="full_name"
+                                type="text"
+                                className={`text-primary-fg capitalize focus:text-primary-fg ${userProfileErrors.full_name ? 'border-red-500' : ''}`}
+                                value={userProfileData.full_name}
+                                onChange={(e) => setUserProfileData("full_name", e.target.value)}
+                                required
+                                autoComplete="name"
+                            />
+                            {userProfileErrors.full_name && <p className="text-red-500 text-xs mt-1">{userProfileErrors.full_name}</p>}
+                        </div>
+
+                        {/* Nomor Handphone */}
+                        <div>
+                            <label htmlFor="phone_number" className="block text-sm font-medium text-white mb-1">
+                                Nomor Handphone
+                            </label>
+                            <Input
+                                id="phone_number"
+                                type="tel"
+                                className={`text-primary-fg focus:text-primary-fg ${userProfileErrors.phone_number ? 'border-red-500' : ''}`}
+                                value={userProfileData.phone_number}
+                                onChange={(e) => setUserProfileData("phone_number", e.target.value)}
+                                required
+                                autoComplete="tel"
+                            />
+                            {userProfileErrors.phone_number && <p className="text-red-500 text-xs mt-1">{userProfileErrors.phone_number}</p>}
+                        </div>
+
+                        {/* Tanggal Lahir */}
+                        <div className="relative w-full">
+                            <label htmlFor="birth_date" className="block text-sm font-medium text-white mb-1">
+                                Tanggal Lahir
+                            </label>
+                            <Input
+                                id="birth_date"
+                                type="date"
+                                className={`w-full pr-12 text-primary-fg focus:text-primary-fg ${userProfileErrors.date_of_birth ? 'border-red-500' : ''}`}
+                                value={userProfileData.date_of_birth?.slice(0, 10) || ""}
+                                onChange={(e) => setUserProfileData("date_of_birth", e.target.value)}
+                                required
+                                autoComplete="bday"
+                            />
+                            {userProfileErrors.date_of_birth && <p className="text-red-500 text-xs mt-1">{userProfileErrors.date_of_birth}</p>}
+                        </div>
+
+                        {/* Gender */}
+                        <div>
+                            <label htmlFor="gender" className="block text-sm font-medium text-white mb-1">
+                                Gender
+                            </label>
+                            <select
+                                id="gender"
+                                className={`text-primary-fg focus:text-primary-fg rounded-md border border-white px-3 py-2 bg-primary-bg ${userProfileErrors.gender ? 'border-red-500' : ''}`}
+                                value={userProfileData.gender}
+                                onChange={(e) => setUserProfileData("gender", e.target.value)}
+                                required
+                            >
+                                <option value="">Pilih Gender</option>
+                                <option value="male">Laki-laki</option>
+                                <option value="female">Perempuan</option>
+                            </select>
+                            {userProfileErrors.gender && <p className="text-red-500 text-xs mt-1">{userProfileErrors.gender}</p>}
+                        </div>
+
+                        {/* Foto Profil */}
+                        {/* <div>
+                            <label htmlFor="pp" className="block text-sm font-medium text-white mb-1">
+                                Foto Profil (URL)
+                            </label>
+                            <Input
+                                id="pp"
+                                type="url"
+                                className={`text-primary-fg focus:text-primary-fg ${userProfileErrors.pp ? 'border-red-500' : ''}`}
+                                value={userProfileData.pp}
+                                onChange={(e) => setUserProfileData("pp", e.target.value)}
+                                required
+                                autoComplete="photo"
+                            />
+                            {userProfileErrors.pp && <p className="text-red-500 text-xs mt-1">{userProfileErrors.pp}</p>}
+                        </div> */}
+
+                        <Button type="submit" disabled={userProfileProcessing} className="w-full mt-2 bg-primary-accent">
+                            {userProfileProcessing ? 'Menyimpan...' : 'Simpan Perubahan'}
+                        </Button>
+                    </form>
+
 
                     {/* Hapus Akun */}
                     <div className="w-full rounded-lg shadow-md flex flex-col gap-4 bg-primary-bg p-6 border border-white">
@@ -241,11 +368,11 @@ export default function Profile() {
                             Hapus Akun
                         </Button>
                         <Modal show={confirmingUserDeletion} onClose={closeModal}>
-                            <form onSubmit={deleteUser} className="p-6 flex flex-col gap-4">
-                                <h2 className="text-lg font-medium text-gray-900">
+                            <form onSubmit={deleteUser} className="p-6 flex flex-col gap-4 bg-primary-bg">
+                                <h2 className="text-lg font-medium text-white">
                                     Apakah Anda yakin ingin menghapus akun Anda?
                                 </h2>
-                                <p className="mt-1 text-sm text-gray-600">
+                                <p className="mt-1 text-sm text-white">
                                     Setelah akun Anda dihapus, semua sumber daya dan datanya akan dihapus secara permanen. Harap masukkan kata sandi Anda untuk mengonfirmasi bahwa Anda ingin menghapus akun Anda secara permanen.
                                 </p>
 

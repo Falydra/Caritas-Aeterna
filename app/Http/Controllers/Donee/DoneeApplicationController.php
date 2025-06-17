@@ -81,18 +81,18 @@ class DoneeApplicationController extends Controller {
 
         $user = Donor::findOrFail($donorId);
 
-        // if authenticated user id is different from request user id
+        
         if (!$user->matches($authUser)) {
             return back()->withErrors([
                 'donor_id' => 'User ID mismatch'
             ]);
         }
 
-        // if authenticated user doesn't have identity
+        
         if (!$authUser->hasIdentity()) {
             return back()->withErrors([
                 'missing_identity' => 'User must fill Identity Form first'
-            ]); // or redirect to identity form
+            ]); 
         }
 
         DB::beginTransaction();
