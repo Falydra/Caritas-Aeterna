@@ -45,10 +45,10 @@ class ImageService {
         $manager = new ImageManager(new Driver());
         $image = $manager->read($file);
 
-        $image->resize(1920, null, function ($constraint) {
-            $constraint->aspectRatio();
-            $constraint->upsize();
-        });
+        // $image->resize(1920, null, function ($constraint) {
+        //     $constraint->aspectRatio();
+        //     $constraint->upsize();
+        // });
 
         $encoded = $image->toWebp(60);
 
