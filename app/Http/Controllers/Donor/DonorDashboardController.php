@@ -22,7 +22,7 @@ class DonorDashboardController extends Controller {
             ]);
         }
 
-         $doneeApplication = Auth::user()->doneeApplication()->latest()->first();
+        $doneeApplication = Auth::user()->doneeApplication()->latest()->first();
         $doneeApplicationStatus = $doneeApplication ? $doneeApplication->status : null;
 
         return Inertia::render('Donor/Dashboard', [
@@ -46,10 +46,36 @@ class DonorDashboardController extends Controller {
 
         $user = Auth::user();
         $doneeApplication = Auth::user()->doneeApplication()->latest()->first();
-    $doneeApplicationStatus = $doneeApplication ? $doneeApplication->status : null;
+        $doneeApplicationStatus = $doneeApplication ? $doneeApplication->status : null;
 
+        // dd($doneeApplicationStatus);
 
         return Inertia::render('Donor/DonationHistory', [
+            'auth' => [
+                'user' => $user,
+                'roles' => $user->roleName(),
+            ],
+            'doneeApplicationStatus' => $doneeApplicationStatus,
+            
+        ]);
+    }
+
+    public function donationHistoryTest() {
+        if (Auth::user()->role() !== Donor::class) {
+            return Inertia::render('Error', [
+                'code' => 403,
+                'status' => 'forbidden',
+                'message' => 'You do not have permission to access this resources.'
+            ]);
+        }
+
+        $user = Auth::user();
+        $doneeApplication = Auth::user()->doneeApplication()->latest()->first();
+        $doneeApplicationStatus = $doneeApplication ? $doneeApplication->status : null;
+
+        // dd($doneeApplicationStatus);
+
+        return Inertia::render('Donor/Test', [
             'auth' => [
                 'user' => $user,
                 'roles' => $user->roleName(),

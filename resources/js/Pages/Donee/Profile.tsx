@@ -9,6 +9,7 @@ import { FormEventHandler, useRef, useState } from "react";
 import { Head } from '@inertiajs/react';
 import { Input } from '@/Components/ui/input'
 import { Button } from '@/Components/ui/button'
+import { toast } from "sonner";
 
 interface ProfilePageProps {
     user: User;
@@ -45,7 +46,12 @@ export default function Profile() {
 
     const submitProfileUpdate: FormEventHandler = (e) => {
         e.preventDefault();
-        patchProfile(route("donee.profile.update"));
+        patchProfile(route("donee.profile.update"), {
+            preserveScroll: true,
+            onSuccess: () => {
+                toast.success("Profile Berhasil Diubah")
+            }
+        });
     };
 
     // Password Update Form
@@ -62,7 +68,10 @@ export default function Profile() {
         e.preventDefault();
         putPassword(route("password.update"), {
             preserveScroll: true,
-            onSuccess: () => resetPassword(),
+            onSuccess: () => {
+                resetPassword();
+                toast.success("Password Berhasil Diubah")
+            },
             onError: (errors) => {
                 if (errors.password) {
                     resetPassword("password", "password_confirmation");
@@ -134,16 +143,6 @@ export default function Profile() {
                         <Button type="submit" disabled={profileProcessing} className="w-full mt-2 bg-primary-accent">
                             {profileProcessing ? 'Menyimpan...' : 'Simpan Perubahan'}
                         </Button>
-
-                        <Transition
-                            show={recentlySuccessful}
-                            enter="transition ease-in-out"
-                            enterFrom="opacity-0"
-                            leave="transition ease-in-out"
-                            leaveTo="opacity-0"
-                        >
-                            <p className="text-sm text-white">Tersimpan.</p>
-                        </Transition>
                     </form>
 
                     {/* Ubah Password */}
@@ -198,16 +197,6 @@ export default function Profile() {
                         <Button type="submit" disabled={passwordProcessing} className="w-full mt-2 bg-primary-accent">
                             {passwordProcessing ? 'Menyimpan...' : 'Simpan Kata Sandi'}
                         </Button>
-
-                        <Transition
-                            show={passwordRecentlySuccessful}
-                            enter="transition ease-in-out"
-                            enterFrom="opacity-0"
-                            leave="transition ease-in-out"
-                            leaveTo="opacity-0"
-                        >
-                            <p className="text-sm text-white">Tersimpan.</p>
-                        </Transition>
                     </form>
                 </div>
             </div>
