@@ -51,6 +51,8 @@ export default function Profile() {
         data: userProfileData,
         setData: setUserProfileData,
         patch: patchUserProfile,
+        post: postUserProfile,  
+        put: putUserProfile,
         processing: userProfileProcessing,
         errors: userProfileErrors,
         recentlySuccessful: profileUpdateSuccess
@@ -61,7 +63,7 @@ export default function Profile() {
         gender: userProfile?.gender || "",
         pp: userProfile?.profile_picture || "",
     });
-    
+
     console.log(userProfile)
     const submitProfileUpdate: FormEventHandler = (e) => {
         e.preventDefault();
@@ -71,6 +73,29 @@ export default function Profile() {
                 toast.success("Profile Berhasil Diubah")
             },   
         });
+    };
+
+    const submitUserProfileForm: FormEventHandler = (e) => {
+        e.preventDefault();
+
+        if (!userProfile) {
+            // No profile yet → create
+            console.log("nigga")
+            postUserProfile(route("donor.profile.create-user-profile"), {
+                preserveScroll: true,
+                onSuccess: () => {
+                    toast.success("Profil berhasil dibuat");
+                },
+            });
+        } else {
+            // Profile exists → update
+            patchUserProfile(route("donor.profile.update-user-profile"), {
+                preserveScroll: true,
+                onSuccess: () => {
+                    toast.success("Profil berhasil diperbarui");
+                },
+            });
+        }
     };
 
     // Password Update Form
@@ -239,7 +264,7 @@ export default function Profile() {
                     </form>
 
                     {/* User Profile */}
-                    <form onSubmit={submitProfileUpdate} className="w-full rounded-lg shadow-md flex flex-col gap-6 bg-primary-bg p-6 border border-white text">
+                    <form onSubmit={submitUserProfileForm} className="w-full rounded-lg shadow-md flex flex-col gap-6 bg-primary-bg p-6 border border-white text">
                         {/* Nama Lengkap */}
                         <div>
                             <label htmlFor="full_name" className="block text-sm font-medium text-white mb-1">
@@ -275,15 +300,15 @@ export default function Profile() {
                         </div>
 
                         {/* Tanggal Lahir */}
-                        <div>
+                        <div className="relative w-full">
                             <label htmlFor="birth_date" className="block text-sm font-medium text-white mb-1">
                                 Tanggal Lahir
                             </label>
                             <Input
                                 id="birth_date"
                                 type="date"
-                                className={`text-primary-fg focus:text-primary-fg ${userProfileErrors.date_of_birth ? 'border-red-500' : ''}`}
-                                value={userProfileData.date_of_birth}
+                                className={`w-full pr-12 text-primary-fg focus:text-primary-fg ${userProfileErrors.date_of_birth ? 'border-red-500' : ''}`}
+                                value={userProfileData.date_of_birth?.slice(0, 10) || ""}
                                 onChange={(e) => setUserProfileData("date_of_birth", e.target.value)}
                                 required
                                 autoComplete="bday"

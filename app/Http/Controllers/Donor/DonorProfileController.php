@@ -5,6 +5,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Carbon;
+
 
 use Inertia\Inertia;
 use App\Models\Donor;
@@ -74,13 +76,16 @@ class DonorProfileController extends Controller
             abort(403, 'Forbidden');
         }
 
+        $user->loadMissing('userProfile');
         $doneeApplication = Auth::user()->doneeApplication()->latest()->first();
         $doneeApplicationStatus = $doneeApplication ? $doneeApplication->status : null;
+        $userProfile = $user->userProfile;
 
 
 
         return Inertia::render('Donor/DoneeRegister', [
             'user' => $user->toArray() + ['role' => $user->roleName()],
+            'userProfile' => $userProfile ? $userProfile->toArray() : null,
             'doneeApplicationStatus' => $doneeApplicationStatus,
             'auth' => [
                 'user' => Auth::user(),
@@ -117,7 +122,10 @@ public function doneeRegister(Request $request)
         'phone_number' => $validated['phone_number'],
         'gender' => $validated['gender'],
         'date_of_birth' => $validated['date_of_birth'],
+        'last_updated' => Carbon::now()
     ]);
+
+    // dd($userProfile);
     $userProfile->save();
 
     // 2. Update or create user identity
@@ -160,5 +168,41 @@ public function doneeRegister(Request $request)
     ->withInput([]);
     }
 
+    public function createuserProfile(Request $request)
+    {
+        $validated = $request->validate([
+            'full_name' => 'required|string|max:255',
+            'phone_number' => 'required|string|max:20',
+            'gender' => 'required|in:male,female',
+            'date_of_birth' => 'required|date',
+        ]);
 
+        $user = $request->user();
+
+        $user->userProfile()->create($validated);
+
+        return back()->with('success', 'Profil berhasil dibuat.');
+    }
+
+    public function updateUserProfile(Request $request)
+    {
+        $validated = $request->validate([
+            'full_name' => 'required|string|max:255',
+            'phone_number' => 'required|string|max:20',
+            'gender' => 'required|in:male,female',
+            'date_of_birth' => 'required|date',
+        ]);
+
+        $user = $request->user();
+
+        $profile = $user->userProfile;
+
+        if (!$profile) {
+            return back()->with('error', 'Profil tidak ditemukan.');
+        }
+
+        $profile->update($validated);
+
+        return back()->with('success', 'Profil berhasil diperbarui.');
+    }
 }

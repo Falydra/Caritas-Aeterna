@@ -135,6 +135,69 @@ public function donationIndex()
                 ]
             ]);
         }
-
     }
+    public function donatedItemsTest(Donation $donation) {
+        $user = Auth::user();
+        if ($user->role() !== Donee::class && $user->id !== $donation->initiator_id) {
+            return Inertia::render('Error', [
+                'code' => 403,
+                'status' => 'forbidden',
+                'message' => "You do not have permission to access this resources."
+            ]);
+        }
+
+        $donationData = Donation::select([
+            'id',
+            'initiator_id',
+            'type',
+            'type_attributes',
+            'title'
+        ])->find($donation->id);
+
+        if ($donation->type() === ProductDonation::class) {
+            $data = DonationItem::whereHas('donorDonation', function ($q) use ($donation) {
+                $q->where('donation_id', $donation->id);
+            })->with([
+                'donorDonation.donor:id,username'
+            ])->paginate(10);
+
+            return Inertia::render('Donation/Test', [
+                'auth' => [
+                    'user' => $user,
+                    'roles' => $user->roleName()
+                ],
+                'data' => [
+                    'donation' => $donationData,
+                    'donation_item' => $data
+                ],
+            ]);
+        } else {
+            $data = Fund::where('status', 'finished')
+            ->select([
+                'id',
+                'donation_id',
+                'donor_donation_id',
+                'amount',
+                'status',
+                'updated_at'
+            ])->whereHas('donorDonation', function ($q) use ($donation) {
+                $q->where('donation_id', $donation->id);
+            })->with([
+                'donorDonation:id,donor_id',
+                'donorDonation.donor:id,username'
+            ])->paginate(10);
+
+            return Inertia::render('Donation/Test', [
+                'auth' => [
+                    'user' => $user,
+                    'roles' => $user->roleName()
+                ],
+                'data' => [
+                    'donation' => $donationData,
+                    'funds' => $data
+                ]
+            ]);
+        }
+    }
+
 }

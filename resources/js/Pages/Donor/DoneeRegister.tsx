@@ -1,12 +1,22 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { router, usePage } from "@inertiajs/react";
 import Authenticated from "@/Layouts/AuthenticatedLayout";
 import { toast } from "sonner";
 import { Input } from "@/Components/ui/input"
 import { Button } from "@/Components/ui/button"
+import { User, UserProfile } from "@/types";
+
+
+interface ProfilePageProps {
+    user: User;
+    userProfile: UserProfile | null;
+    auth: { user: User; roles: string };
+   
+    [key: string]: any;
+}
 
 export default function DoneeRegister() {
-    const { auth } = usePage().props as any;
+    const { user, userProfile, auth } = usePage<ProfilePageProps>().props; // Removed mustVerifyEmail and status
     const [form, setForm] = useState({
         full_name: "",
         phone_number: "",
@@ -23,7 +33,29 @@ export default function DoneeRegister() {
         province: "",
         postal_code: "",
     });
+    useEffect(() => {
+        if (userProfile) {
+            setForm(prev => ({
+                ...prev,
+                full_name: userProfile.full_name || "",
+                phone_number: userProfile.phone_number || "",
+                gender: userProfile.gender || "",
+                date_of_birth: userProfile.date_of_birth?.slice(0, 10) || "", // for <input type="date">
+                nik: "",
+                id_card_image: null as File | null,
+                address_detail: "",
+                rt: "",
+                rw: "",
+                kelurahan: "",
+                kecamatan: "",
+                city: "",
+                province: "",
+                postal_code: "",
+            }));
+        }
+    }, [userProfile]);
     const [errors, setErrors] = useState<any>({});
+    console.log(userProfile)
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value, files } = e.target as any;
