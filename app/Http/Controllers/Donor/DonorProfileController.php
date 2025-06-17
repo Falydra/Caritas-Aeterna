@@ -1,14 +1,16 @@
 <?php
 
 namespace App\Http\Controllers\Donor;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\ProfileUpdateRequest;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-
+use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Donor;
-use App\Models\User;
+use Illuminate\Http\Request;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Redirect;
+use App\Http\Requests\ProfileUpdateRequest;
 
 
 class DonorProfileController extends Controller

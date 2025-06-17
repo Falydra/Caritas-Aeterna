@@ -121,11 +121,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard/donee', function () {
         return redirect(route("donee.donations.index"));
     })->name('donee.dashboard');
-    Route::get('/dashboard/donee/create-donation', [InitController::class, 'index'])->name('donee.init');
     Route::get('dashboard/donee/profile', [DoneeProfileController:: class, 'index'])->name('donee.profile');
     Route::delete('dashboard/donee/profile', [DoneeProfileController:: class, 'destroy'])->name('donee.profile.destroy');
     Route::get('/dashboard/donee/donations', [DoneeDashboardController::class, 'donationIndex'])->name('donee.donations.index');
     Route::get('/dashboard/donee/donations/{donation}/donated-items', [DoneeDashboardController::class, 'donatedItems'])->name('donee.donations.donatedItem');
+    Route::get('/dashboard/donee/donations/create', [InitController::class, 'index'])->name('donee.init');
+    Route::get('/dashboard/donee/books/create', [BookController::class, 'create'])->name('books.create');
     Route::patch('/dashboard/donee/profile', [DoneeProfileController::class, 'update'])->name('donee.profile.update');
     Route::get('/dashboard/donee/edit-donation', [ManageDonationsController::class, 'edit'])->name('donee.donations.edit');
 });
@@ -153,8 +154,8 @@ Route::get('/donations/{donation}', [DonationController::class, 'show'])->name('
 Route::get('/donations/search', [DonationController::class, 'search'])->name('donations.search');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('books/create', [BookController::class, 'create'])->name('books.create');
-    Route::post('books', [BookController::class, 'store'])->name('books.store');
+    Route::get('/books/create', [BookController::class, 'create'])->name('books.create');
+    Route::post('/books', [BookController::class, 'store'])->name('books.store');
 });
 
 // donee application group

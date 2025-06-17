@@ -49,7 +49,10 @@ class BookController extends Controller {
         }
 
         return Inertia::render('Book/Create', [
-            'auth' => Auth::user(),
+            'auth' => [
+                'user' => Auth::user(),
+                'roles' => Auth::user()->roleName(),
+            ],
             'bookStoreUrl' => route('books.store')
         ]);
     }
