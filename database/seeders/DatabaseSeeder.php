@@ -21,32 +21,32 @@ class DatabaseSeeder extends Seeder {
         //     UserSeeder::class,
         // ]);
 
-        // $admin = Admin::create([
-        //     'username' => 'admin',
-        //     'email' => 'admin@example.com',
-        //     'password' => 'admin',
-        // ]);
-        // $admin->userProfile()->create([
-        //     'full_name' => 'administrator2',
-        //     'phone_number' => '082100000002',
-        //     'date_of_birth' => '2004-01-02',
-        //     'gender' => GenderEnum::OTHER->value,
-        //     'last_updated' => Carbon::now()
-        // ]);
+        $admin = Admin::create([
+            'username' => 'admin',
+            'email' => 'admin@example.com',
+            'password' => 'admin',
+        ]);
+        $admin->userProfile()->create([
+            'full_name' => 'administrator2',
+            'phone_number' => '082100000002',
+            'date_of_birth' => '2004-01-02',
+            'gender' => GenderEnum::OTHER->value,
+            'last_updated' => Carbon::now()
+        ]);
 
-        // $super_admin = SuperAdmin::create([
-        //     'username' => 'super_admin',
-        //     'email' => 'superadmin@example.com',
-        //     'password' => 'admin',
-        //     // 'type' => SuperAdmin::class
-        // ]);
-        // $super_admin->userProfile()->create([
-        //     'full_name' => 'super administrator',
-        //     'phone_number' => '082100000002',
-        //     'date_of_birth' => '2000-01-01',
-        //     'gender' => GenderEnum::OTHER->value,
-        //     'last_updated' => Carbon::now()
-        // ]);
+        $super_admin = SuperAdmin::create([
+            'username' => 'super_admin',
+            'email' => 'superadmin@example.com',
+            'password' => 'admin',
+            // 'type' => SuperAdmin::class
+        ]);
+        $super_admin->userProfile()->create([
+            'full_name' => 'super administrator',
+            'phone_number' => '082100000002',
+            'date_of_birth' => '2000-01-01',
+            'gender' => GenderEnum::OTHER->value,
+            'last_updated' => Carbon::now()
+        ]);
 
         User::query()->update(['email_verified_at' => now()]);
     }

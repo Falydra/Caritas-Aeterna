@@ -65,10 +65,6 @@ Route::get('/donation', function () {
     ]);
 })->name('donation');
 
-
-
-
-
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard/donor', [DonorDashboardController::class, 'index'])->name('donor.dashboard');
     // Route::get('/dashboard/donor/donations', [DonorDashboardController::class, 'donationIndex'])->name('donor.donations.index');
@@ -77,9 +73,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/dashboard/donor/profile', [DonorProfileController::class, 'update'])->name('donor.profile.update');
     Route::delete('/dashboard/donor/profile', [DonorProfileController::class, 'destroy'])->name('donor.profile.destroy');
     Route::post('/dashboard/donor/profile', [DonorProfileController::class, 'createUserProfile'])->name('donor.profile.create-user-profile');
-    Route::patch('/dashboard/donor/profile', [DonorProfileController::class, 'updateUserProfile'])->name('donor.profile.update-user-profile');
+    Route::patch('/dashboard/donor/user-profile', [DonorProfileController::class, 'updateUserProfile'])->name('donor.profile.update-user-profile');
     Route::get('/dashboard/donor/profile/register-donee', [DonorProfileController::class, 'showRegisterForm'])->name('donor.donee-register-form');
-    Route::post('dashboard/donor/profile/donee-registration', [DonorProfileController::class, 'doneeRegister'])->name('donor.donee-register');
+    Route::post('/dashboard/donor/profile/donee-registration', [DonorProfileController::class, 'doneeRegister'])->name('donor.donee-register');
     // Route::patch('/dashboard/donor/profile', [ProfileController::class, 'update'])->name('donor.profile.update');
     Route::get('/dashboard/donor/donation-history', [DonorDashboardController::class, 'donationHistoryIndex'])->name('donor.dashboard.donationHistory');
     Route::get('/dashboard/donor/donation-history-test', [DonorDashboardController::class, 'donationHistoryTest'])->name('donor.dashboard.donationTest');
@@ -87,6 +83,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/donation-history/all', [DonationHistoryController::class, 'index'])->name('donor.dashboard.donationHistory.index');
     Route::get('/donation-history/funds', [DonationHistoryController::class, 'funds'])->name('donor.dashboard.donationHistory.funds');
     Route::get('/donation-history/items', [DonationHistoryController::class, 'items'])->name('donor.dashboard.donationHistory.items');
+
+    // dev environment only
+    Route::post('/dashboard/donor/profile/verify', [DonorProfileController::class, 'verify'])->name('donor.email.verify');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {

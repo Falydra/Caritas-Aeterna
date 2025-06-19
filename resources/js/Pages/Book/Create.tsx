@@ -65,7 +65,7 @@ export default function CreateBook() {
         const file = e.target.files?.[0];
 
         if (file) {
-            setFormData((prev) => ({...prev, ["cover_image"]: file}));
+            setFormData((prev) => ({ ...prev, ["cover_image"]: file }));
         }
     };
 
@@ -94,11 +94,18 @@ export default function CreateBook() {
 
         await router.post("/books", payload, {
             onSuccess: () => {
-                console.log("Daffa jelek")
+                setFormData({
+                    isbn: "",
+                    title: "",
+                    authors: "",
+                    published_year: "",
+                    synopsis: "",
+                    price: "",
+                    cover_image: null
+                })
                 toast.success("Buku berhasil ditambahkan");
             },
             onError: (err) => {
-                console.log("Daffa kuda")
                 toast.error("Buku gagal ditambahkan");
             }
         })
@@ -236,7 +243,7 @@ export default function CreateBook() {
 
                         <div className="flex flex-col gap-1 w-full">
                             <label htmlFor="cover_image">Foto Cover</label>
-                            <input type="file" name="cover_image" id="cover_image" onChange={handleImageUpload}/>
+                            <input type="file" name="cover_image" id="cover_image" onChange={handleImageUpload} />
                         </div>
 
                         <button type="submit" className="py-2 w-full border rounded-md hover:bg-primary-fg hover:text-primary-bg transition">Submit</button>

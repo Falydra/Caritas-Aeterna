@@ -49,7 +49,7 @@ public function donationIndex()
         // Fetch paginated donations
         $donationsPaginator = $authenticatedUser->donations()
             ->select(['id', 'initiator_id', 'type', 'title', 'type_attributes', 'status'])
-            ->paginate(1);
+            ->paginate(10);
 
         $transformedDonationItems = $donationsPaginator->getCollection()->map(function ($donation) {
             return $donation->toArray();

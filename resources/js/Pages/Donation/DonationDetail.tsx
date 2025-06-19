@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import SearchBook from "@/Pages/Book/Search";
 import BookCollection from "@/Pages/Book/Collection";
 import { Book } from "@/types";
+import axios from "axios";
 
 interface DonationDetailPageProsps extends Donation {
     donation: Donation;
@@ -76,6 +77,7 @@ export default function DonationDetail() {
     const [resi, setResi] = useState("");
     const [packagePicture, setPackagePicture] = useState<File | null>(null);
     const [isbn, setIsbn] = useState("");
+    const [hasProfile, setHasProfile] = useState(false);
 
     // New
     const [bookData, setBookData] = useState<
@@ -206,7 +208,23 @@ export default function DonationDetail() {
 
     const type = donation.type.split("\\").at(-1);
 
+    useEffect(() => {
+        axios.get(`/api/user/${auth.user.id}/profile`)
+            .then((res) => {
+                console.log(res.data.user_profile);
+                setHasProfile(res.data.user_profile);
+            })
+            .catch((error) => {
+                console.error(error);
+            })
+    }, [])
+
     function handleModalButtonClick() {
+        if (!hasProfile) {
+            toast.error("Harap melengkapi profil pengguna terlebih dahulu");
+            return;
+        }
+
         if (donation.type === "App\\Models\\ProductDonation") {
             setProductDonationModal(true);
         } else {
