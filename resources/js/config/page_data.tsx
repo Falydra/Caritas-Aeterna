@@ -20,7 +20,7 @@ export const DonorPage = {
                 isActive: false,
                 route: "/dashboard/donor/donation-history"
             },
-        
+
         ] as MenuItem[],
         profileItems: [
             {
@@ -50,7 +50,7 @@ export const DoneePage = {
             },
             {
                 title: "Buka Donasi Baru",
-                url: "/dashboard/donee/create-donation",
+                url: "/dashboard/donee/donations/create",
                 isActive: false,
                 route: "donee.init",
             },

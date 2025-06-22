@@ -1,4 +1,4 @@
-import { useForm, usePage, Link } from "@inertiajs/react"; // Link might be unused now
+import { useForm, usePage, Link, router } from "@inertiajs/react"; // Link might be unused now
 import Authenticated from "@/Layouts/AuthenticatedLayout";
 import { User, UserProfile } from "@/types";
 import Modal from "@/Components/Modal";
@@ -16,7 +16,7 @@ interface ProfilePageProps {
     user: User;
     userProfile: UserProfile | null;
     auth: { user: User; roles: string };
-   
+
     [key: string]: any;
 }
 
@@ -51,7 +51,7 @@ export default function Profile() {
         data: userProfileData,
         setData: setUserProfileData,
         patch: patchUserProfile,
-        post: postUserProfile,  
+        post: postUserProfile,
         put: putUserProfile,
         processing: userProfileProcessing,
         errors: userProfileErrors,
@@ -64,14 +64,14 @@ export default function Profile() {
         pp: userProfile?.profile_picture || "",
     });
 
-    console.log(userProfile)
+    console.log(user)
     const submitProfileUpdate: FormEventHandler = (e) => {
         e.preventDefault();
         patchProfile(route("donor.profile.update"), {
             preserveScroll: true,
             onSuccess: () => {
                 toast.success("Profile Berhasil Diubah")
-            },   
+            },
         });
     };
 
@@ -358,6 +358,21 @@ export default function Profile() {
                     </form>
 
 
+                    {/* Verify Email */}
+                    {!user.email_verified_at && (
+                        <div className="w-full rounded-lg shadow-md flex flex-col gap-4 bg-primary-bg p-6 border border-white">
+                            <h2 className="text-xl font-semibold text-white">Verifikasi Email</h2>
+                            <p className="text-sm text-white">
+                                Verifikasi email Anda untuk melakukan donasi
+                            </p>
+                            <Button onClick={() => {
+                                router.post("/dashboard/donor/profile/verify")
+                            }} className="w-full bg-primary-accent hover:bg-primary-fg text-white py-2 px-4 rounded">
+                                Verifikasi Email
+                            </Button>
+                        </div>
+                    )}
+
                     {/* Hapus Akun */}
                     <div className="w-full rounded-lg shadow-md flex flex-col gap-4 bg-primary-bg p-6 border border-white">
                         <h2 className="text-xl font-semibold text-white">Hapus Akun</h2>
@@ -400,11 +415,11 @@ export default function Profile() {
                                         Hapus Akun
                                     </button>
                                 </div>
-                                
+
                             </form>
                         </Modal>
                     </div>
-                    
+
                 </div>
             </div>
         </Authenticated>

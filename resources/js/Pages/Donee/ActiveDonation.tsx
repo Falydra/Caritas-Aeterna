@@ -93,7 +93,7 @@ export default function DoneeActiveDonation() {
                                     <th className='py-3 border-b border-primary-fg'>Judul</th>
                                     <th className='py-3 border-b border-primary-fg'>Jenis</th>
                                     <th className='py-3 border-b border-primary-fg'>Status</th>
-                                    <th className='py-3 border-b border-primary-fg'>Actions</th>                                                                    
+                                    <th className='py-3 border-b border-primary-fg'>Actions</th>
                                 </tr>
                         </thead>
                         <tbody className="text-center">
@@ -119,6 +119,10 @@ export default function DoneeActiveDonation() {
                                         ) : item.status === "denied" ? (
                                             <span className="px-3 py-1 rounded-full bg-red-500 text-white text-xs font-semibold">
                                                 Denied
+                                            </span>
+                                        ) : item.status === "finished" ? (
+                                            <span className="px-3 py-1 rounded-full bg-green-600 text-white text-xs font-semibold">
+                                                Finished
                                             </span>
                                         ) : (
                                             <span className="px-3 py-1 rounded-full bg-gray-400 text-white text-xs font-semibold">

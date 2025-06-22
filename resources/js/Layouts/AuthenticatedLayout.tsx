@@ -54,8 +54,8 @@ export default function Authenticated({
     .filter(item => currentPath.startsWith(item.url))
     .sort((a, b) => b.url.length - a.url.length)[0];
 
-    console.log("Current User Role:", auth.roles);
-    console.log("Active Menu Item:", activeMenuItem);
+    // console.log("Current User Role:", auth.roles);
+    // console.log("Active Menu Item:", activeMenuItem);
 
     return (
         <SidebarProvider>
@@ -96,7 +96,7 @@ export default function Authenticated({
                                             Home
                                            <FaHome className="w-4 h-4 aspect-square self-center" />
                                         </Link>
-                                        
+
                                         <Link method="post" href={route("logout")} className="flex justify-between w-full h-8 items-center bg-transparent hover:bg-muted-foreground/20 rounded-md text-primary-bg px-2 font-semibold text-sm ">
                                             Logout
                                            <IoIosLogOut className="w-4 h-4 aspect-square self-center" />

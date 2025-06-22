@@ -65,10 +65,6 @@ Route::get('/donation', function () {
     ]);
 })->name('donation');
 
-
-
-
-
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard/donor', [DonorDashboardController::class, 'index'])->name('donor.dashboard');
     // Route::get('/dashboard/donor/donations', [DonorDashboardController::class, 'donationIndex'])->name('donor.donations.index');
@@ -77,9 +73,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/dashboard/donor/profile', [DonorProfileController::class, 'update'])->name('donor.profile.update');
     Route::delete('/dashboard/donor/profile', [DonorProfileController::class, 'destroy'])->name('donor.profile.destroy');
     Route::post('/dashboard/donor/profile', [DonorProfileController::class, 'createUserProfile'])->name('donor.profile.create-user-profile');
-    Route::patch('/dashboard/donor/profile', [DonorProfileController::class, 'updateUserProfile'])->name('donor.profile.update-user-profile');
+    Route::patch('/dashboard/donor/user-profile', [DonorProfileController::class, 'updateUserProfile'])->name('donor.profile.update-user-profile');
     Route::get('/dashboard/donor/profile/register-donee', [DonorProfileController::class, 'showRegisterForm'])->name('donor.donee-register-form');
-    Route::post('dashboard/donor/profile/donee-registration', [DonorProfileController::class, 'doneeRegister'])->name('donor.donee-register');
+    Route::post('/dashboard/donor/profile/donee-registration', [DonorProfileController::class, 'doneeRegister'])->name('donor.donee-register');
     // Route::patch('/dashboard/donor/profile', [ProfileController::class, 'update'])->name('donor.profile.update');
     Route::get('/dashboard/donor/donation-history', [DonorDashboardController::class, 'donationHistoryIndex'])->name('donor.dashboard.donationHistory');
     Route::get('/dashboard/donor/donation-history-test', [DonorDashboardController::class, 'donationHistoryTest'])->name('donor.dashboard.donationTest');
@@ -87,6 +83,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/donation-history/all', [DonationHistoryController::class, 'index'])->name('donor.dashboard.donationHistory.index');
     Route::get('/donation-history/funds', [DonationHistoryController::class, 'funds'])->name('donor.dashboard.donationHistory.funds');
     Route::get('/donation-history/items', [DonationHistoryController::class, 'items'])->name('donor.dashboard.donationHistory.items');
+
+    // dev environment only
+    Route::post('/dashboard/donor/profile/verify', [DonorProfileController::class, 'verify'])->name('donor.email.verify');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -124,12 +123,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard/donee', function () {
         return redirect(route("donee.donations.index"));
     })->name('donee.dashboard');
-    Route::get('/dashboard/donee/create-donation', [InitController::class, 'index'])->name('donee.init');
     Route::get('dashboard/donee/profile', [DoneeProfileController:: class, 'index'])->name('donee.profile');
     Route::delete('dashboard/donee/profile', [DoneeProfileController:: class, 'destroy'])->name('donee.profile.destroy');
     Route::get('/dashboard/donee/donations', [DoneeDashboardController::class, 'donationIndex'])->name('donee.donations.index');
     Route::get('/dashboard/donee/donations/{donation}/donated-items', [DoneeDashboardController::class, 'donatedItems'])->name('donee.donations.donatedItem');
     Route::get('/dashboard/donee/donations-test/{donation}/donated-items', [DoneeDashboardController::class, 'donatedItemsTest'])->name('donee.donations-test.donatedItem');
+    Route::get('/dashboard/donee/donations/create', [InitController::class, 'index'])->name('donee.init');
+    Route::get('/dashboard/donee/books/create', [BookController::class, 'create'])->name('books.create');
     Route::patch('/dashboard/donee/profile', [DoneeProfileController::class, 'update'])->name('donee.profile.update');
     Route::get('/dashboard/donee/edit-donation', [ManageDonationsController::class, 'edit'])->name('donee.donations.edit');
 });
@@ -157,8 +157,8 @@ Route::get('/donations/{donation}', [DonationController::class, 'show'])->name('
 Route::get('/donations/search', [DonationController::class, 'search'])->name('donations.search');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('books/create', [BookController::class, 'create'])->name('books.create');
-    Route::post('books', [BookController::class, 'store'])->name('books.store');
+    Route::get('/books/create', [BookController::class, 'create'])->name('books.create');
+    Route::post('/books', [BookController::class, 'store'])->name('books.store');
 });
 
 // donee application group

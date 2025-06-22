@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->string('nik', 16);
             $table->string('full_name', 128);
             $table->string('id_card_image');
-            $table->timestamp('verified_at');
+            $table->timestamp('verified_at')->nullable();
             $table->timestamps();
         });
     }

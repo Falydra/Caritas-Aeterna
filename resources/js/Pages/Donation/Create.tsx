@@ -18,6 +18,7 @@ import SearchBook from "../Book/Search";
 import { Inertia } from "@inertiajs/inertia";
 import BookCollection from "../Book/Collection";
 import FacilityCollection from "../Facility/Collection";
+import CreateBook from "../Book/Create";
 
 export default function CreateDonation() {
     // donation data
@@ -46,6 +47,7 @@ export default function CreateDonation() {
     });
 
     // product donation attributes
+    const [createBookModal, setCreateBookModal] = useState(true);
     const [productDonationAttr, setProductDonationAttr] = useState({
         product_amount: "",
     });
@@ -166,8 +168,6 @@ export default function CreateDonation() {
         donationStoreUrl: string;
     }
     const { auth, donationStoreUrl } = usePage<CreateDonationProps>().props;
-
-    console.log("Fasilitas: ", addedFacilities);
 
     const handleSubmit = async () => {
         const payload = new FormData();

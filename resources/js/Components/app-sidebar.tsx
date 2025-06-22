@@ -23,9 +23,9 @@ import { DoneeApplication } from "@/types";
 
 
 export function AppSidebar({
-    isMoreGroup = false, 
+    isMoreGroup = false,
     onMenuItemClick,
-    ...props 
+    ...props
 }: React.ComponentProps<typeof Sidebar> & {
     onMenuItemClick: (title: string) => void;
 } & {isMoreGroup?: boolean}) {
@@ -58,7 +58,7 @@ export function AppSidebar({
     } else {
         menuItems = SuperAdminPage.mainPage.items;
     }
-    
+
    const allMenuItems = [...menuItems, ...profileItems];
     const activeMenu = allMenuItems
   .filter(item => currentPath.startsWith(item.url))
@@ -76,7 +76,7 @@ export function AppSidebar({
         });
     };
 
-    
+
     const renderMenuItems = (items: MenuItem[]) =>
     items.map((menuItem: MenuItem) => (
         <SidebarMenuItem key={menuItem.title}>
@@ -113,10 +113,10 @@ export function AppSidebar({
         isMoreGroup = true;
     }
 
-    console.log("profileItems:", profileItems);
-    console.log("Current Path:", currentPath);
-    console.log("Current User Role:", auth.roles);
-    console.log("isActiveMenu:", activeMenu);
+    // console.log("profileItems:", profileItems);
+    // console.log("Current Path:", currentPath);
+    // console.log("Current User Role:", auth.roles);
+    // console.log("isActiveMenu:", activeMenu);
 
     return (
         <Sidebar {...props}>
@@ -146,7 +146,7 @@ export function AppSidebar({
                         </>
                     )}
                 </SidebarGroup>
-               
+
             </SidebarContent>
             <SidebarRail />
         </Sidebar>

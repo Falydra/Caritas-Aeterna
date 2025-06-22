@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Address extends Model {
     protected $fillable = [
+        'user_identity_id',
         'address_detail',
         'rt',
         'rw',

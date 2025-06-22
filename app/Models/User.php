@@ -32,7 +32,8 @@ class User extends Authenticatable {
         'email',
         'password',
         'username',
-        'type'
+        'type',
+        'email_verified_at'
     ];
 
     /**

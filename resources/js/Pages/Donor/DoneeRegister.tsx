@@ -11,7 +11,7 @@ interface ProfilePageProps {
     user: User;
     userProfile: UserProfile | null;
     auth: { user: User; roles: string };
-   
+
     [key: string]: any;
 }
 
@@ -55,7 +55,6 @@ export default function DoneeRegister() {
         }
     }, [userProfile]);
     const [errors, setErrors] = useState<any>({});
-    console.log(userProfile)
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value, files } = e.target as any;
@@ -75,11 +74,11 @@ export default function DoneeRegister() {
         router.post(route("donor.donee-register"), formData, {
             onError: setErrors,
             onSuccess: () => {
-               
+
                 toast.success("Registration successful! Please wait for admin verification.");
                 router.reload();
-                
-                
+
+
                 setForm({
                     full_name: "",
                     phone_number: "",
@@ -100,6 +99,9 @@ export default function DoneeRegister() {
             }
         });
     };
+
+    console.log(form.id_card_image)
+    console.log("HELLO");
 
     return (
         <Authenticated>
