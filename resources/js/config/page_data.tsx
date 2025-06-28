@@ -8,17 +8,12 @@ export interface MenuItem {
 export const DonorPage = {
     mainPage: {
         items: [
-            {
-                title: "Books",
-                url: "/dashboard/donor",
-                isActive: false,
-                route: "dashboard",
-            },
+        
             {
                 title: "Riwayat Donasi",
-                url: "/dashboard/donor/donation-history",
+                url: "/dashboard/donor",
                 isActive: false,
-                route: "/dashboard/donor/donation-history"
+                route: "donor.dashboard"
             },
 
         ] as MenuItem[],
