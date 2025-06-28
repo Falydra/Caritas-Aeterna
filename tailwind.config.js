@@ -106,6 +106,22 @@ export default {
                 '::-webkit-scrollbar': {
                     width: '5px',
                 },
+                '.thin-scrollbar::-webkit-scrollbar': {
+                    width: '5px',
+                    height: '12px',
+                },
+                '.thin-scrollbar::-webkit-scrollbar-track': {
+                    background: '#ddd7e4',
+                },
+                '.thin-scrollbar::-webkit-scrollbar-thumb': {
+                    background: '#5f63e8',
+                    borderRadius: '6px',
+                },
+                '.thin-scrollbar::-webkit-scrollbar-thumb:hover': {
+                    background: '#5f63e8',
+                },
+
+
                 '::-webkit-scrollbar-track': {
                     background: '#ddd7e4',
                 },
