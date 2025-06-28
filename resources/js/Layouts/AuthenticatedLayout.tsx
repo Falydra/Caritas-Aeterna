@@ -34,10 +34,8 @@ export default function Authenticated({
     const { auth } = usePage().props;
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
-    // Get the current path
     const currentPath = window.location.pathname;
 
-    // Get menu items based on role
     let menuItems = [];
     if (auth.roles === "donee") {
         menuItems = DoneePage.mainPage.items;
@@ -54,9 +52,7 @@ export default function Authenticated({
     .filter(item => currentPath.startsWith(item.url))
     .sort((a, b) => b.url.length - a.url.length)[0];
 
-    // console.log("Current User Role:", auth.roles);
-    // console.log("Active Menu Item:", activeMenuItem);
-
+    
     return (
         <SidebarProvider>
             <AppSidebar onMenuItemClick={() => {}} />
