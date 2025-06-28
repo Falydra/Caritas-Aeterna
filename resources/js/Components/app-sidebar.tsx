@@ -33,7 +33,7 @@ export function AppSidebar({
     const { doneeApplicationStatus } = usePage().props as any;
 
 
-    // Get the current path
+    
     const currentPath = window.location.pathname;
 
     const handleMenuItemClick = (title: string, url: string) => {
@@ -93,7 +93,6 @@ export function AppSidebar({
     const renderProfileMenu = (profileItems: MenuItem[]) =>
     profileItems.map((profileItem: MenuItem) => {
         const isDoneeRegister = profileItem.route === "donor.donee-register-form";
-        // Disable if status is "pending" or "denied"
         const disabled = isDoneeRegister && doneeApplicationStatus && (doneeApplicationStatus === "pending");
 
         return (

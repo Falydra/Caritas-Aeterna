@@ -1,5 +1,4 @@
-import { Link } from "@inertiajs/react";
-import { IoIosArrowForward } from "react-icons/io";
+
 import CardNews from "./GeneralCardNews";
 import { useRef } from "react";
 
